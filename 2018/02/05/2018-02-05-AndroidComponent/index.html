@@ -271,19 +271,16 @@
 
       
         <p>在目前移动互联网时代，每个 APP 就是流量入口，与过去 PC Web 浏览器时代不同的是，APP 的体验与迭代速度影响着用户的粘性，这同时也对从事移动开发人员提出更高要求，进而移动端框架也层出不穷。</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image1.png" alt="服务端与移动端对比"><figcaption>服务端与移动端对比</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image1.png" alt="服务端与移动端对比"></p>
 <p>上图显示的是传统的服务端架构和客户端 App 架构对比。传统的服务端架构中最底下是一个 OS，一般是 Linux，最上面服务端的业务，而中间有非常多的层次可以在架构上，按照我们的意愿搭建中间的各个层次的衔接环节，使得架构具有足够的灵活性和扩展性。但是到了 App 就会面对一个完全不同的现状，App 的OS（Android或iOS）本质上并不是一个很瘦的像 Linux 这样的 OS，而是在 OS 上有一个很重的 App Framework，开发一个普通的客户端应用所要用到的绝大多数接口都在 Framework 里，而上面的业务也是一个非常复杂多样化的业务，最后会发现“架构”是在中间的一个非常尴尬的夹心层，因为会遇到很多在服务端架构中不需要面临的挑战。比如以下两点：</p>
 <ul>
 <li>体积的制约。体积对用户来说是一个非常敏感的概念，如果我们要在架构上做很多事情的话，通常意味着架构占据的代码量会比较大。在服务端架构中我们可以容忍我们在架构层面去做几十兆的代码。但是对于客户端架构，即使你的架构只有一两兆，对于一个客户端可能都占据了 10%，20%的容量。</li>
 <li>性能的挑战。从性能上来看，对于服务端架构我们通常关注的是吞吐率，我们不会去关注启动速度。一个服务端的启动哪怕是花了一两分钟，只要它运作起来吞吐率足够高，支持的并发能力足够好，响应速度足够快，我们就认为这是一个良好的架构。但客户端不同，客户端的进程对用户而言，往往是一个栈态的，手机里面使用完一个应用，退出之后可能过不了多久就会被回收掉，当用户下次再打开的时候，它会再次启动进程，需要重新完成一次初始化的流程。如果在这个上面做了很多事情的话，会导致程序启动的速度会很慢，在很多用户看来，这就是一种不可接受的用户体验。</li>
 </ul>
 <p>客户端 APP 与服务端在架构上是有着一定的区别，在选择对客户端架构需要谨慎对待，需要有许多权衡的条件，在此前提上，是否有一种归一的方式呢，可以分而治之，并行开发，把业务分隔成一个个单独的组件，整个架构围绕组件开发，构建也是组件，一切皆组件。答案是有的，那就是打造客户端组件框架。</p>
-<h3 id="起源为何组件化">起源，为何组件化</h3>
-<p>客户端 APP 自身在飞速发展，APP 版本不断迭代，新功能不断增加，业务模块数量不断增加，业务上的处理逻辑越变越复杂，同时每个模块代码也变得越来越多，这就引发一个问题，所维护的代码成本越来越高，稍微一改动可能就牵一发而动全身，改个小的功能点就需要回归整个 APP 测试，这就对开发和维护带来很大的挑战。同时原来APP 架构方式是单一工程模式，业务规模扩大，随之带来的是团队规模扩大，那就涉及到多人协作问题，每个移动端软件开发人员势必要熟悉如此之多代码，如果不按照一定的模块组件机制去划分，将很难进行多人协作开发，随着单一项目变大，而且 Andorid 项目在编译代码方面就会变得非常卡顿，在单一工程代码耦合严重，每修改一处代码后都需要重新编译打包测试，导致非常耗时，最重要的是这样的代码想要做单元测试根本无从下手，所以必须要有一个更灵活的架构去代替过去单一工程模式。</p>
+<h3 id="起源，为何组件化"><a href="#起源，为何组件化" class="headerlink" title="起源，为何组件化"></a>起源，为何组件化</h3><p>客户端 APP 自身在飞速发展，APP 版本不断迭代，新功能不断增加，业务模块数量不断增加，业务上的处理逻辑越变越复杂，同时每个模块代码也变得越来越多，这就引发一个问题，所维护的代码成本越来越高，稍微一改动可能就牵一发而动全身，改个小的功能点就需要回归整个 APP 测试，这就对开发和维护带来很大的挑战。同时原来APP 架构方式是单一工程模式，业务规模扩大，随之带来的是团队规模扩大，那就涉及到多人协作问题，每个移动端软件开发人员势必要熟悉如此之多代码，如果不按照一定的模块组件机制去划分，将很难进行多人协作开发，随着单一项目变大，而且 Andorid 项目在编译代码方面就会变得非常卡顿，在单一工程代码耦合严重，每修改一处代码后都需要重新编译打包测试，导致非常耗时，最重要的是这样的代码想要做单元测试根本无从下手，所以必须要有一个更灵活的架构去代替过去单一工程模式。</p>
 <p>同样这样的问题在我们工作具体项目中处处碰到，就拿我们组内负责的某个移动端 APP 来说，就碰到如下几个问题：</p>
-<ol type="1">
+<ol>
 <li>代码量膨胀，不利于维护，不利于新功能的开发。</li>
 <li>项目工程构建速度慢，在一些电脑上写两句代码，重新编译测试的话编译速度起码 10-20 分钟，有的甚至更长。</li>
 <li>不同模块之间代码耦合严重，比如消息模块严重耦合视频模块，如果修改视频模块，相应的消息模块也需要修改，不然会产生一连串问题。</li>
@@ -292,12 +289,9 @@
 <li>现有项目基于以前其他人项目基础上开发，经手的人次过多，存在着不同的代码风格，项目中代码规范乱，类似的功能写法却不一样，导致不统一。</li>
 </ol>
 <p>项目工程架构模式改变是大势所趋，那又该如何做呢？那就是：<strong>打造组件化开发框架</strong>，用以解决目前所面临问题，在讲解如何打造之前，需要谈谈组件化概念，组件化框架是什么。</p>
-<h3 id="概念组件化是什么">概念，组件化是什么</h3>
-<p>问：什么是组件，什么是组件化？</p>
+<h3 id="概念，组件化是什么"><a href="#概念，组件化是什么" class="headerlink" title="概念，组件化是什么"></a>概念，组件化是什么</h3><p>问：什么是组件，什么是组件化？</p>
 <p>答：在软件开发领域，<strong>组件（Component）</strong>是对数据和方法的简单封装，功能单一，高内聚，并且是业务能划分的最小粒度。举个我们生活中常见的例子就是电脑主板上每个元件电容器件，每个元件负责的功能单一、容易组装、即插即拔，但作用有限，需要一定的依赖条件才可使用。如下图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image2.jpg" alt="电容元件"><figcaption>电容元件</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image2.jpg" alt="电容元件"></p>
 <p>那么同样，<strong>组件化</strong> 就是基于组件可重用的目的上，将一个大的软件系统按照分离关注点的形式，拆分成多个独立的组件，使得整个软件系统也做到电路板一样，是单个或多个组件元件组装起来，哪个组件坏了，整个系统可继续运行，而不出现崩溃或不正常现象，做到更少的耦合和更高的内聚。</p>
 <p>问：组件化、模块化容易混淆，两者区别又是什么？</p>
 <p>答：模块化就是将一个程序按照其功能做拆分，分成相互独立的模块，以便于每个模块只包含与其功能相关的内容，模块我们相对熟悉,比如登录功能可以是一个模块,搜索功能可以是一个模块等等。而组件化就是更关注可复用性，更注重关注点分离，如果从集合角度来看的话，可以说往往一个模块包含了一个或多个组件，或者说模块是一个容器，由组件组装而成。简单来说，组件化相比模块化粒度更小，两者的本质思想都是一致的，都是把大往小的方向拆分，都是为了复用和解耦，只不过模块化更加侧重于业务功能的划分，偏向于复用，组件化更加侧重于单一功能的内聚，偏向于解耦。</p>
@@ -313,41 +307,39 @@
 <li>系统级的控制力度细化到组件级的控制力度，复杂系统构建变成组件构建。</li>
 <li>每个组件有自己独立的版本，可以独立编译、测试、打包和部署。</li>
 </ul>
-<h3 id="设计构建组件化框架">设计，构建组件化框架</h3>
-<p>回到刚开始讲的 APP 单一工程模式，看张常见 APP 单一工程模式架构图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image3.png" alt="APP单一工程模式架构"><figcaption>APP单一工程模式架构</figcaption>
-</figure>
+<h3 id="设计，构建组件化框架"><a href="#设计，构建组件化框架" class="headerlink" title="设计，构建组件化框架"></a>设计，构建组件化框架</h3><p>回到刚开始讲的 APP 单一工程模式，看张常见 APP 单一工程模式架构图：</p>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image3.png" alt="APP单一工程模式架构"></p>
 <p>上图是目前比较普遍使用的 Android APP 技术架构，往往是在一个界面中存在大量的业务逻辑，而业务逻辑中充斥着各种网络请求、数据操作等行为，整个项目中也没有模块的概念，只有简单的以业务逻辑划分的文件夹，并且业务之间也是直接相互调用、高度耦合在一起的。单一工程模型下的业务关系，总的来说就是：你中有我，我中有你，相互依赖，无法分离。如下图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image4.png" alt="业务模块互相耦合"><figcaption>业务模块互相耦合</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image4.png" alt="业务模块互相耦合"></p>
 <p>组件化的指导思想是：分而治之，并行开发，一切皆组件。要实现组件化，无论采用什么样的技术方式，需要考虑以下七个方面问题：</p>
-<ol type="1">
-<li>代码解耦。如何将一个庞大的工程分成有机的整体？</li>
-<li><p>组件单独运行。因为每个组件都是高度内聚的，是一个完整的整体，如何让其单独运行和调试？</p></li>
-<li>组件间通信。由于每个组件具体实现细节都互相不了解，但每个组件都需要给其他调用方提供服务，那么主项目与组件、组件与组件之间如何通信就变成关键？</li>
-<li>UI 跳转。UI 跳转指的是特殊的数据传递，跟组件间通信区别有什么不同？</li>
-<li>组件生命周期。这里的生命周期指的是组件在应用中存在的时间，组件是否可以做到按需、动态使用、因此就会涉及到组件加载、卸载等管理问题。</li>
-<li>集成调试。在开发阶段如何做到按需编译组件？一次调试中可能有一两个组件参与集成，这样编译时间就会大大降低，提高开发效率。</li>
-<li><p>代码隔离。组件之间的交互如果还是直接引用的话，那么组件之间根本没有做到解耦，如何从根本上避免组件之间的直接引用，也就是如何从根本上杜绝耦合的产生？</p></li>
+<ol>
+<li><p>代码解耦。如何将一个庞大的工程分成有机的整体？</p>
+</li>
+<li><p>组件单独运行。因为每个组件都是高度内聚的，是一个完整的整体，如何让其单独运行和调试？</p>
+</li>
+<li><p>组件间通信。由于每个组件具体实现细节都互相不了解，但每个组件都需要给其他调用方提供服务，那么主项目与组件、组件与组件之间如何通信就变成关键？</p>
+</li>
+<li><p>UI 跳转。UI 跳转指的是特殊的数据传递，跟组件间通信区别有什么不同？</p>
+</li>
+<li><p>组件生命周期。这里的生命周期指的是组件在应用中存在的时间，组件是否可以做到按需、动态使用、因此就会涉及到组件加载、卸载等管理问题。</p>
+</li>
+<li><p>集成调试。在开发阶段如何做到按需编译组件？一次调试中可能有一两个组件参与集成，这样编译时间就会大大降低，提高开发效率。</p>
+</li>
+<li><p>代码隔离。组件之间的交互如果还是直接引用的话，那么组件之间根本没有做到解耦，如何从根本上避免组件之间的直接引用，也就是如何从根本上杜绝耦合的产生？</p>
+</li>
 </ol>
 <p>组件化架构目标：告别结构臃肿，让各个业务变得相对独立，业务组件在组件模式下可以独立开发，而在集成模式下又可以变为 AAR 包集成到“ APP 壳工程”中，组成一个完整功能的 APP。</p>
 <p>先给出框架设计图，然后再对这七个问题进行一一解答。</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image5.png" alt="A组件化框架架构"><figcaption>A组件化框架架构</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image5.png" alt="A组件化框架架构"></p>
 <p>从图中可以看到，<strong>业务组件之间是独立的，互相没有关联</strong>，这些业务组件在集成模式下是一个个 Library，被 APP 壳工程所依赖，组成一个具有完整业务功能的 APP 应用，但是在组件开发模式下，业务组件又变成了一个个 Application，它们可以独立开发和调试，由于在组件开发模式下，业务组件们的代码量相比于完整的项目差了很远，因此在运行时可以显著减少编译时间。</p>
 <p>各个业务组件通信是通过路由转发，如图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image6.png" alt="路由转发通信"><figcaption>路由转发通信</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image6.png" alt="路由转发通信"></p>
 <p>这是组件化工程模型下的业务关系，业务之间将不再直接引用和依赖，而是通过“路由”这样一个中转站间接产生联系。</p>
 <p>那么针对以上提出的七个问题，具体解决如下：</p>
 <p>1，代码解耦问题</p>
 <p>对已存在的项目进行模块拆分，模块分为两种类型，一种是功能组件模块，封装一些公共的方法服务等，作为依赖库对外提供，一种是业务组件模块，专门处理业务逻辑等功能，这些业务组件模块最终负责组装APP。</p>
 <p>2，组件单独运行问题</p>
-<p>通过 <strong>Gradle</strong> 脚本配置方式，进行不同环境切换。比如只需要把 Apply plugin: 'com.android.library' 切换成Apply plugin: 'com.android.application' 就可以，同时还需要在 AndroidManifest 清单文件上进行设置，因为一个单独调试需要有一个入口的 Activity。比如设置一个变量 isModule，标记当前是否需要单独调试，根据isModule 的取值，使用不同的 gradle 插件和 AndroidManifest 清单文件，甚至可以添加 Application 等 Java 文件，以便可以做一下初始化的操作。</p>
+<p>通过 <strong>Gradle</strong> 脚本配置方式，进行不同环境切换。比如只需要把 Apply plugin: ‘com.android.library’ 切换成Apply plugin: ‘com.android.application’ 就可以，同时还需要在 AndroidManifest 清单文件上进行设置，因为一个单独调试需要有一个入口的 Activity。比如设置一个变量 isModule，标记当前是否需要单独调试，根据isModule 的取值，使用不同的 gradle 插件和 AndroidManifest 清单文件，甚至可以添加 Application 等 Java 文件，以便可以做一下初始化的操作。</p>
 <p>3，组件间通信问题</p>
 <p>通过接口+实现的结构进行组件间的通信。每个组件声明自己提供的服务 Service API，这些 Service 都是一些接口，组件负责将这些 Service 实现并注册到一个统一的路由 Router 中去，如果要使用某个组件的功能，只需要向Router 请求这个 Service 的实现，具体的实现细节我们全然不关心，只要能返回我们需要的结果就可以了。在组件化架构设计图中 Common 组件就包含了路由服务组件，里面包括了每个组件的路由入口和跳转。</p>
 <p>4，UI 跳转问题</p>
@@ -359,50 +351,44 @@
 <p>7，代码隔离问题</p>
 <p>如果还是 compile project(xxx:xxx.aar) 来引入组件，我们就完全可以直接使用到其中的实现类，那么主项目和组件之间的耦合就没有消除，那之前针对接口编程就变得毫无意义。我们希望只在 assembleDebug 或者 assembleRelease 的时候把 AAR 引入进来，而在开发阶段，所有组件都是看不到的，这样就从根本上杜绝了引用实现类的问题。</p>
 <p>目前做法是主项目只依赖 Common 的依赖库，业务组件通过路由服务依赖库按需进行查找，用反射方式进行组件加载，然后在主工程中调用组件服务，组件与组件之间调用则是通过接口+实现进行通信，后续规划通过自定义Gradle 插件，通过字节码自动插入组件的依赖进行编译打包，实现自动筛选 assembleDebug 或 assembleRelease 这两个编译命任务，只有属于包含这两个任务的命令才引入具体实现类，其他的则不引入。</p>
-<h3 id="代码具体项目实践">代码，具体项目实践</h3>
-<p><strong>一，创建工程</strong></p>
+<h3 id="代码，具体项目实践"><a href="#代码，具体项目实践" class="headerlink" title="代码，具体项目实践"></a>代码，具体项目实践</h3><p><strong>一，创建工程</strong></p>
 <p>1，APP空壳工程</p>
 <p>通过AndroidStudio创建一个APP空壳工程，如图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image7.png" alt="APP空壳工程"><figcaption>APP空壳工程</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image7.png" alt="APP空壳工程"></p>
 <p>然后在 APP 工程添加依赖具体业务组件 Module。比如：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image8.png" alt="依赖关系"><figcaption>依赖关系</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image8.png" alt="依赖关系"></p>
 <p>2，具体业务组件Module</p>
 <p>需要遵循一定组件命名规范，为何需要规范呢，因为需要通过组件命名规范来约束和保证组件的统一性和一致性，避免出现冲突。比如登陆组件，那么名称：b(类型)-ga(部门缩写)-login(组件名称)，这就是我们基于共同的约定进行命名的，为后期维护和扩展都带来辨识度。</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image9.png" alt="Login业务组件"><figcaption>Login业务组件</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image9.png" alt="Login业务组件"></p>
 <p><strong>二，业务组件配置文件</strong></p>
 <p>1，build.gradle配置文修改。如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion rootProject.ext.compileSdkVersion</span><br><span class="line">    buildToolsVersion rootProject.ext.buildToolsVersion</span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion rootProject.ext.minSdkVersion</span><br><span class="line">        targetSdkVersion rootProject.ext.targetSdkVersion</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">            applicationId <span class="string">"com.hik.ga.business.login"</span></span><br><span class="line">            versionCode <span class="number">1</span></span><br><span class="line">            versionName <span class="string">"1.0"</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//ARouter</span></span><br><span class="line">            javaCompileOptions &#123;</span><br><span class="line">                annotationProcessorOptions &#123;</span><br><span class="line">                    arguments = [ moduleName : project.getName() ]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            <span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">                manifest.srcFile <span class="string">'src/main/module/AndroidManifest.xml'</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                manifest.srcFile <span class="string">'src/main/AndroidManifest.xml'</span></span><br><span class="line">                <span class="comment">//集成开发模式下排除debug文件夹中的所有Java文件</span></span><br><span class="line">                java &#123;</span><br><span class="line">                    exclude <span class="string">'debug/**'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':b-ga-common-function-comlib'</span>)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(!isModule.toBoolean()</span>) </span>&#123;</span><br><span class="line">        annotationProcessor <span class="string">"com.alibaba:arouter-compiler:$&#123;rootProject.annotationProcessor&#125;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这里需要有几点说明一下：</p>
 <p>1，通过 isModule.toBoolean() 方法来进行组件间集成模式和组件模式的切换，包括模块是属于Application 还是 Library，由于集成了 ARouter，所以需要对 ARouter 配置文件进行处理。</p>
 <p>2，如果组件模式下， 则需要重新设置 AndroidManifest.xml 文件，里面配置新的Application路径。比如Login组件单独运行 AndroidManifest 清单文件</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="keyword">package</span>=<span class="string">"hik.ga.business.applogin"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">        android:name=<span class="string">"debug.LoginApplication"</span></span><br><span class="line">        android:allowBackup=<span class="string">"false"</span></span><br><span class="line">        android:icon=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        android:label=<span class="string">"@string/login_btn_str"</span></span><br><span class="line">        android:supportsRtl=<span class="string">"true"</span></span><br><span class="line">        android:theme=<span class="string">"@style/Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><br><span class="line"></span><br><span class="line">        &lt;activity</span><br><span class="line">            android:name=<span class="string">"hik.ga.business.applogin.login.views.LoginActivity"</span></span><br><span class="line">            android:label=<span class="string">"@string/login_btn_str"</span></span><br><span class="line">            android:launchMode=<span class="string">"singleTop"</span></span><br><span class="line">            android:screenOrientation=<span class="string">"portrait"</span></span><br><span class="line">            android:theme=<span class="string">"@style/AppTheme.NoActionBarFullScreen"</span>&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span><br><span class="line">                &lt;category android:name=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span><br><span class="line">            &lt;/intent-filter&gt;</span><br><span class="line">        &lt;/activity&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
+
 <p>3，实现组件全局应用配置类，这个类的目的是在组件加载时初始化一些组件自身的资源，如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginApplicationDelegate</span> <span class="keyword">implements</span> <span class="title">IApplicationDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"LoginApplicationDelegate"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onCreate()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enterBackground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------enterBackground()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enterForeground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------enterForeground()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveRemoteNotification</span><span class="params">(Map&lt;String, String&gt; message)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"receiveRemoteNotification msg = "</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onTerminate()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration configuration)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onConfigurationChanged()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onLowMemory()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> var1)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onTrimMemory()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <p><strong>三，路由服务</strong></p>
 <p>1，定义公共组件路由API和入口，通过路由服务组件查找，如图：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image10.png" alt="公共路由服务"><figcaption>公共路由服务</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image10.png" alt="公共路由服务"></p>
 <p>2，组件路由实现</p>
 <p>每个组件对外提供什么能力，首先需要在路由服务组件创建一个接口文件，如下是登陆组件接口声明和实现。</p>
 <p>Login 接口：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image11.png" alt="定义Login接口"><figcaption>定义Login接口</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image11.png" alt="定义Login接口"></p>
 <p>具体实现：</p>
-<figure>
-<img src="/2018/02/05/2018-02-05-AndroidComponent/image12.png" alt="Login接口具体实现"><figcaption>Login接口具体实现</figcaption>
-</figure>
+<p><img src="/2018/02/05/2018-02-05-AndroidComponent/image12.png" alt="Login接口具体实现"></p>
 <p>路由使用：比如我们想从设置页面跳转到登陆页面，使用 Login 接口里的方法，使用如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ILoginProvider loginService = (ILoginProvider) ARouter.getInstance().build(RouterPath.ROUTER_PATH_TO_LOGIN_SERVICE).navigation();</span><br><span class="line"><span class="keyword">if</span>(loginService != <span class="keyword">null</span>)&#123;</span><br><span class="line">	loginService.accountToLogin(AccountActivity.<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="小结">小结</h3>
-<p>总的来说，通过应用组件化框架，使得我们工作中的具体项目变得更轻、好组装、编译构建更快，不仅提高工作效率，同时自我对移动应用开发认知有进一步的提升。因为组件化框架具有通用性，特别适用于业务模块迭代多，量大的大中型项目，是一个很好的解决方案。至于组件化框架之后演化的道路，则是打造组件仓库，完善组件开发规范，丰富组件功能库，有一些粒度大的业务组件可以进一步的细化，对组件功能进行更单一的内聚，同时基于现有组件化框架，便于过度在未来打造插件化框架，进一步升级 APP 动态能力，比如热加载、热修复等，那又是另一种使用场景和设计架构了，其实组件化和插件化框架最大的区别就是在是否具备动态更新能力。</p>
+
+
+
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>总的来说，通过应用组件化框架，使得我们工作中的具体项目变得更轻、好组装、编译构建更快，不仅提高工作效率，同时自我对移动应用开发认知有进一步的提升。因为组件化框架具有通用性，特别适用于业务模块迭代多，量大的大中型项目，是一个很好的解决方案。至于组件化框架之后演化的道路，则是打造组件仓库，完善组件开发规范，丰富组件功能库，有一些粒度大的业务组件可以进一步的细化，对组件功能进行更单一的内聚，同时基于现有组件化框架，便于过度在未来打造插件化框架，进一步升级 APP 动态能力，比如热加载、热修复等，那又是另一种使用场景和设计架构了，其实组件化和插件化框架最大的区别就是在是否具备动态更新能力。</p>
 <p>把项目简化下，github地址：<a href="https://github.com/cr330326/DemoComponent" target="_blank" rel="noopener">DemoComponent</a>，感兴趣的可以下过去看看。</p>
 <p>参考文章：</p>
 <p>1，<a href="http://blog.csdn.net/guiying712/article/details/55213884" target="_blank" rel="noopener">Android组件化方案</a></p>
@@ -530,7 +516,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#起源为何组件化"><span class="nav-number">1.</span> <span class="nav-text">起源，为何组件化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念组件化是什么"><span class="nav-number">2.</span> <span class="nav-text">概念，组件化是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计构建组件化框架"><span class="nav-number">3.</span> <span class="nav-text">设计，构建组件化框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码具体项目实践"><span class="nav-number">4.</span> <span class="nav-text">代码，具体项目实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#起源，为何组件化"><span class="nav-number">1.</span> <span class="nav-text">起源，为何组件化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#概念，组件化是什么"><span class="nav-number">2.</span> <span class="nav-text">概念，组件化是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计，构建组件化框架"><span class="nav-number">3.</span> <span class="nav-text">设计，构建组件化框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码，具体项目实践"><span class="nav-number">4.</span> <span class="nav-text">代码，具体项目实践</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

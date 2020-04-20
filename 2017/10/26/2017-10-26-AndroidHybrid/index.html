@@ -261,22 +261,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="前言">前言</h3>
-<p>随着公司业务不断发展，移动开发项目越来越多，项目任务时间紧，我们内部开发流程是以项目为导向，有别于一般公司对产品不断迭代的做法，但移动端开发人员资源有限，需要在不同项目之间做业务场景切换开发，就会经常出现项目完成时间 Delay。面对这样的问题，我们该如何去解决呢？现在了解到的现状是每个业务组都有配备 Web 前端开发人员，那么是否能把涉及到业务模块分发给具体业务组 Web 前端开发人员去开发，剥离业务模块，我们移动端开发人员则专注于框架的开发或者手机端设备能力开发，比如可支持调用摄像头，监听网络状态变化，提供地理位置信息等等，有没有这样一套适合的解决方案呢，答案当然是有的。我们引入了可利用 Web 前端能力和移动端操作系统原生能力相结合开发模式，叫做 Hybrid 混合开发。</p>
-<h3 id="目录">目录</h3>
-<ul>
-<li><p>为何选择 Hybrid 开发模式</p></li>
-<li><p>在实践过程中碰到什么问题和解决</p></li>
-<li><p>小结</p></li>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>随着公司业务不断发展，移动开发项目越来越多，项目任务时间紧，我们内部开发流程是以项目为导向，有别于一般公司对产品不断迭代的做法，但移动端开发人员资源有限，需要在不同项目之间做业务场景切换开发，就会经常出现项目完成时间 Delay。面对这样的问题，我们该如何去解决呢？现在了解到的现状是每个业务组都有配备 Web 前端开发人员，那么是否能把涉及到业务模块分发给具体业务组 Web 前端开发人员去开发，剥离业务模块，我们移动端开发人员则专注于框架的开发或者手机端设备能力开发，比如可支持调用摄像头，监听网络状态变化，提供地理位置信息等等，有没有这样一套适合的解决方案呢，答案当然是有的。我们引入了可利用 Web 前端能力和移动端操作系统原生能力相结合开发模式，叫做 Hybrid 混合开发。</p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><p>为何选择 Hybrid 开发模式</p>
+</li>
+<li><p>在实践过程中碰到什么问题和解决</p>
+</li>
+<li><p>小结</p>
+</li>
 </ul>
-<h3 id="为何选择-hybrid-开发模式">为何选择 Hybrid 开发模式</h3>
-<p><strong>1，目前工作中碰到的问题</strong></p>
+<h3 id="为何选择-Hybrid-开发模式"><a href="#为何选择-Hybrid-开发模式" class="headerlink" title="为何选择 Hybrid 开发模式"></a>为何选择 Hybrid 开发模式</h3><p><strong>1，目前工作中碰到的问题</strong></p>
 <p>随着公司业务飞速发展，移动端定制的项目越来越多，同时每个项目的业务逻辑呈现出复杂化和差异化特点，每个项目都需要提供 Android 版本和 IOS 版本，增加开发成本，开发周期往往又会被拖长。同时近年来前端技术蓬勃发展，HTML5 大行其道，很多主流 APP 厂商都利用 HTML5 前端能力来编写业务模块并结合原生设备能力进行混合开发，常见的比如淘宝、京东、微信、携程等等。虽然目前业务项目多，但是用户交互体验要求不高，常见页面也是列表，表单居多，适合充分利用HTML 5能力，因此引入Hybrid 混合开发模式，这样只需要 Web 前端开发人员写一遍前端业务代码，却能同时在Android 系统和 IOS 系统中执行。</p>
 <p><strong>2，Web APP、Hybrid APP、Native APP 对比</strong></p>
 <p>目前主流应用程序大体分为三类：Web App、Hybrid App、 Native App，如图：</p>
-<figure>
-<img src="/2017/10/26/2017-10-26-AndroidHybrid/image1.png" alt="三种模式"><figcaption>三种模式</figcaption>
-</figure>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/image1.png" alt="三种模式"></p>
 <p><strong>Web APP</strong></p>
 <p>Web App 指采用Html5 语言写出的 App，不需要下载安装。类似于现在所说的轻应用。生存在浏览器中的应用，基本上可以说是触屏版的网页应用。</p>
 <p>优点</p>
@@ -289,13 +287,16 @@
 <p>（3）用户留存率低</p>
 <p>（4）设计受限制诸多</p>
 <p>（5）体验较差</p>
-<p><strong>Hybrid App </strong></p>
+<p>*<em>Hybrid App *</em> </p>
 <p>Hybrid App 从外观上来看是一个Native App ，实则只有一个UIWebView，里面访问的是一个Web App ，如新闻类和视频类的应用普遍采取该策略：Native 的框架加上Web 的内容。不同于Native App 需要针对不同的平台使用不同的开发语言（如使用Objective-C、Swift开发iOS应用，使用Java等开发Android应用），Hybrid App 允许开发者仅使用一套网页语言代码（HTML5+CSS+JavaScript），即可开发能够在不同平台上部署的类原生应用 。由于Hybrid App 结合了Native app良好用户交互体验和Web App 跨平台开发的优势，能够显著节省移动应用开发的时间和成本，Hybrid App 得到越来越多公司的青睐。</p>
 <p>按照网页语言和程序语言的混合，Hybrid App 通常可以分为三种类型：</p>
-<ol type="1">
-<li><p><strong>多View混合型：</strong>Native View 和 Web View 独立展示，交替出现。 其应用主体通常是Native App，Web技术作为补充。即在需要的时候，将 Web View作为独立的 View 运行，在 Web View内完成相关的展示操作。开发难度与Native App相当.比如：微信里的公众号文章使用的是Web View 。</p></li>
-<li><p><strong>单View混合型：</strong>在同一个View 内，Native View 和Web View 为层叠关系，同时出现。开发成本较高，难度较大，但是体验较好。比如：百度搜索同时实现充分的灵活性和较好的用户体验。</p></li>
-<li><p><strong>Web主体型：</strong>应用主体是Web View ，穿插 Native 功能，主要以网页语言编写。整体开发难度低，基本可以实现跨平台，而用户体验好坏，主要取决于底层中间件的交互与跨平台能力。比如：项目管理工具 Basecamp 使用Web view呈现内容，调用系统原生 API 实现界面导航等功能来提高用户体验。</p></li>
+<ol>
+<li><p><strong>多View混合型：</strong>Native View 和 Web View 独立展示，交替出现。 其应用主体通常是Native App，Web技术作为补充。即在需要的时候，将 Web View作为独立的 View 运行，在 Web View内完成相关的展示操作。开发难度与Native App相当.比如：微信里的公众号文章使用的是Web View 。</p>
+</li>
+<li><p><strong>单View混合型：</strong>在同一个View 内，Native View 和Web View 为层叠关系，同时出现。开发成本较高，难度较大，但是体验较好。比如：百度搜索同时实现充分的灵活性和较好的用户体验。</p>
+</li>
+<li><p><strong>Web主体型：</strong>应用主体是Web View ，穿插 Native 功能，主要以网页语言编写。整体开发难度低，基本可以实现跨平台，而用户体验好坏，主要取决于底层中间件的交互与跨平台能力。比如：项目管理工具 Basecamp 使用Web view呈现内容，调用系统原生 API 实现界面导航等功能来提高用户体验。</p>
+</li>
 </ol>
 <p>Hybrid App 也并非是完美的解决方案。由于其使用 HTML5，某些依赖于复杂的原生功能或者繁重的过渡动画的应用会出现卡顿。同时，为了模拟Native App 的UI和感官，需要投入额外的时间和精力；尽管可以跨平台，但是并不能完全支持所有的设备和操作系统。最后，如果应用的体验不够原生化，如一个简单的网站，则还有被Apple App Store拒绝的风险。</p>
 <p><strong>Native App</strong></p>
@@ -312,43 +313,51 @@
 <p>（3）更新缓慢，根据不同平台，提交–审核–上线 等等不同的流程，需要经过的流程较复杂</p>
 <p><strong>三者技术特性</strong></p>
 <p>如下图表中对比了Native App、 Hybrid App、Web App在不同方面的表现，可以根据实际情况选择最佳的解决方案。</p>
-<figure>
-<img src="/2017/10/26/2017-10-26-AndroidHybrid/image2.png" alt="三者比较对比"><figcaption>三者比较对比</figcaption>
-</figure>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/image2.png" alt="三者比较对比"></p>
 <p><strong>3，主流 APP Hybrid 应用比例</strong></p>
 <p>那么在实际应用场景中，有哪些选择了Hybrid app呢？实际上，我们很可能使用过很多Hybrid app，却并没有意识到它们是借了Native台子唱戏的Web app。根据<a href="http://link.zhihu.com/?target=http%3A//www.appcelerator.com/">Appcelerator</a>的官网，目前单是运行基于它的平台搭建的Hybrid app的设备就有近2.86亿台。国外常见的有LinkedIn、Yelp、Netflix、Wunderlist ，国内主流的大厂基本也是采用了Hybrid 模式，应该是应用很广泛，同时技术上也是成熟稳定。</p>
-<figure>
-<img src="/2017/10/26/2017-10-26-AndroidHybrid/image3.png" alt="主流比例"><figcaption>主流比例</figcaption>
-</figure>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/image3.png" alt="主流比例"></p>
 <p><strong>4，选择 Hybrid 混合开发的原因</strong></p>
-<ol type="1">
-<li><p>Hybrid 开发模式在开发页面 UI 上有天生的便利，而原生的则如果需要一个比较华丽的界面，就需要花很长的时间去开发。</p></li>
-<li><p>在业务上，看具体情况，有些简单业务在 Web上就可以处理，而如果涉及到复杂的业务，则可以用原生来写。</p></li>
-<li><p>在基本能力上，原生的强，可以提供手机端独有的特性，但 Hybrid 则需要依赖 Javascript 中间层进行转化获取设备能力。</p></li>
-<li><p>对于少界面，重业务的可以用原生，对于多界面，重效果的，可以用 Web 方式进行开发。</p></li>
+<ol>
+<li><p>Hybrid 开发模式在开发页面 UI 上有天生的便利，而原生的则如果需要一个比较华丽的界面，就需要花很长的时间去开发。</p>
+</li>
+<li><p>在业务上，看具体情况，有些简单业务在 Web上就可以处理，而如果涉及到复杂的业务，则可以用原生来写。</p>
+</li>
+<li><p>在基本能力上，原生的强，可以提供手机端独有的特性，但 Hybrid 则需要依赖 Javascript 中间层进行转化获取设备能力。</p>
+</li>
+<li><p>对于少界面，重业务的可以用原生，对于多界面，重效果的，可以用 Web 方式进行开发。</p>
+</li>
 </ol>
-<h3 id="在实践过程中碰到什么问题和解决">在实践过程中碰到什么问题和解决</h3>
-<p><strong>项目背景介绍</strong></p>
+<h3 id="在实践过程中碰到什么问题和解决"><a href="#在实践过程中碰到什么问题和解决" class="headerlink" title="在实践过程中碰到什么问题和解决"></a>在实践过程中碰到什么问题和解决</h3><p><strong>项目背景介绍</strong></p>
 <p>目前在一个项目实行的开发模式就是 Hybrid 混合开发，Web 技术与 Android 原生能力结合开发，Web 技术负责界面开发和相关业务， Android 原生能力则提供手机端特有设备能力，比如调用摄像头，网络状态监听，数据库操作等等。但这个项目的特殊性相关业务与我们提供的 Android 原生插件能力高度耦合，比如为这个项目提供数据库插件就是专门定制开发的，对于 Excel 插件的能力也是高度依赖一机一档相关字段，这跟我们选型用Hybrid 混合开发模式 的初心是相背离。我们初心是希望 Web 开发人员只需要专注于业务开发和界面绘制，原生部分则是提供相应的Android 设备能力集即可，每个插件跟业务是完全无关，这样就可以做到原生开发和Web开发互相解耦，两者之间通过接口隔离即可。</p>
 <p><strong>实践过程中碰到的问题</strong></p>
 <p>无论如何，一机一档项目是第一个应用 Hybrid 混合开发进行实战的项目，遇到的问题或者坑都是很正常，积极面对解决，并且不断进行总结和反思。把之前碰到的问题，简单罗列总结下：</p>
-<ol type="1">
-<li><p>开发人员调试困难问题。前端人员在开发时候是编写HTML5页面，所运行的环境跟 PC 端有很大的不同，因为需要运行在具体手机的环境上，因此需要每次编写完，需要通过移动端人员集成打包出一个APP 包进行安装验证，每新增或修改一个页面就需要重新打包验证，每次都需要集成测试，步骤繁琐，效率低下。</p></li>
-<li><p>项目集成测试问题。Android 系统 Webview 和 PC 端浏览器内核版本差异问题导致加载效果不一致。</p></li>
-<li><p>前端开发框架兼容问题。前端开发人员技术选型是基于 Vue.js 框架，这是一个渐进式 Javascript 框架，刚开始不支持。</p></li>
-<li><p>文档不规范问题。在前期开发阶段，文档提供不详细，开发人员使用规则不清楚，导致沟通成本增加。</p></li>
-<li><p>Webview 性能问题。</p></li>
+<ol>
+<li><p>开发人员调试困难问题。前端人员在开发时候是编写HTML5页面，所运行的环境跟 PC 端有很大的不同，因为需要运行在具体手机的环境上，因此需要每次编写完，需要通过移动端人员集成打包出一个APP 包进行安装验证，每新增或修改一个页面就需要重新打包验证，每次都需要集成测试，步骤繁琐，效率低下。</p>
+</li>
+<li><p>项目集成测试问题。Android 系统 Webview 和 PC 端浏览器内核版本差异问题导致加载效果不一致。</p>
+</li>
+<li><p>前端开发框架兼容问题。前端开发人员技术选型是基于 Vue.js 框架，这是一个渐进式 Javascript 框架，刚开始不支持。</p>
+</li>
+<li><p>文档不规范问题。在前期开发阶段，文档提供不详细，开发人员使用规则不清楚，导致沟通成本增加。</p>
+</li>
+<li><p>Webview 性能问题。</p>
+</li>
 </ol>
 <p><strong>如何解决</strong></p>
-<ol type="1">
-<li><p>关于调试困难问题。提供一个调试工具叫做 Chrome DevTool，通过 Inspect 模式加载手机端里的 HTML5 页面，为何选择用 Chrome，因为Chrome 是目前主流前端开发调试利器，不仅能支持 Web 端开发，对于 HTML5 页面调试开发同样是能监听到 Javascript 报错或 CSS 报错，对于资源、网络、日志、内存等等，都是一步到位。同时在 APP 里提供一个在线调试环境，就是 Web 前端开发人员布置一个站点，在手机端通过 IP 地址远程访问站点，这样就可以在手机端实时看到刚刚修改内容是什么。</p></li>
-<li><p>关于项目集成测试问题。在集成测试阶段，对Android 系统 Webview 和 PC 端浏览器内核版本区别有进一步认识，在Android 5.0 之前选用的是 Webkit 内核来加载 Web 资源文件，而在 Android 5.0 之后，则选用 Chromium 作为内核来加载，那么在为 PC 端浏览器端，如果你选择的是 Chorme 作为你默认浏览器的话，它的内核也是 Chromium 。尽管两者内核类型一样，都是 Chromium ，但两者加载 Javascript 效果上表现也不一样，比如最新浏览器版本可支持 ES 6 特性，但是在最新版的手机上就不一定 ES 6特性，目前通过调查 Android 5.0 之前的系统市场占有率，发现比例为不到20%，暂时适配到 Android 5.0 版本。</p></li>
-<li><p>关于前端开发框架兼容问题。刚开始选用 Hybrid 开发模式时，对于公司内部 前端开发人员选用何种前端框架不甚了解，我们这边提供的 Demo 则是最原始的 HTML + Javascript + CSS 写法，以为前端人员只需要简单了解下就能上手，但在实践中发现却不是这样的。他们选型的前端技术是基于 Vue.js ，因为 Vue.js 是需要编译打包，生成发布的内容是混淆过的HTML + Javascript ，里面 Javascript 文件加载顺序使得我们开发 Javascript 插件调用引起问题，那样就会导致前端人员在调用具体插件能力时候，发现这个插件里的某个方法还没定义，就导致页面数据出错。后来通过了解 Vue.js 开发方式，调整项目工程中 Javascript 执行顺序， 确保具体插件调用在 Vue.js 执行前触发。</p></li>
-<li><p>关于文档不规范问题。在前期开发阶段，前端人员没有统一查找目前已有插件能力的地方，仅仅根据我们提供的 Javascript 文件里的方法注释，虽然是针对每个方法的 Demo 用法，但是在实际开发中，前端开发人员也会调用出错。不是这个方法回调方法写错，就是参数类型传入传错，这样就导致的一个结果，前端开发人员不断地过来询问这个方法是如何调用的，我明明已经根据你的 Demo 写法进行编码了，为何还是报错的，前期的沟通成本还是很高。所以需要一个提供统一文档地方，里面写明了具体配置如何，写法如何，怎么是一步一步走，基本上可以避免类似的错误，更好的提高工作效率，减少沟通成本，所以一个规范的文档是很有必要的。</p></li>
-<li><p>关于 WebView 性能加载问题。这是在解决 WebView 加载 HTML + Javascript + CSS 等资源时发现一个白屏问题，同时用 HTML5 做页面本身就会比原生加载来的慢。为了提高用户体验，在加载等待时，提供一个加载框来提示，等 HTML 资源文件全部渲染完毕后，等待框再消失，这样就可以避免一定的白屏现象。</p></li>
+<ol>
+<li><p>关于调试困难问题。提供一个调试工具叫做 Chrome DevTool，通过 Inspect 模式加载手机端里的 HTML5 页面，为何选择用 Chrome，因为Chrome 是目前主流前端开发调试利器，不仅能支持 Web 端开发，对于 HTML5 页面调试开发同样是能监听到 Javascript 报错或 CSS 报错，对于资源、网络、日志、内存等等，都是一步到位。同时在 APP 里提供一个在线调试环境，就是 Web 前端开发人员布置一个站点，在手机端通过 IP 地址远程访问站点，这样就可以在手机端实时看到刚刚修改内容是什么。</p>
+</li>
+<li><p>关于项目集成测试问题。在集成测试阶段，对Android 系统 Webview 和 PC 端浏览器内核版本区别有进一步认识，在Android 5.0 之前选用的是 Webkit 内核来加载 Web 资源文件，而在 Android 5.0 之后，则选用 Chromium 作为内核来加载，那么在为 PC 端浏览器端，如果你选择的是 Chorme 作为你默认浏览器的话，它的内核也是 Chromium 。尽管两者内核类型一样，都是 Chromium ，但两者加载 Javascript 效果上表现也不一样，比如最新浏览器版本可支持 ES 6 特性，但是在最新版的手机上就不一定 ES 6特性，目前通过调查 Android 5.0 之前的系统市场占有率，发现比例为不到20%，暂时适配到 Android 5.0 版本。</p>
+</li>
+<li><p>关于前端开发框架兼容问题。刚开始选用 Hybrid 开发模式时，对于公司内部 前端开发人员选用何种前端框架不甚了解，我们这边提供的 Demo 则是最原始的 HTML + Javascript + CSS 写法，以为前端人员只需要简单了解下就能上手，但在实践中发现却不是这样的。他们选型的前端技术是基于 Vue.js ，因为 Vue.js 是需要编译打包，生成发布的内容是混淆过的HTML + Javascript ，里面 Javascript 文件加载顺序使得我们开发 Javascript 插件调用引起问题，那样就会导致前端人员在调用具体插件能力时候，发现这个插件里的某个方法还没定义，就导致页面数据出错。后来通过了解 Vue.js 开发方式，调整项目工程中 Javascript 执行顺序，  确保具体插件调用在 Vue.js 执行前触发。</p>
+</li>
+<li><p>关于文档不规范问题。在前期开发阶段，前端人员没有统一查找目前已有插件能力的地方，仅仅根据我们提供的 Javascript 文件里的方法注释，虽然是针对每个方法的 Demo 用法，但是在实际开发中，前端开发人员也会调用出错。不是这个方法回调方法写错，就是参数类型传入传错，这样就导致的一个结果，前端开发人员不断地过来询问这个方法是如何调用的，我明明已经根据你的 Demo  写法进行编码了，为何还是报错的，前期的沟通成本还是很高。所以需要一个提供统一文档地方，里面写明了具体配置如何，写法如何，怎么是一步一步走，基本上可以避免类似的错误，更好的提高工作效率，减少沟通成本，所以一个规范的文档是很有必要的。</p>
+</li>
+<li><p>关于 WebView 性能加载问题。这是在解决 WebView 加载  HTML + Javascript + CSS 等资源时发现一个白屏问题，同时用 HTML5 做页面本身就会比原生加载来的慢。为了提高用户体验，在加载等待时，提供一个加载框来提示，等 HTML 资源文件全部渲染完毕后，等待框再消失，这样就可以避免一定的白屏现象。</p>
+</li>
 </ol>
-<h3 id="小结">小结</h3>
-<p>整体来说，为何会选择 Hybrid 混合开发模式是基于当前业务场景需要，技术是服务于业务发展，业务场景变化导致技术解决方案的选型也需要相应变化。面对以项目导向的开发现状，不能一昧追求最新最酷的技术，也不能对过时的技术方案过分保守，应该需要对当前业务场景进行判断，选择合适的解决方案才最佳的策略，没有一劳永逸的技术手段，只有时刻变化的业务需求和不断更新迭代技术方案。通过在一机一档项目中实战，面对问题，积极解决问题，也正是在解决问题过程中，产生新的想法和尝试，不断地完善框架能力，使得框架功能越来越全，进而更好的服务于业务开发问题，提高业务响应能力，降低开发成本，提升工作效率。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>整体来说，为何会选择 Hybrid 混合开发模式是基于当前业务场景需要，技术是服务于业务发展，业务场景变化导致技术解决方案的选型也需要相应变化。面对以项目导向的开发现状，不能一昧追求最新最酷的技术，也不能对过时的技术方案过分保守，应该需要对当前业务场景进行判断，选择合适的解决方案才最佳的策略，没有一劳永逸的技术手段，只有时刻变化的业务需求和不断更新迭代技术方案。通过在一机一档项目中实战，面对问题，积极解决问题，也正是在解决问题过程中，产生新的想法和尝试，不断地完善框架能力，使得框架功能越来越全，进而更好的服务于业务开发问题，提高业务响应能力，降低开发成本，提升工作效率。</p>
 
     </div>
 
@@ -472,7 +481,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为何选择-hybrid-开发模式"><span class="nav-number">3.</span> <span class="nav-text">为何选择 Hybrid 开发模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在实践过程中碰到什么问题和解决"><span class="nav-number">4.</span> <span class="nav-text">在实践过程中碰到什么问题和解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目录"><span class="nav-number">2.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为何选择-Hybrid-开发模式"><span class="nav-number">3.</span> <span class="nav-text">为何选择 Hybrid 开发模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在实践过程中碰到什么问题和解决"><span class="nav-number">4.</span> <span class="nav-text">在实践过程中碰到什么问题和解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
