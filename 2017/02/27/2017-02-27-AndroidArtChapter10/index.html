@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/pace-js@1/themes/blue/pace-theme-minimal.css">
+  <script src="//cdn.jsdelivr.net/npm/pace-js@1/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cryallen.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"appID":"QF3C4PSCT7","apiKey":"f47d52045d0bc96dde181e351f7e59b6","indexName":"prod_blog","hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="由于Bitmap的特殊性以及Android对单个应用所施加的内存限制，比如16M，这导致加载Bitmap的时候很容易出现内存溢出。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bitmap的加载和Cache">
+<meta property="og:url" content="http://cryallen.com/2017/02/27/2017-02-27-AndroidArtChapter10/index.html">
+<meta property="og:site_name" content="斜杠Allen">
+<meta property="og:description" content="由于Bitmap的特殊性以及Android对单个应用所施加的内存限制，比如16M，这导致加载Bitmap的时候很容易出现内存溢出。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-02-27T02:57:47.000Z">
+<meta property="article:modified_time" content="2017-07-21T18:21:18.000Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="读书笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://cryallen.com/2017/02/27/2017-02-27-AndroidArtChapter10/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Bitmap的加载和Cache | 斜杠Allen</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">斜杠Allen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home  //首页"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container"></div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="algolia-results">
+  <div id="algolia-stats"></div>
+  <div id="algolia-hits"></div>
+  <div id="algolia-pagination" class="algolia-pagination"></div>
+</div>
+
+      
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://cryallen.com/2017/02/27/2017-02-27-AndroidArtChapter10/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="不断分享，致力于做一个终身学习者">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="斜杠Allen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bitmap的加载和Cache
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-02-27 10:57:47" itemprop="dateCreated datePublished" datetime="2017-02-27T10:57:47+08:00">2017-02-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2017-07-22 02:21:18" itemprop="dateModified" datetime="2017-07-22T02:21:18+08:00">2017-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Andorid/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2017/02/27/2017-02-27-AndroidArtChapter10/" class="post-meta-item leancloud_visitors" data-flag-title="Bitmap的加载和Cache" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <div class="post-description">由于Bitmap的特殊性以及Android对单个应用所施加的内存限制，比如16M，这导致加载Bitmap的时候很容易出现内存溢出。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>由于Bitmap的特殊性以及Android对单个应用所施加的内存限制，比如16M，这导致加载Bitmap的时候很容易出现内存溢出。比如以下场景：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.lang.OutofMemoryError:bitmap size exceeds VM budget</span><br></pre></td></tr></table></figure>
+<p>Android中常用的缓存策略也是很有意思，缓存策略一个通用的思想，可以用到很多场景中，比如在实际开发中经常需要用到Bitmap做缓存。通过缓存策略，我们不需要每次都从网络上请求图片或者从存储设备中加载图片，这样就极大地提高了图片的加载效率以及产品的用户体验。目前比较常用的缓存策略是LruCache和DiskLruCache，其中LruCache常被用做内存缓存，而DiskLruCache用做存储缓存。Lru是Least Recently Used的缩写，即最近最少使用算法，这种算法的核心思想：当缓存快满时，会淘汰近期最少使用的缓存目标，很显然Lru算法的思想是很容易被接受的。</p>
+<h3 id="bitmap的高效加载">Bitmap的高效加载</h3>
+<p>Bitmap在Android中指的是一张图片，可以是png格式也可以是jpg等其他常见的图片格式。BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray，分别用于支持从文件系统、资源、输入流以及字节数组中加载出一个Bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法，这四类方法最终是在Android的底层实现的，对应着BitmapFactory类的几个native方法。</p>
+<p>如何高效地加载Bitmap呢，其实核心思想也简单，那就是采用BitmapFactory.Options来加载所需尺寸的图片。主要是用到它的inSampleSize参数，即采样率。当inSampleSize为1时，采样后的图片大小为图片的原始大小，当inSampleSize大于1时，比如为2，那么采样后的图片其宽/宽均为原图大小的1/2，而像素数为原图的1/4，其占有的内存大小也为原图的1/4。从最新官方文档中指出，inSampleSize的取值应该是2的指数，比如1、2、4、8、16等等。</p>
+<p>通过采样率即可有效地加载图片，那么到底如何获取采样率呢，获取采样率也很简单，循序如下流程：</p>
+<ul>
+<li>将BitmapFactory.Options的inJustDecodeBounds参数设为True并加载图片</li>
+<li>从BitmapFactory.Options中取出图片的原始宽高信息，他们对应于outWidth和outHeight参数</li>
+<li>根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize</li>
+<li>将BitmapFactory.Options的inJustDecodeBounds参数设为False，然后重新加载图片。</li>
+</ul>
+<p>经过上面4个步骤，加载出的图片就是最终缩放后的图片，当然也有可能不需要缩放。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">decodeSampledBitmapFromResource</span><span class="params">(Resources res,</span></span></span><br><span class="line"><span class="function"><span class="params">         <span class="keyword">int</span> resId, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">     <span class="comment">// First decode with inJustDecodeBounds=true to check dimensions</span></span><br><span class="line">     <span class="keyword">final</span> BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">     options.inJustDecodeBounds = <span class="keyword">true</span>;</span><br><span class="line">     BitmapFactory.decodeResource(res, resId, options);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Calculate inSampleSize</span></span><br><span class="line">     options.inSampleSize = calculateInSampleSize(options, reqWidth,</span><br><span class="line">             reqHeight);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Decode bitmap with inSampleSize set</span></span><br><span class="line">     options.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">     <span class="keyword">return</span> BitmapFactory.decodeResource(res, resId, options);</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">calculateInSampleSize</span><span class="params">(BitmapFactory.Options options,</span></span></span><br><span class="line"><span class="function"><span class="params">         <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (reqWidth == <span class="number">0</span> || reqHeight == <span class="number">0</span>) &#123;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Raw height and width of image</span></span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> height = options.outHeight;</span><br><span class="line">     <span class="keyword">final</span> <span class="keyword">int</span> width = options.outWidth;</span><br><span class="line">     Log.d(TAG, <span class="string">"origin, w= "</span> + width + <span class="string">" h="</span> + height);</span><br><span class="line">     <span class="keyword">int</span> inSampleSize = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (height &gt; reqHeight || width &gt; reqWidth) &#123;</span><br><span class="line">         <span class="keyword">final</span> <span class="keyword">int</span> halfHeight = height / <span class="number">2</span>;</span><br><span class="line">         <span class="keyword">final</span> <span class="keyword">int</span> halfWidth = width / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">         <span class="comment">// Calculate the largest inSampleSize value that is a power of 2 and</span></span><br><span class="line">         <span class="comment">// keeps both</span></span><br><span class="line">         <span class="comment">// height and width larger than the requested height and width.</span></span><br><span class="line">         <span class="keyword">while</span> ((halfHeight / inSampleSize) &gt;= reqHeight</span><br><span class="line">                 &amp;&amp; (halfWidth / inSampleSize) &gt;= reqWidth) &#123;</span><br><span class="line">             inSampleSize *= <span class="number">2</span>;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     Log.d(TAG, <span class="string">"sampleSize:"</span> + inSampleSize);</span><br><span class="line">     <span class="keyword">return</span> inSampleSize;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="android中的缓存策略">Android中的缓存策略</h3>
+<p>缓存策略在Android中有着广泛的使用场景，尤其在图片加载这个场景下，缓存策略变得更为重要。有一个场景就是批量下载网络图片，在PC上是可以把所有的图片下载到本地再显示即可，但是放到移动设备上就不一样了。不管是Android还是IOS设备，流量对于用户来说都是一种宝贵的资源。</p>
+<p>如何避免过多的流量消耗呢，那就是缓存。当程序第一次从网络加载图片后，就将其缓存到存储设备上，这样下次使用这张图片就不用从网络上获取了，这样就为用户节省了流量。很多时候为了提高用户的用户体验，往往还会把图片在内存中再缓存一份，这样当应用打算从网络上请求一张图片时，程序首先从内存中去获取，如果内存中没有那就从存储设备中去获取，如果存储设备中也没有，那就从网络上下载这张图片。因为从内存中加载图片比从存储设备中加载图片要快，所以这样既提高了程序的效率又为用户节约了不必要的流量开销。</p>
+<p>目前常用的一种缓存算法是LRU（Least Recently Used）,LRU是近期最少使用算法，它的核心思想是当缓存满时，会优先淘汰那些近期最少使用的缓存对象。采用LRU算法的缓存有两种：LruCache和DiskLruCache，LruCache用于实现内存缓存，而DiskLruCache则充当了存储设备缓存，通过这二者的完美结合，就可以很方便地实现一个具有很高实用价值的ImageLoader。</p>
+<p><strong>LruCache</strong></p>
+<p>LruCache是Android 3.1提供的一个缓存类，通过support-v4兼容包可以兼容到早期的Android版本。它是一个泛型类，它内部采用一个LinkedHashMap，当强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。</p>
+<ul>
+<li>强引用：直接的对象引用</li>
+<li>软引用：当一个对象只有软引用存在时，系统内存不足时此对象会被gc回收。</li>
+<li>弱引用：当一个对象只有弱引用存在时，此对象会随时被gc回收。</li>
+</ul>
+<p>LruCache是线程安全的，因为用到了LinkedHashMap。从Android 3.1开始，LruCache就已经是Android源码的一部分。</p>
+<p><strong>DiskLruCache</strong></p>
+<p>DiskLruCache用于实现存储设备缓存，即磁盘存储，它通过将缓存对象写入文件系统从而实现缓存的效果。DiskLruCache得到了Android官方文档的推荐，但它不属于Android SDK的一部分。</p>
+<p><strong>ImageLoader的实现</strong></p>
+<p>一般来说，一个优秀的ImageLoader应该具备如下功能：</p>
+<ul>
+<li>图片的同步加载</li>
+<li>图片的异步加载</li>
+<li>图片压缩</li>
+<li>内存缓存</li>
+<li>磁盘缓存</li>
+<li>网络拉取</li>
+</ul>
+<p>图片的同步加载是指能够以同步的方式向调用者提供所加载的图片，这个图片可能是从内存缓存读取的，也可能是从磁盘缓存中读取的，还可能是从网络拉取的。</p>
+<p>图片的异步加载是一个很有用的功能，很多时候调用者不想再单独的线程中以同步的方式来获取图片，这个时候ImageLoader内部需要自己在线程中加载图片并将图片设置所需的ImageView。图片压缩的作用更需要了，这是降低OOM概率的有效手段，ImageLoader必须合适地处理图片的压缩问题。</p>
+<p>内存缓存和磁盘缓存是ImageLoader的核心，也是ImageLoader的意义所在，通过这两级缓存极大地提高了程序的效率并且有效地降低了对用户所造成的流量消耗，只有当这两级缓存都不可用时才需要从网络中拉取图片。</p>
+<p>一个实现ImageLoader的例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImageLoader</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"ImageLoader"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MESSAGE_POST_RESULT = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CPU_COUNT = Runtime.getRuntime()</span><br><span class="line">            .availableProcessors();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORE_POOL_SIZE = CPU_COUNT + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_POOL_SIZE = CPU_COUNT * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> KEEP_ALIVE = <span class="number">10L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TAG_KEY_URI = R.id.imageloader_uri;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> DISK_CACHE_SIZE = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">50</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> IO_BUFFER_SIZE = <span class="number">8</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISK_CACHE_INDEX = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> mIsDiskLruCacheCreated = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadFactory sThreadFactory = <span class="keyword">new</span> ThreadFactory() &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger mCount = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"ImageLoader#"</span> + mCount.getAndIncrement());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor THREAD_POOL_EXECUTOR = <span class="keyword">new</span> ThreadPoolExecutor(</span><br><span class="line">            CORE_POOL_SIZE, MAXIMUM_POOL_SIZE,</span><br><span class="line">            KEEP_ALIVE, TimeUnit.SECONDS,</span><br><span class="line">            <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(), sThreadFactory);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Handler mMainHandler = <span class="keyword">new</span> Handler(Looper.getMainLooper()) &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">            LoaderResult result = (LoaderResult) msg.obj;</span><br><span class="line">            ImageView imageView = result.imageView;</span><br><span class="line">            imageView.setImageBitmap(result.bitmap);</span><br><span class="line">            String uri = (String) imageView.getTag(TAG_KEY_URI);</span><br><span class="line">            <span class="keyword">if</span> (uri.equals(result.uri)) &#123;</span><br><span class="line">                imageView.setImageBitmap(result.bitmap);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                Log.w(TAG, <span class="string">"set image bitmap,but url has changed, ignored!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Context mContext;</span><br><span class="line">    <span class="keyword">private</span> ImageResizer mImageResizer = <span class="keyword">new</span> ImageResizer();</span><br><span class="line">    <span class="keyword">private</span> LruCache&lt;String, Bitmap&gt; mMemoryCache;</span><br><span class="line">    <span class="keyword">private</span> DiskLruCache mDiskLruCache;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">ImageLoader</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        mContext = context.getApplicationContext();</span><br><span class="line">        <span class="keyword">int</span> maxMemory = (<span class="keyword">int</span>) (Runtime.getRuntime().maxMemory() / <span class="number">1024</span>);</span><br><span class="line">        <span class="keyword">int</span> cacheSize = maxMemory / <span class="number">8</span>;</span><br><span class="line">        mMemoryCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap bitmap)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> bitmap.getRowBytes() * bitmap.getHeight() / <span class="number">1024</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        File diskCacheDir = getDiskCacheDir(mContext, <span class="string">"bitmap"</span>);</span><br><span class="line">        <span class="keyword">if</span> (!diskCacheDir.exists()) &#123;</span><br><span class="line">            diskCacheDir.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (getUsableSpace(diskCacheDir) &gt; DISK_CACHE_SIZE) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                mDiskLruCache = DiskLruCache.open(diskCacheDir, <span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                        DISK_CACHE_SIZE);</span><br><span class="line">                mIsDiskLruCacheCreated = <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * build a new instance of ImageLoader</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> a new instance of ImageLoader</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ImageLoader <span class="title">build</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ImageLoader(context);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addBitmapToMemoryCache</span><span class="params">(String key, Bitmap bitmap)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (getBitmapFromMemCache(key) == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mMemoryCache.put(key, bitmap);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Bitmap <span class="title">getBitmapFromMemCache</span><span class="params">(String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMemoryCache.get(key);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * load bitmap from memory cache or disk cache or network async, then bind imageView and bitmap.</span></span><br><span class="line"><span class="comment">     * NOTE THAT: should run in UI Thread</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri http url</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> imageView bitmap's bind object</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindBitmap</span><span class="params">(<span class="keyword">final</span> String uri, <span class="keyword">final</span> ImageView imageView)</span> </span>&#123;</span><br><span class="line">        bindBitmap(uri, imageView, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bindBitmap</span><span class="params">(<span class="keyword">final</span> String uri, <span class="keyword">final</span> ImageView imageView,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">final</span> <span class="keyword">int</span> reqWidth, <span class="keyword">final</span> <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">        imageView.setTag(TAG_KEY_URI, uri);</span><br><span class="line">        Bitmap bitmap = loadBitmapFromMemCache(uri);</span><br><span class="line">        <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">            imageView.setImageBitmap(bitmap);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Runnable loadBitmapTask = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                Bitmap bitmap = loadBitmap(uri, reqWidth, reqHeight);</span><br><span class="line">                <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    LoaderResult result = <span class="keyword">new</span> LoaderResult(imageView, uri, bitmap);</span><br><span class="line">                    mMainHandler.obtainMessage(MESSAGE_POST_RESULT, result).sendToTarget();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        THREAD_POOL_EXECUTOR.execute(loadBitmapTask);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * load bitmap from memory cache or disk cache or network.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri http url</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> reqWidth the width ImageView desired</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> reqHeight the height ImageView desired</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> bitmap, maybe null.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Bitmap <span class="title">loadBitmap</span><span class="params">(String uri, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span> </span>&#123;</span><br><span class="line">        Bitmap bitmap = loadBitmapFromMemCache(uri);</span><br><span class="line">        <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">            Log.d(TAG, <span class="string">"loadBitmapFromMemCache,url:"</span> + uri);</span><br><span class="line">            <span class="keyword">return</span> bitmap;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            bitmap = loadBitmapFromDiskCache(uri, reqWidth, reqHeight);</span><br><span class="line">            <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">                Log.d(TAG, <span class="string">"loadBitmapFromDisk,url:"</span> + uri);</span><br><span class="line">                <span class="keyword">return</span> bitmap;</span><br><span class="line">            &#125;</span><br><span class="line">            bitmap = loadBitmapFromHttp(uri, reqWidth, reqHeight);</span><br><span class="line">            Log.d(TAG, <span class="string">"loadBitmapFromHttp,url:"</span> + uri);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (bitmap == <span class="keyword">null</span> &amp;&amp; !mIsDiskLruCacheCreated) &#123;</span><br><span class="line">            Log.w(TAG, <span class="string">"encounter error, DiskLruCache is not created."</span>);</span><br><span class="line">            bitmap = downloadBitmapFromUrl(uri);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Bitmap <span class="title">loadBitmapFromMemCache</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> String key = hashKeyFormUrl(url);</span><br><span class="line">        Bitmap bitmap = getBitmapFromMemCache(key);</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Bitmap <span class="title">loadBitmapFromHttp</span><span class="params">(String url, <span class="keyword">int</span> reqWidth, <span class="keyword">int</span> reqHeight)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Looper.myLooper() == Looper.getMainLooper()) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"can not visit network from UI Thread."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mDiskLruCache == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        String key = hashKeyFormUrl(url);</span><br><span class="line">        DiskLruCache.Editor editor = mDiskLruCache.edit(key);</span><br><span class="line">        <span class="keyword">if</span> (editor != <span class="keyword">null</span>) &#123;</span><br><span class="line">            OutputStream outputStream = editor.newOutputStream(DISK_CACHE_INDEX);</span><br><span class="line">            <span class="keyword">if</span> (downloadUrlToStream(url, outputStream)) &#123;</span><br><span class="line">                editor.commit();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                editor.abort();</span><br><span class="line">            &#125;</span><br><span class="line">            mDiskLruCache.flush();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> loadBitmapFromDiskCache(url, reqWidth, reqHeight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Bitmap <span class="title">loadBitmapFromDiskCache</span><span class="params">(String url, <span class="keyword">int</span> reqWidth,</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">int</span> reqHeight)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Looper.myLooper() == Looper.getMainLooper()) &#123;</span><br><span class="line">            Log.w(TAG, <span class="string">"load bitmap from UI Thread, it's not recommended!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (mDiskLruCache == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Bitmap bitmap = <span class="keyword">null</span>;</span><br><span class="line">        String key = hashKeyFormUrl(url);</span><br><span class="line">        DiskLruCache.Snapshot snapShot = mDiskLruCache.get(key);</span><br><span class="line">        <span class="keyword">if</span> (snapShot != <span class="keyword">null</span>) &#123;</span><br><span class="line">            FileInputStream fileInputStream = (FileInputStream)snapShot.getInputStream(DISK_CACHE_INDEX);</span><br><span class="line">            FileDescriptor fileDescriptor = fileInputStream.getFD();</span><br><span class="line">            bitmap = mImageResizer.decodeSampledBitmapFromFileDescriptor(fileDescriptor,</span><br><span class="line">                    reqWidth, reqHeight);</span><br><span class="line">            <span class="keyword">if</span> (bitmap != <span class="keyword">null</span>) &#123;</span><br><span class="line">                addBitmapToMemoryCache(key, bitmap);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">downloadUrlToStream</span><span class="params">(String urlString,</span></span></span><br><span class="line"><span class="function"><span class="params">            OutputStream outputStream)</span> </span>&#123;</span><br><span class="line">        HttpURLConnection urlConnection = <span class="keyword">null</span>;</span><br><span class="line">        BufferedOutputStream out = <span class="keyword">null</span>;</span><br><span class="line">        BufferedInputStream in = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> URL url = <span class="keyword">new</span> URL(urlString);</span><br><span class="line">            urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">            in = <span class="keyword">new</span> BufferedInputStream(urlConnection.getInputStream(),</span><br><span class="line">                    IO_BUFFER_SIZE);</span><br><span class="line">            out = <span class="keyword">new</span> BufferedOutputStream(outputStream, IO_BUFFER_SIZE);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> b;</span><br><span class="line">            <span class="keyword">while</span> ((b = in.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">                out.write(b);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"downloadBitmap failed."</span> + e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (urlConnection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                urlConnection.disconnect();</span><br><span class="line">            &#125;</span><br><span class="line">            MyUtils.close(out);</span><br><span class="line">            MyUtils.close(in);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Bitmap <span class="title">downloadBitmapFromUrl</span><span class="params">(String urlString)</span> </span>&#123;</span><br><span class="line">        Bitmap bitmap = <span class="keyword">null</span>;</span><br><span class="line">        HttpURLConnection urlConnection = <span class="keyword">null</span>;</span><br><span class="line">        BufferedInputStream in = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> URL url = <span class="keyword">new</span> URL(urlString);</span><br><span class="line">            urlConnection = (HttpURLConnection) url.openConnection();</span><br><span class="line">            in = <span class="keyword">new</span> BufferedInputStream(urlConnection.getInputStream(),</span><br><span class="line">                    IO_BUFFER_SIZE);</span><br><span class="line">            bitmap = BitmapFactory.decodeStream(in);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="keyword">final</span> IOException e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="string">"Error in downloadBitmap: "</span> + e);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (urlConnection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                urlConnection.disconnect();</span><br><span class="line">            &#125;</span><br><span class="line">            MyUtils.close(in);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">hashKeyFormUrl</span><span class="params">(String url)</span> </span>&#123;</span><br><span class="line">        String cacheKey;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> MessageDigest mDigest = MessageDigest.getInstance(<span class="string">"MD5"</span>);</span><br><span class="line">            mDigest.update(url.getBytes());</span><br><span class="line">            cacheKey = bytesToHexString(mDigest.digest());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">            cacheKey = String.valueOf(url.hashCode());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cacheKey;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">bytesToHexString</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span> </span>&#123;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; bytes.length; i++) &#123;</span><br><span class="line">            String hex = Integer.toHexString(<span class="number">0xFF</span> &amp; bytes[i]);</span><br><span class="line">            <span class="keyword">if</span> (hex.length() == <span class="number">1</span>) &#123;</span><br><span class="line">                sb.append(<span class="string">'0'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            sb.append(hex);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> File <span class="title">getDiskCacheDir</span><span class="params">(Context context, String uniqueName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> externalStorageAvailable = Environment</span><br><span class="line">                .getExternalStorageState().equals(Environment.MEDIA_MOUNTED);</span><br><span class="line">        <span class="keyword">final</span> String cachePath;</span><br><span class="line">        <span class="keyword">if</span> (externalStorageAvailable) &#123;</span><br><span class="line">            cachePath = context.getExternalCacheDir().getPath();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            cachePath = context.getCacheDir().getPath();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> File(cachePath + File.separator + uniqueName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@TargetApi</span>(VERSION_CODES.GINGERBREAD)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">long</span> <span class="title">getUsableSpace</span><span class="params">(File path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= VERSION_CODES.GINGERBREAD) &#123;</span><br><span class="line">            <span class="keyword">return</span> path.getUsableSpace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> StatFs stats = <span class="keyword">new</span> StatFs(path.getPath());</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">long</span>) stats.getBlockSize() * (<span class="keyword">long</span>) stats.getAvailableBlocks();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">LoaderResult</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> ImageView imageView;</span><br><span class="line">        <span class="keyword">public</span> String uri;</span><br><span class="line">        <span class="keyword">public</span> Bitmap bitmap;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LoaderResult</span><span class="params">(ImageView imageView, String uri, Bitmap bitmap)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.imageView = imageView;</span><br><span class="line">            <span class="keyword">this</span>.uri = uri;</span><br><span class="line">            <span class="keyword">this</span>.bitmap = bitmap;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="优化列表的卡顿现象">优化列表的卡顿现象</h3>
+<p>在一般ListView或者GridView中，使用照片墙的时候，容易出现滑动卡顿，如何优化呢，有三点建议：</p>
+<ul>
+<li>不要在getView中执行耗时操作。比如加载图片，肯定会导致卡顿，因为加载图片是一个耗时的操作，这种操作必须通过异步的方式来处理。</li>
+<li>控制异步任务的执行频率。比如在异步加载图片时，用户刻意地频繁上下滑动，这就会在一瞬间产生上百个异步任务，这些异步任务会造成线程池的拥堵并随即带来大量的UI更新操作，这是没有意义的。那该如何解决呢，可以考虑在列表滑动的时候，停止加载图片，尽管这个过程是异步的，等列表停下来以后在加载图片仍然可以获得良好的用户体验。</li>
+<li>开启硬件加速可以解决莫名的卡顿问题，通过设置android:hardwareAccelerated = &quot;true&quot;即可为Activity开启硬件加速。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/cr330326">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/cryallen">
+            <span class="icon">
+              <i class="fa fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/image_qrcode.jpeg">
+            <span class="icon">
+              <i class="fa fa-wechat"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"># 读书笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/02/17/2017-02-17-AndroidArtChapter9/" rel="prev" title="Android的消息机制">
+      <i class="fa fa-chevron-left"></i> Android的消息机制
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/03/02/2017-03-02-AndroidArtChapter11/" rel="next" title="Android的线程和线程池">
+      Android的线程和线程池 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#bitmap的高效加载"><span class="nav-number">1.</span> <span class="nav-text">Bitmap的高效加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#android中的缓存策略"><span class="nav-number">2.</span> <span class="nav-text">Android中的缓存策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化列表的卡顿现象"><span class="nav-number">3.</span> <span class="nav-text">优化列表的卡顿现象</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Allen"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">不断分享，致力于做一个终身学习者</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cr330326" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cr330326" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://weibo.com/cr330326" title="Weibo → http:&#x2F;&#x2F;weibo.com&#x2F;cr330326" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.instagram.com/cr330326/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;cr330326&#x2F;" rel="noopener" target="_blank"><i class="fa fa-fw fa-instagram"></i>Instagram</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://xiaozhuanlan.com/" title="https:&#x2F;&#x2F;xiaozhuanlan.com&#x2F;" rel="noopener" target="_blank">小专栏</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://sspai.com/" title="https:&#x2F;&#x2F;sspai.com&#x2F;" rel="noopener" target="_blank">少数派</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2016 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              Counter('post', '/classes/Counter', { title, url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"1P6Ys3X3ddRrm6UJF7m1md7m-gzGzoHsz","app_key":"y8YLWJWzLlyCpCzsFyc4kqEn","Dependencies":"https://github.com/theme-next/hexo-leancloud-counter-security","security":false};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/velocity-animate@1/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="//cdn.jsdelivr.net/npm/instantsearch.js@4/dist/instantsearch.production.min.js"></script>
+<script src="/js/algolia-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
