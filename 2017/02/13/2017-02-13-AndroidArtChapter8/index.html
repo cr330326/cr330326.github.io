@@ -258,7 +258,8 @@
 
       
         <p>Android设备作为一种移动设备，不管是内存还是CPU的性能都受到了一定的限制，无法做到像PC设备那样具有超大的内存和高性能的CPU，这也意味着Android程序不可能无限制地使用内存和CPU资源，过多地使用内存会导致程序内存溢出，即OOM。而过多地使用CPU资源，一般指做大量的耗时任务，会导致手机变得卡顿甚至出现无法响应的情况，即ANR。</p>
-<h3 id="Android的性能优化方法"><a href="#Android的性能优化方法" class="headerlink" title="Android的性能优化方法"></a>Android的性能优化方法</h3><p><strong>1，布局优化</strong></p>
+<h3 id="android的性能优化方法">Android的性能优化方法</h3>
+<p><strong>1，布局优化</strong></p>
 <p>布局优化的思想很简单，就是尽量减少布局文件的层级，布局中的层级少了，这就意味着Android绘制时的工作量少了，那么程序的性能自然就高了。</p>
 <p>那么如何进行布局优化呢？有以下两点：</p>
 <ul>
@@ -276,28 +277,19 @@
 <p><strong>场景1：静态变量导致内存泄露</strong></p>
 <p>比如下面这段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Context sContext;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> View sView;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        sContext = <span class="keyword">this</span>;</span><br><span class="line">        sView = <span class="keyword">new</span> View(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>MainActivity无法正常销毁，因为静态变量sContext引用了它。同样，sView是一个静态变量，他内部持有了当前Activity，所以Activity仍然无法释放。</p>
 <p><strong>场景2：单例模式导致内存泄露</strong></p>
 <p>静态变量导致的内存泄露都太过明显了，但单例模式所带来的内存泄露是我们容易忽视的。比如下面这段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestManager</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;OnDataArrivedListener&gt; mOnDataArrivedListeners = <span class="keyword">new</span> ArrayList&lt;OnDataArrivedListener&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">SingletonHolder</span> </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> TestManager INSTANCE = <span class="keyword">new</span> TestManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">TestManager</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TestManager <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">registerListener</span><span class="params">(OnDataArrivedListener listener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (!mOnDataArrivedListeners.contains(listener)) &#123;</span><br><span class="line">            mOnDataArrivedListeners.add(listener);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">unregisterListener</span><span class="params">(OnDataArrivedListener listener)</span> </span>&#123;</span><br><span class="line">        mOnDataArrivedListeners.remove(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnDataArrivedListener</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDataArrived</span><span class="params">(Object data)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>首先提供一个单例模式的TestManager，TestManager可以接收外部的注册并将外部的监听器存储起来。然后用Activity实现OnDataArrivedListener接口并向TestManager注册监听，但是如果缺少解注册的操作，会引起内存泄露。比如下面这段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">       setContentView(R.layout.activity_main);</span><br><span class="line">       TestManager.getInstance().registerListener(<span class="keyword">this</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-
 <p>Activity的对象被单例模式的TestManager所持有，而单例模式的特点是其生命周期和Application保持一致，因此Activity对象无法被及时释放。</p>
 <p><strong>场景3：属性动画导致的内存泄露</strong></p>
 <p>从Android3.0开始，Google提供了属性动画，属性动画中有这么一类无限循环的动画，如果在Activity中播放此类动画且没有在onDestroy中停止动画，那么动画就会一直播放下去，尽管已经无法在界面上看到动画效果，但这个时候Activity的View会被动画持有，而View又持有了Activity，最终Activity无法释放。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);</span><br><span class="line">    ObjectAnimator animator = ObjectAnimator.ofFloat(mButton, <span class="string">"rotation"</span>,<span class="number">0</span>, <span class="number">360</span>).setDuration(<span class="number">2000</span>);</span><br><span class="line">    animator.setRepeatCount(ValueAnimator.INFINITE);</span><br><span class="line">    animator.start();</span><br><span class="line">    <span class="comment">//animator.cancel();</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <p><strong>4，响应速度优化和ANR日志分析</strong></p>
 <p>响应速度优化的核心思想是避免在主线程中做耗时操作，但是有时候的确有很多耗时操作，怎么办呢？可以将这些耗时操作放在线程中去执行，即采用异步的方式执行耗时操作。响应速度过慢更多地体现在Activity的启动速度上面，如果在主线程中做太多的事情，会导致Activity启动出现黑屏现象，甚至出现ANR。Android规定，Activity如果5秒钟之内无法响应屏幕触摸事件或者键盘输入事件就会出现ANR，而BroadcastReceiver如果10秒之内还未执行完操作也会出现ANR，那么在实际开发过程中遇到ANR，怎么定位问题呢？其实当一个进程发生ANR了以后，系统会在/data/anr/目录下创建一个文件traces.txt，通过分析这个文件就能定位出ANR的原因。比如下面代码在Activity的onCreate中休眠30s，程序运行持续点击屏幕，应用一定会出现ANR：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">      setContentView(R.layout.activity_main);</span><br><span class="line">SystemClock.sleep(<span class="number">30</span> * <span class="number">1000</span>);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-
-
 <p><strong>5，ListView和Bitmap优化</strong></p>
 <p>ListView优化三个方面：</p>
 <ul>
@@ -319,8 +311,10 @@
 <li>采用内存缓存和磁盘缓存</li>
 <li>尽量采用静态内部类，这样可以避免在的由于内部类而导致的内存泄露</li>
 </ul>
-<h3 id="内存泄露分析之MAT工具"><a href="#内存泄露分析之MAT工具" class="headerlink" title="内存泄露分析之MAT工具"></a>内存泄露分析之MAT工具</h3><p>MAT的全称是Eclipse Memory Analyzer，他是一款强大的内存泄露分析工具。MAT提供了很多功能，但是最常用的只有Histogram和Dominator Tree，通过Histogram可以直观看出内存中不同类型的buffer的数量和占用的内存大小，而Dominator Tree则把内存中的对象按照从大到小的顺序进行排序，并且可以分析对象之间的引用关系，内存泄露分析就是通过Dominator Tree来完成。在Dominator Tree中内存泄露的原因一般不会直接显示出来，这个时候需要按照从大到小的顺序去排查一遍。</p>
-<h3 id="提高程序的可维护性"><a href="#提高程序的可维护性" class="headerlink" title="提高程序的可维护性"></a>提高程序的可维护性</h3><p>主要是提高代码的可维护性和可扩展性，而程序的可维护性本质上也包含可扩展性。</p>
+<h3 id="内存泄露分析之mat工具">内存泄露分析之MAT工具</h3>
+<p>MAT的全称是Eclipse Memory Analyzer，他是一款强大的内存泄露分析工具。MAT提供了很多功能，但是最常用的只有Histogram和Dominator Tree，通过Histogram可以直观看出内存中不同类型的buffer的数量和占用的内存大小，而Dominator Tree则把内存中的对象按照从大到小的顺序进行排序，并且可以分析对象之间的引用关系，内存泄露分析就是通过Dominator Tree来完成。在Dominator Tree中内存泄露的原因一般不会直接显示出来，这个时候需要按照从大到小的顺序去排查一遍。</p>
+<h3 id="提高程序的可维护性">提高程序的可维护性</h3>
+<p>主要是提高代码的可维护性和可扩展性，而程序的可维护性本质上也包含可扩展性。</p>
 <ul>
 <li>命名要规范，要能正确地传达出变量或者方法的含义，少用缩写，关于变量的前缀可以参考Android源码的命名方式，比如私有方式以m开头，静态成员以s开头，常量则全部用大写字母表示，等等。</li>
 <li>代码的排版上需要留出合理的空白区分不同的代码块，其中同类变量的声明要放在一组，两类变量之间要留出一行空白作为区分。</li>
@@ -450,7 +444,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android的性能优化方法"><span class="nav-number">1.</span> <span class="nav-text">Android的性能优化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存泄露分析之MAT工具"><span class="nav-number">2.</span> <span class="nav-text">内存泄露分析之MAT工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高程序的可维护性"><span class="nav-number">3.</span> <span class="nav-text">提高程序的可维护性</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#android的性能优化方法"><span class="nav-number">1.</span> <span class="nav-text">Android的性能优化方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存泄露分析之mat工具"><span class="nav-number">2.</span> <span class="nav-text">内存泄露分析之MAT工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提高程序的可维护性"><span class="nav-number">3.</span> <span class="nav-text">提高程序的可维护性</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -466,7 +460,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

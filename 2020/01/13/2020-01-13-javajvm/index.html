@@ -266,17 +266,20 @@
 </ul>
 <p>其中JVM是打造Java跨平台的关键，但相比Java API接口文档和Java本身编程语言，Java虚拟机相关的资料则显得异常匮乏。Java虚拟机隐藏了底层技术的复杂性以及机器与操作系统的差异性，而为千万开发者建立起使用方便的跨平台开发框架，哪怕运行程序的物理机器的情况千差万别，但Java虚拟机则在这千差万别的物理机上建立了统一的运行平台，从而使得开发者只需聚焦他们的业务程序。</p>
 <p>正是这个跨平台机制，实现了再任何一台虚拟机上编译的程序都能在任何一台虚拟机上正常运行，这一极大优势使得Java应用的开发比传统的C/C++应用开发来的更加高效，也导致Java技术栈能力圈越来越广。也正好是Java虚拟机良好的封装，作为开发者如果仅仅限于使用方便的API上，而不是去理解Java世界里真正的核心是什么，那么能力其实是难以进一步提高的，因此去了解Java虚拟机来龙去脉是很有必要的。</p>
-<h3 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h3><p><img src="/2020/01/13/2020-01-13-javajvm/image1.png" alt></p>
+<h3 id="思维导图">思维导图</h3>
+<p><img src="/2020/01/13/2020-01-13-javajvm/image1.png"></p>
 <p>简单做个思维导图，这篇文章主要讲的正如图中所示几个方面：JVM简介、JVM内存运行机制、虚拟机类。</p>
-<h3 id="JVM简介"><a href="#JVM简介" class="headerlink" title="JVM简介"></a>JVM简介</h3><p>Java为何能获得如此广泛的应用，除了它是拥有一门结构严谨、面向对象的编程语言之外，还有一点是脱离了硬件平台的束缚，真正实现了「一次编写，到处运行」的局面，并且提供了一个相对安全的内存管理和访问机制，避免了绝大部分的内存泄漏和指针越界问题，这些好处就是统一放在Java虚拟机中。</p>
+<h3 id="jvm简介">JVM简介</h3>
+<p>Java为何能获得如此广泛的应用，除了它是拥有一门结构严谨、面向对象的编程语言之外，还有一点是脱离了硬件平台的束缚，真正实现了「一次编写，到处运行」的局面，并且提供了一个相对安全的内存管理和访问机制，避免了绝大部分的内存泄漏和指针越界问题，这些好处就是统一放在Java虚拟机中。</p>
 <p><strong>发展历史</strong></p>
 <p>从1996年Sun公司发布的JDK1.0版本以来，最早期是Sun Classic VM，到大名鼎鼎的HotSpot VM，然后进入到移动设备的Google Android Dalvik VM，还有其他VM，包括Microsoft JVM等等。其中最有名莫过于HotSpot VM和Google Android Dalvik VM，HotSpot VM是当前使用范围最广的Java虚拟机，它的热点代码探测技术，它在优化程序的响应时间和最佳执行性能获得平衡，都使得它声名大噪。</p>
 <p>而Google Android Dalvik VM则是因为过去10年移动互联网大热，搭载Android系统的移动设备几十亿台迅猛发展。本质上说 Dalvik VM并不是真正算的上一个Java虚拟机，因为它没有遵循Java虚拟机规范，不能执行Java的Class文件，但是它的Dex文件可以通过Class 文件转化而来，使用Java语法编写应用程序，可以直接使用大部分的Java API。</p>
 <p><strong>做什么</strong></p>
 <p>Java虚拟机主要能做的是提供一种跨平台开发框架，让使用者一次编写的程序，就能在各个平台上到处运行，使得开发者与硬件平台脱离，并且提供的自动内存管理机制和运行时编译优化，进而使得应用Java应用随着运行时间增加而获得更高的性能。</p>
-<h3 id="JVM内存运行机制"><a href="#JVM内存运行机制" class="headerlink" title="JVM内存运行机制"></a>JVM内存运行机制</h3><p><strong>运行时数据区域</strong></p>
+<h3 id="jvm内存运行机制">JVM内存运行机制</h3>
+<p><strong>运行时数据区域</strong></p>
 <p>Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域，主要包括以下几个运行时区域：</p>
-<p>1，程序计数器，主要是当前线程所执行的字节码的行号指示器。<br>2，Java虚拟机栈，Java中的每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、动态链接、方法出口等信息。我们常见的StackOverflowError错误，就是常见栈深度大于虚拟机所允许的深度。<br>3，本地方法栈，执行的是虚拟机使用到Nativie方法服务。<br>4，Java堆，也叫Java Heap，这个是Java虚拟机所管理的内存中最大的一块，Java堆是被所有线程共享的一块内存区域，在虚拟机启动时就创建了。几乎所有的对象实例都在这里分配内存。<br>5，方法区。这个是主要是用以虚拟机加载类信息、常量、静态变量、编译之后的代码等等。</p>
+<p>1，程序计数器，主要是当前线程所执行的字节码的行号指示器。 2，Java虚拟机栈，Java中的每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、动态链接、方法出口等信息。我们常见的StackOverflowError错误，就是常见栈深度大于虚拟机所允许的深度。 3，本地方法栈，执行的是虚拟机使用到Nativie方法服务。 4，Java堆，也叫Java Heap，这个是Java虚拟机所管理的内存中最大的一块，Java堆是被所有线程共享的一块内存区域，在虚拟机启动时就创建了。几乎所有的对象实例都在这里分配内存。 5，方法区。这个是主要是用以虚拟机加载类信息、常量、静态变量、编译之后的代码等等。</p>
 <p><strong>内存管理方式</strong></p>
 <p>要知道Java是以什么闻名吗，当然是Java虚拟机的内存管理，也就是垃圾收集(GC)，它的内存动态分配和内存回收技术已经相当成熟，看起来这么完善了，为何还要去学习Java虚拟机，主要目的是为了在排查各种内存溢出、内存泄漏问题时，我们可以快速定位出问题，并且优化和监控。</p>
 <p>在实例对象时，如何确定对象是否已死，有两种方式介绍下：</p>
@@ -288,7 +291,8 @@
 <p>3，标记-整理算法。这个算法就结合前面两个算法的特点，避免它们的弊端，先标记，但是后续不是直接对可回收对象进行清理，而是让所有存活的对象向一端移动，然后直接清理掉端边界以外的内存。</p>
 <p>4，分代收集算法。当前商业虚拟机的垃圾收集都采用“分代收集”算法，这种主要根据对象存活周期的不同将内存划分几块。一般把Java堆分为新生代和老年代，这样就根据各个年代的特点去采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。</p>
 <p>至于内存分配和回收策略，主要是根据分代收集算法，一般对象优先在Eden分配，如果是大实例对象的话，则直接进入到老年代，还有长期存活的对象将进入老年代。</p>
-<h3 id="虚拟机类"><a href="#虚拟机类" class="headerlink" title="虚拟机类"></a>虚拟机类</h3><p>Java内存的自动管理机制虽是举世闻名，但是另外一个机制也是不甘落后，那就是类加载机制。在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，虽然这种方式会使得类加载稍微增加一点性能开销，但是给Java应用程序提供高度的灵活性，比如依赖运行期动态加载和动态链接这个特点实现的。这个特点在OSGi技术中体现的淋漓尽致。</p>
+<h3 id="虚拟机类">虚拟机类</h3>
+<p>Java内存的自动管理机制虽是举世闻名，但是另外一个机制也是不甘落后，那就是类加载机制。在Java语言中，类型的加载、连接和初始化过程都是在程序运行期间完成的，虽然这种方式会使得类加载稍微增加一点性能开销，但是给Java应用程序提供高度的灵活性，比如依赖运行期动态加载和动态链接这个特点实现的。这个特点在OSGi技术中体现的淋漓尽致。</p>
 <p>类从被加载到虚拟机内存开始，到卸载出内存为止，它的整个生命周期包括：加载、验证、准备、解析、初始化、使用和卸载这7个阶段。一般在遇到new、getstatic、putstatic和invokestatic这4条字节码指令时，如果类没有进行过初始化，则需要先触发其初始化。在加载阶段，虚拟机主要完成以下3件事：</p>
 <ul>
 <li>通过一个类的全限定名来获取定义此类的二进制字节流。</li>
@@ -297,7 +301,8 @@
 </ul>
 <p>而对类加载器，需要重点去了解它的双亲委派模型，从Java虚拟机角度来看，只存在两种不同的类加载器，一种是启动类加载器(Bootstarp ClassLoader)，这个类加载器是C++语言实现的，是虚拟机自身的一部分，另一个就是所有其他的类加载器，这些类加载器都由Java语言实现，独立于虚拟机外部，并且全部继承自抽象类java.lang.ClassLoader。</p>
 <p>双亲委派模型的工作过程是：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传递到顶的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求时，子加载器才会尝试自己去加载。这个双亲委派模式带来的一个优势会先检查父加载器是否已经被加载过，从这点衍生出Java世界的很多伟大技术出来，比如代码热替换，模块热部署，就是即插即用。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>通过了解Java虚拟机，对于Java虚拟机的运行机制有一定的了解，当然关于Java虚拟机内容还有很多要挖掘，比如性能调优参数、调度、垃圾回收算法实现方式等等，对于作为一个Android开放人员来说，学习Java虚拟机更多是为了丰富自己的专业技术维度，扩展边界。</p>
+<h3 id="小结">小结</h3>
+<p>通过了解Java虚拟机，对于Java虚拟机的运行机制有一定的了解，当然关于Java虚拟机内容还有很多要挖掘，比如性能调优参数、调度、垃圾回收算法实现方式等等，对于作为一个Android开放人员来说，学习Java虚拟机更多是为了丰富自己的专业技术维度，扩展边界。</p>
 
     </div>
 
@@ -358,7 +363,10 @@
     <a href="/2020/01/06/2020-01-06-2019review/" rel="prev" title="2019，挑战和突破的一年">
       <i class="fa fa-chevron-left"></i> 2019，挑战和突破的一年
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/04/28/2020-04-28-webp/" rel="next" title="对于WebP格式入门解读">
+      对于WebP格式入门解读 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -417,7 +425,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#思维导图"><span class="nav-number">1.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM简介"><span class="nav-number">2.</span> <span class="nav-text">JVM简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM内存运行机制"><span class="nav-number">3.</span> <span class="nav-text">JVM内存运行机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类"><span class="nav-number">4.</span> <span class="nav-text">虚拟机类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#思维导图"><span class="nav-number">1.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jvm简介"><span class="nav-number">2.</span> <span class="nav-text">JVM简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jvm内存运行机制"><span class="nav-number">3.</span> <span class="nav-text">JVM内存运行机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机类"><span class="nav-number">4.</span> <span class="nav-text">虚拟机类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -433,7 +441,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -257,30 +257,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Num1：for-each循环优先于传统的for循环"><a href="#Num1：for-each循环优先于传统的for循环" class="headerlink" title="Num1：for-each循环优先于传统的for循环"></a>Num1：for-each循环优先于传统的for循环</h2><p>java1.5版本发布之前的做法：</p>
+        <h2 id="num1for-each循环优先于传统的for循环">Num1：for-each循环优先于传统的for循环</h2>
+<p>java1.5版本发布之前的做法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.length;i++)&#123;</span><br><span class="line">  doSomething(a[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>java1.5发行版本中引入的for-each循环，通过完全隐藏迭代器或索引变量，避免了混乱和出错的可能。</p>
 <p>示例代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> Suit &#123;</span><br><span class="line">	CLUB, DIAMOND, HEART, SPADE</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> Rank &#123;</span><br><span class="line">	ACE, DEUCE, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Card</span> </span>&#123;</span><br><span class="line">	<span class="keyword">final</span> Suit suit;</span><br><span class="line">	<span class="keyword">final</span> Rank rank;</span><br><span class="line"></span><br><span class="line">	Card(Suit suit, Rank rank) &#123;</span><br><span class="line">		<span class="keyword">this</span>.suit = suit;</span><br><span class="line">		<span class="keyword">this</span>.rank = rank;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NestedIteration</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Collection&lt;Suit&gt; suits = Arrays.asList(Suit.values());</span><br><span class="line">		Collection&lt;Rank&gt; ranks = Arrays.asList(Rank.values());</span><br><span class="line"></span><br><span class="line">		List&lt;Card&gt; deck = <span class="keyword">new</span> ArrayList&lt;Card&gt;();</span><br><span class="line">		<span class="keyword">for</span> (Iterator&lt;Suit&gt; i = suits.iterator(); i.hasNext();)</span><br><span class="line">			<span class="keyword">for</span> (Iterator&lt;Rank&gt; j = ranks.iterator(); j.hasNext();)</span><br><span class="line">				deck.add(<span class="keyword">new</span> Card(i.next(), j.next()));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Preferred idiom for nested iteration on collections and arrays</span></span><br><span class="line">		<span class="comment">// for (Suit suit : suits)</span></span><br><span class="line">		<span class="comment">// for (Rank rank : ranks)</span></span><br><span class="line">		<span class="comment">// deck.add(new Card(suit, rank));</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>总之，for-each循环在简洁性和预防Bug方面有着传统的for循环无法比拟的优势，并且没有性能损失。应该尽可能地使用for-each循环。遗憾的是，有三种常见的情况无法使用for-each循环：</p>
 <ul>
 <li>过滤：如果需要遍历集合，并删除选定的元素，就需要使用显式的迭代器，以便可以调用它的remove方法。</li>
 <li>转换：如果需要遍历列表或者数组，并取代它部分或者全部的元素值，就需要列表迭代器或者数组索引，以便设定元素的值。</li>
 <li>平行迭代：如果需要并行地遍历多个集合，就需要显式地控制迭代器或者索引变量，以便所有迭代器或者索引变量都可以得到同步前移。</li>
 </ul>
-<h2 id="Num2：如果需要精确的答案，请避免使用float和double"><a href="#Num2：如果需要精确的答案，请避免使用float和double" class="headerlink" title="Num2：如果需要精确的答案，请避免使用float和double"></a>Num2：如果需要精确的答案，请避免使用float和double</h2><p><code>float</code>，<code>double</code>类型尤其不适合用于货币计算。</p>
-<h2 id="Num3：基本类型优先于装箱基本类型"><a href="#Num3：基本类型优先于装箱基本类型" class="headerlink" title="Num3：基本类型优先于装箱基本类型"></a>Num3：基本类型优先于装箱基本类型</h2><p>自动装箱减少了使用装箱基本类型的繁琐性，但是并没有减少它的风险。</p>
-<h2 id="Num4：如果其他类型更适合，则尽量避免使用字符串"><a href="#Num4：如果其他类型更适合，则尽量避免使用字符串" class="headerlink" title="Num4：如果其他类型更适合，则尽量避免使用字符串"></a>Num4：如果其他类型更适合，则尽量避免使用字符串</h2><ul>
+<h2 id="num2如果需要精确的答案请避免使用float和double">Num2：如果需要精确的答案，请避免使用float和double</h2>
+<p><code>float</code>，<code>double</code>类型尤其不适合用于货币计算。</p>
+<h2 id="num3基本类型优先于装箱基本类型">Num3：基本类型优先于装箱基本类型</h2>
+<p>自动装箱减少了使用装箱基本类型的繁琐性，但是并没有减少它的风险。</p>
+<h2 id="num4如果其他类型更适合则尽量避免使用字符串">Num4：如果其他类型更适合，则尽量避免使用字符串</h2>
+<ul>
 <li>字符串不适合代替其他的值类型</li>
 <li>字符串不适合代替枚举类型</li>
 <li>字符串不适合代替聚集类型</li>
 <li>字符串也不适合代替能力表</li>
 </ul>
-<h2 id="Num5：当心字符串连接的性能"><a href="#Num5：当心字符串连接的性能" class="headerlink" title="Num5：当心字符串连接的性能"></a>Num5：当心字符串连接的性能</h2><p>字符串连接操作符(+)是把多个字符串合并一个字符串的便利途径。为连接n个字符串而重复地使用字符串连接操作符，需要n的平方级的时间。</p>
+<h2 id="num5当心字符串连接的性能">Num5：当心字符串连接的性能</h2>
+<p>字符串连接操作符(+)是把多个字符串合并一个字符串的便利途径。为连接n个字符串而重复地使用字符串连接操作符，需要n的平方级的时间。</p>
 <p>不要使用字符串连接操作符来合并多个字符串，除非性能无关紧要。相反，应该使用<code>StringBuilder</code>的<code>append</code>方法。</p>
-<h2 id="Num6：通过接口引用对象"><a href="#Num6：通过接口引用对象" class="headerlink" title="Num6：通过接口引用对象"></a>Num6：通过接口引用对象</h2><p>一般来讲，应该优先使用接口而不是类来引用对象。</p>
+<h2 id="num6通过接口引用对象">Num6：通过接口引用对象</h2>
+<p>一般来讲，应该优先使用接口而不是类来引用对象。</p>
 <ul>
 <li>如果有合适的接口类型存在，那么对于参数、返回值、变量或域来说，就都应该使用接口类型进行声明。</li>
 <li>如果没有合适的接口存在，完全可以用类而不是接口来引用对象。</li>
@@ -409,7 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Num1：for-each循环优先于传统的for循环"><span class="nav-number">1.</span> <span class="nav-text">Num1：for-each循环优先于传统的for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Num2：如果需要精确的答案，请避免使用float和double"><span class="nav-number">2.</span> <span class="nav-text">Num2：如果需要精确的答案，请避免使用float和double</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Num3：基本类型优先于装箱基本类型"><span class="nav-number">3.</span> <span class="nav-text">Num3：基本类型优先于装箱基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Num4：如果其他类型更适合，则尽量避免使用字符串"><span class="nav-number">4.</span> <span class="nav-text">Num4：如果其他类型更适合，则尽量避免使用字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Num5：当心字符串连接的性能"><span class="nav-number">5.</span> <span class="nav-text">Num5：当心字符串连接的性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Num6：通过接口引用对象"><span class="nav-number">6.</span> <span class="nav-text">Num6：通过接口引用对象</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#num1for-each循环优先于传统的for循环"><span class="nav-number">1.</span> <span class="nav-text">Num1：for-each循环优先于传统的for循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#num2如果需要精确的答案请避免使用float和double"><span class="nav-number">2.</span> <span class="nav-text">Num2：如果需要精确的答案，请避免使用float和double</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#num3基本类型优先于装箱基本类型"><span class="nav-number">3.</span> <span class="nav-text">Num3：基本类型优先于装箱基本类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#num4如果其他类型更适合则尽量避免使用字符串"><span class="nav-number">4.</span> <span class="nav-text">Num4：如果其他类型更适合，则尽量避免使用字符串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#num5当心字符串连接的性能"><span class="nav-number">5.</span> <span class="nav-text">Num5：当心字符串连接的性能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#num6通过接口引用对象"><span class="nav-number">6.</span> <span class="nav-text">Num6：通过接口引用对象</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,7 +429,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

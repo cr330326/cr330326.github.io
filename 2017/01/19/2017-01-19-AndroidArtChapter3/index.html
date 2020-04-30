@@ -265,17 +265,19 @@
 
       
         <p>View虽然不属于四大组件，但它的作用堪比四大组件，甚至比Receiver和Provider的重要性都大，在Android开发中，Activity承担这可视化的功能，同时Android系统提供了很多基础控件，常见的有Button、Textview、CheckBox等。</p>
-<h3 id="View基础知识"><a href="#View基础知识" class="headerlink" title="View基础知识"></a>View基础知识</h3><p><strong>什么是View</strong></p>
+<h3 id="view基础知识">View基础知识</h3>
+<p><strong>什么是View</strong></p>
 <p>View是一种界面层的控件的一种抽象，它代表了一个控件。除了View，还有ViewGroup，ViewGroup内部包含了许多个控件，即一组View，在ViewGroup也继承了View，这就意味着View本身就可以是单个控件也可以是由多个控件组成的一组控件，通过这种关系形成了View树的结构。</p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_1.jpg" alt="View结构图"></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_1.jpg" alt="View结构图"><figcaption>View结构图</figcaption>
+</figure>
 <p><strong>View的位置参数</strong></p>
 <p>View的位置主要由它的四个顶点来决定，分别对应于View的四个属性：top、left、right、bottom，其中top是左上角纵坐标，left是左上角横坐标，right是右下角横坐标，bottom是右下角的纵坐标。需要注意的是，这些坐标都是相对于View的父容器来说的，因为它是一种相对坐标。</p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_2.jpeg" alt="View坐标轴"></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_2.jpeg" alt="View坐标轴"><figcaption>View坐标轴</figcaption>
+</figure>
 <p>在Android中，X轴和Y轴的正方向分别为右和下。那么就可以得出以下关系：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">width = right - left</span><br><span class="line">height = bottom - top</span><br></pre></td></tr></table></figure>
-
-
-
 <p><strong>MotionEvent和TouchSlop</strong></p>
 <p>在手指接触屏幕后会产生一系列的事件，典型的事件类型有如下几种：</p>
 <ul>
@@ -286,15 +288,13 @@
 <p>正常情况下，一次手指触摸屏幕的行为会触发一系列点击事件，如下：</p>
 <ul>
 <li>点击屏幕后离开松开，事件序列为DOWN-&gt;UP</li>
-<li>点击屏幕滑动一会再松开，事件序列为DOWN-&gt;MOVE-&gt;…….-&gt;MOVE-&gt;UP</li>
+<li>点击屏幕滑动一会再松开，事件序列为DOWN-&gt;MOVE-&gt;.......-&gt;MOVE-&gt;UP</li>
 </ul>
 <p>同时我们可以通过MotionEvent对象我们可以得到点击事件发生的X坐标和Y坐标。为此，系统提供了两组方法：getX/getY和getRawX/getRawY，区别很简单，前者返回的是相对于当前View左上角的X和Y坐标，而后者返回的相对于手机屏幕左上角的X和Y坐标。</p>
 <p>TouchSlop是系统所能识别出的被认为是滑动的最小距离，换句话说，当手指在屏幕上滑动时，如果两次滑动之间的距离小于这个常量，那么系统就不认为你是在进行滑动操作，因为滑动的距离太短了，系统就不认为它是滑动，这是一个常量，跟设备有关。可以通过以下方式获取：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ViewConfiguration.get(getContext()).getScaledTouchSlop()</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="View的滑动"><a href="#View的滑动" class="headerlink" title="View的滑动"></a>View的滑动</h3><p>在Android设备中，滑动几乎是应用的标配，不管是下拉刷新还是SlidingMenu，它们的基础都是滑动。因此，掌握滑动的方法是实现绚丽的自定义控件的基础，有三种方式实现View的滑动：</p>
+<h3 id="view的滑动">View的滑动</h3>
+<p>在Android设备中，滑动几乎是应用的标配，不管是下拉刷新还是SlidingMenu，它们的基础都是滑动。因此，掌握滑动的方法是实现绚丽的自定义控件的基础，有三种方式实现View的滑动：</p>
 <ul>
 <li>scrollTo/scrollBy方法来实现</li>
 <li>使用动画</li>
@@ -303,26 +303,26 @@
 <p><strong>scrollTo/scrollBy方法来实现</strong></p>
 <p>首先，我们需要获取View里的两个属性mScrollX和mScrollY，在滑动过程中，mScrollX的值总是等于View的左边缘和View内容左边缘在水平方向的距离，而mScrollY的值总等于View上边缘和View内容上边缘在竖直方向的距离。View边缘是指View的位置，由四个顶点组成，而View内容边缘是指View中的内容的边缘，scrollTo/scrollBy只能改变View内容的位置而不能改变View在布局中的位置。</p>
 <p>如果从左往右滑动，那么mScrollX为负值，反之为正值，如果从上往下滑动，那么mScrollY为负值，反之为正值。</p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_3.jpeg" alt="View滑动"></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_3.jpeg" alt="View滑动"><figcaption>View滑动</figcaption>
+</figure>
 <p><strong>使用动画</strong></p>
 <p>使用动画我们能够让一个View进行平移，而平移就是一个滑动。比如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator.ofFloat(targetView,<span class="string">"translationX"</span>,<span class="number">0</span>,<span class="number">100</span>).setDuration(<span class="number">100</span>).start();</span><br></pre></td></tr></table></figure>
-
 <p>但是动画移动会有个问题，那就是View动画并不能真正改变View的位置，这会带来一个很严重的问题，就是移动到新位置了，却发现无法触发事件，而单击原来的位置却能触发。那么从Android3.0开始，使用属性动画可以解决上面问题。</p>
 <p><strong>改变布局参数</strong></p>
 <p>改变布局参数，即改变LayoutParams，这个比较好理解，比如我们想把一个Button向右平移100px，我们只需要将这个Button的LayoutParams里的marginLeft参数的值增加100px即可。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MarginLayoutParams params = (MarginLayoutParams)mButton1.getLayoutParams;</span><br><span class="line">params.width += <span class="number">100</span>;</span><br><span class="line">parms.leftMargin += <span class="number">100</span>;</span><br><span class="line">mButton1.requestLayout();</span><br></pre></td></tr></table></figure>
-
-
-
 <p>三种滑动方式对比：</p>
 <ul>
 <li>scrollTo/scrollBy：操作简单，适合对View内容的滑动</li>
 <li>动画：操作简单，主要使用于没有交互的View和实现复杂的动画效果</li>
 <li>改变布局参数：操作稍微复杂，适用于有交互的View</li>
 </ul>
-<h3 id="弹性滑动"><a href="#弹性滑动" class="headerlink" title="弹性滑动"></a>弹性滑动</h3><p>知道了View的滑动，我们还需要知道如何实现View的弹性滑动，比较生硬的滑过去，这种方式的用户体验实在太差了，因此我们要实现渐近式滑动。如何实现弹性滑动呢，有个共同思想：将一次大的滑动分成若干次小的滑动，并在一个时间段内完成，常见的弹性滑动具体实现方式有很多，比如通过Scroller、Handler#postDelayed，以及Thread#Sleep等等。</p>
-<h3 id="View的事件分发机制"><a href="#View的事件分发机制" class="headerlink" title="View的事件分发机制"></a>View的事件分发机制</h3><p><strong>点击事件的传递规则</strong></p>
+<h3 id="弹性滑动">弹性滑动</h3>
+<p>知道了View的滑动，我们还需要知道如何实现View的弹性滑动，比较生硬的滑过去，这种方式的用户体验实在太差了，因此我们要实现渐近式滑动。如何实现弹性滑动呢，有个共同思想：将一次大的滑动分成若干次小的滑动，并在一个时间段内完成，常见的弹性滑动具体实现方式有很多，比如通过Scroller、Handler#postDelayed，以及Thread#Sleep等等。</p>
+<h3 id="view的事件分发机制">View的事件分发机制</h3>
+<p><strong>点击事件的传递规则</strong></p>
 <p>点击事件的分发过程由三个很重要的方法共同完成：dispatchTouchEvent、onInterceptTouchEvent和onTouchEvent。</p>
 <ul>
 <li><strong>dispatchTouchEvent(MotionEvent ev)</strong>，用来进行事件的分发。</li>
@@ -330,13 +330,16 @@
 <li><strong>onTouchEvent(MotionEvent event)</strong>，在dispatchTouchEvent方法调用，用来处理当前点击事件，返回结果表示是否消耗当前事件。如果不消耗，那么在同一个事件序列中，当前View无法再次接收到事件。</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span></span>&#123;</span><br><span class="line">  <span class="keyword">boolean</span> consume = <span class="keyword">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(onInterceptTouchEvent(ev))&#123;</span><br><span class="line">    consume = onTouchEvent(ev);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span>&#123;</span><br><span class="line">    consume = child.dispatchTouchEvent(ev);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> consume;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>简单来说，对于一个根ViewGroup来说，点击事件产生后，首先会传递给它，这时它的dispatchTouchEvent会被调用，如果这个ViewGroup的onInterceptTouchEvent方法返回true就表示它要拦截当前事件，接着事件就会交给这个ViewGroup处理，即它的onTouchEvent方法就会被调用，如果这个ViewGroup的onInterceptTouchEvent方法返回false，就表示它不拦截当前事件，这时当前事件就会继续传递给它的子元素，接着子元素的dispatchTouchEvent方法就会被调用，如此反复直到事件被最终处理。</p>
 <p>还有一个当View需要处理事件时，如果它设置了OnTouchListener，那么OnTouchListener中的onTouch方法会被回调，OnTouchListener优先于onTouchEvent。在onTouchEvent中，如果设置了OnClickListener，那么它的OnClick方法会被调用，可以看出我们平时常用的OnClickListener优先级最低，onTouch&gt;onClick.</p>
 <p>View不处理流程：</p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_4.jpg" alt="View不处理流程"></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_4.jpg" alt="View不处理流程"><figcaption>View不处理流程</figcaption>
+</figure>
 <p>View处理流程：</p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_5.jpg" alt="View处理流程"></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_5.jpg" alt="View处理流程"><figcaption>View处理流程</figcaption>
+</figure>
 <p>一些总结：</p>
 <ul>
 <li>同一个事件序列是指从手指接触屏幕的那一刻起，到手指离开屏幕的那一刻结束。一般是以down事件开始，中间含有数量不定的move事件，最终以up事件结束。</li>
@@ -348,16 +351,17 @@
 <li>View的onTouchEvent默认都会被消耗，除非它是不可点击的。</li>
 <li>事件传递过程是由外向内的，即事件先是传递给父元素，然后再由父元素分发给子View。</li>
 </ul>
-<h3 id="View的滑动冲突"><a href="#View的滑动冲突" class="headerlink" title="View的滑动冲突"></a>View的滑动冲突</h3><p><strong>常见的滑动冲突场景</strong></p>
-<p><img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_6.jpeg" alt="滑动冲突三种场景"></p>
-<p>场景1：主要是讲ViewPager和Fragment配合使用组成的页面滑动效果，会产生的问题。<br>场景2：在开发中，内外两层同时能上下滑动或者内外两层同时能左右滑动。<br>场景3：是场景1和场景2两种情况的嵌套。</p>
+<h3 id="view的滑动冲突">View的滑动冲突</h3>
+<p><strong>常见的滑动冲突场景</strong></p>
+<figure>
+<img src="/2017/01/19/2017-01-19-AndroidArtChapter3/image_6.jpeg" alt="滑动冲突三种场景"><figcaption>滑动冲突三种场景</figcaption>
+</figure>
+<p>场景1：主要是讲ViewPager和Fragment配合使用组成的页面滑动效果，会产生的问题。 场景2：在开发中，内外两层同时能上下滑动或者内外两层同时能左右滑动。 场景3：是场景1和场景2两种情况的嵌套。</p>
 <p><strong>如何处理</strong></p>
 <p>根据滑动是水平滑动还是竖直滑动来判断到底是由谁来拦截事件。几种处理方式：</p>
 <ul>
-<li><p>外部拦截法。点击事情都是先经过父容器的拦截处理，如果父容器需要次事件就拦截，如果不需要此事件就不拦截，这样就可以解决滑动冲突的问题。</p>
-</li>
-<li><p>内部拦截法。父容器不拦截任何事件，所有的事件都传递给子元素，如果子元素需要此事件就直接消耗点，否则就交由父容器进行处理。</p>
-</li>
+<li><p>外部拦截法。点击事情都是先经过父容器的拦截处理，如果父容器需要次事件就拦截，如果不需要此事件就不拦截，这样就可以解决滑动冲突的问题。</p></li>
+<li><p>内部拦截法。父容器不拦截任何事件，所有的事件都传递给子元素，如果子元素需要此事件就直接消耗点，否则就交由父容器进行处理。</p></li>
 </ul>
 
     </div>
@@ -482,7 +486,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#View基础知识"><span class="nav-number">1.</span> <span class="nav-text">View基础知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View的滑动"><span class="nav-number">2.</span> <span class="nav-text">View的滑动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弹性滑动"><span class="nav-number">3.</span> <span class="nav-text">弹性滑动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View的事件分发机制"><span class="nav-number">4.</span> <span class="nav-text">View的事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View的滑动冲突"><span class="nav-number">5.</span> <span class="nav-text">View的滑动冲突</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#view基础知识"><span class="nav-number">1.</span> <span class="nav-text">View基础知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#view的滑动"><span class="nav-number">2.</span> <span class="nav-text">View的滑动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#弹性滑动"><span class="nav-number">3.</span> <span class="nav-text">弹性滑动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#view的事件分发机制"><span class="nav-number">4.</span> <span class="nav-text">View的事件分发机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#view的滑动冲突"><span class="nav-number">5.</span> <span class="nav-text">View的滑动冲突</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -498,7 +502,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
