@@ -1,3 +1,2 @@
-# BlogSourse
+# BlogSource
 个人博客的编译环境
-一些文章的记录，是为了思考更好的发生
