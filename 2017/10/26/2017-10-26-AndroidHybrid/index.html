@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Allen">
+
+
+
+<meta name="description" content="Hybrid到底是什么鬼，肯定是需要去了解了解。">
+<meta name="keywords" content="Android,知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="有关 Hybrid 开发模式实践总结">
+<meta property="og:url" content="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/index.html">
+<meta property="og:site_name" content="斜杠Allen">
+<meta property="og:description" content="Hybrid到底是什么鬼，肯定是需要去了解了解。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/app1.png">
+<meta property="og:image" content="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/app2.png">
+<meta property="og:image" content="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/app3.png">
+<meta property="og:updated_time" content="2017-10-26T14:41:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="有关 Hybrid 开发模式实践总结">
+<meta name="twitter:description" content="Hybrid到底是什么鬼，肯定是需要去了解了解。">
+<meta name="twitter:image" content="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/app1.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>有关 Hybrid 开发模式实践总结 | 斜杠Allen</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Allen</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-2017-10-26-AndroidHybrid" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/26/2017-10-26-AndroidHybrid/" class="article-date">
+      <time datetime="2017-10-26T14:06:57.000Z" itemprop="datePublished">2017-10-26</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      有关 Hybrid 开发模式实践总结
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Andorid/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/知识点/">知识点</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>随着公司业务不断发展，移动开发项目越来越多，项目任务时间紧，我们内部开发流程是以项目为导向，有别于一般公司对产品不断迭代的做法，但移动端开发人员资源有限，需要在不同项目之间做业务场景切换开发，就会经常出现项目完成时间 Delay。面对这样的问题，我们该如何去解决呢？现在了解到的现状是每个业务组都有配备 Web 前端开发人员，那么是否能把涉及到业务模块分发给具体业务组 Web 前端开发人员去开发，剥离业务模块，我们移动端开发人员则专注于框架的开发或者手机端设备能力开发，比如可支持调用摄像头，监听网络状态变化，提供地理位置信息等等，有没有这样一套适合的解决方案呢，答案当然是有的。我们引入了可利用 Web 前端能力和移动端操作系统原生能力相结合开发模式，叫做 Hybrid 混合开发。</p>
+<h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><ul>
+<li><p>为何选择 Hybrid 开发模式</p>
+</li>
+<li><p>在实践过程中碰到什么问题和解决</p>
+</li>
+<li><p>小结</p>
+</li>
+</ul>
+<h3 id="为何选择-Hybrid-开发模式"><a href="#为何选择-Hybrid-开发模式" class="headerlink" title="为何选择 Hybrid 开发模式"></a>为何选择 Hybrid 开发模式</h3><p><strong>1，目前工作中碰到的问题</strong></p>
+<p>随着公司业务飞速发展，移动端定制的项目越来越多，同时每个项目的业务逻辑呈现出复杂化和差异化特点，每个项目都需要提供 Android 版本和 IOS 版本，增加开发成本，开发周期往往又会被拖长。同时近年来前端技术蓬勃发展，HTML5 大行其道，很多主流 APP 厂商都利用 HTML5 前端能力来编写业务模块并结合原生设备能力进行混合开发，常见的比如淘宝、京东、微信、携程等等。虽然目前业务项目多，但是用户交互体验要求不高，常见页面也是列表，表单居多，适合充分利用HTML 5能力，因此引入Hybrid 混合开发模式，这样只需要 Web 前端开发人员写一遍前端业务代码，却能同时在Android 系统和 IOS 系统中执行。</p>
+<p><strong>2，Web APP、Hybrid APP、Native APP 对比</strong></p>
+<p>目前主流应用程序大体分为三类：Web App、Hybrid App、 Native App，如图：</p>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/app1.png" alt="三种模式"></p>
+<p><strong>Web APP</strong></p>
+<p>Web App 指采用Html5 语言写出的 App，不需要下载安装。类似于现在所说的轻应用。生存在浏览器中的应用，基本上可以说是触屏版的网页应用。</p>
+<p>优点</p>
+<p>（1）开发成本低，更新快</p>
+<p>（2）更新无需通知用户，不需要手动升级</p>
+<p>（3）能够跨多个平台和终端</p>
+<p>缺点：</p>
+<p>（1）临时性的入口</p>
+<p>（2）无法获取系统级别的通知，提醒，动效等等</p>
+<p>（3）用户留存率低</p>
+<p>（4）设计受限制诸多</p>
+<p>（5）体验较差</p>
+<p><strong>Hybrid App </strong> </p>
+<p>Hybrid App 从外观上来看是一个Native App ，实则只有一个UIWebView，里面访问的是一个Web App ，如新闻类和视频类的应用普遍采取该策略：Native 的框架加上Web 的内容。不同于Native App 需要针对不同的平台使用不同的开发语言（如使用Objective-C、Swift开发iOS应用，使用Java等开发Android应用），Hybrid App 允许开发者仅使用一套网页语言代码（HTML5+CSS+JavaScript），即可开发能够在不同平台上部署的类原生应用 。由于Hybrid App 结合了Native app良好用户交互体验和Web App 跨平台开发的优势，能够显著节省移动应用开发的时间和成本，Hybrid App 得到越来越多公司的青睐。</p>
+<p>按照网页语言和程序语言的混合，Hybrid App 通常可以分为三种类型：</p>
+<ol>
+<li><p><strong>多View混合型：</strong>Native View 和 Web View 独立展示，交替出现。 其应用主体通常是Native App，Web技术作为补充。即在需要的时候，将 Web View作为独立的 View 运行，在 Web View内完成相关的展示操作。开发难度与Native App相当.比如：微信里的公众号文章使用的是Web View 。</p>
+</li>
+<li><p><strong>单View混合型：</strong>在同一个View 内，Native View 和Web View 为层叠关系，同时出现。开发成本较高，难度较大，但是体验较好。比如：百度搜索同时实现充分的灵活性和较好的用户体验。</p>
+</li>
+<li><p><strong>Web主体型：</strong>应用主体是Web View ，穿插 Native 功能，主要以网页语言编写。整体开发难度低，基本可以实现跨平台，而用户体验好坏，主要取决于底层中间件的交互与跨平台能力。比如：项目管理工具 Basecamp 使用Web view呈现内容，调用系统原生 API 实现界面导航等功能来提高用户体验。</p>
+</li>
+</ol>
+<p>Hybrid App 也并非是完美的解决方案。由于其使用 HTML5，某些依赖于复杂的原生功能或者繁重的过渡动画的应用会出现卡顿。同时，为了模拟Native App 的UI和感官，需要投入额外的时间和精力；尽管可以跨平台，但是并不能完全支持所有的设备和操作系统。最后，如果应用的体验不够原生化，如一个简单的网站，则还有被Apple App Store拒绝的风险。</p>
+<p><strong>Native App</strong></p>
+<p>Native APP 指的是原生程序，一般依托于操作系统，有很强的交互，是一个完整的 App，可拓展性强。需要用户下载安装使用。</p>
+<p>优点：</p>
+<p>（1）打造完美的用户体验，性能稳定</p>
+<p>（2）操作速度快，上手流畅</p>
+<p>（3）访问本地资源（通讯录，相册）</p>
+<p>（4）设计出色的动效，转场，</p>
+<p>（5）拥有系统级别的贴心通知或提醒，用户留存率高</p>
+<p>缺点：</p>
+<p>（1）分发成本高（不同平台有不同的开发语言和界面适配）</p>
+<p>（2）维护成本高（例如一款App已更新至V5版本，但仍有用户在使用V2， V3， V4版本，需要更多的开发人员维护之前的版本）</p>
+<p>（3）更新缓慢，根据不同平台，提交–审核–上线 等等不同的流程，需要经过的流程较复杂</p>
+<p><strong>三者技术特性</strong></p>
+<p>如下图表中对比了Native App、 Hybrid App、Web App在不同方面的表现，可以根据实际情况选择最佳的解决方案。</p>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/app2.png" alt="三者比较对比"></p>
+<p><strong>3，主流 APP Hybrid 应用比例</strong></p>
+<p>那么在实际应用场景中，有哪些选择了Hybrid app呢？实际上，我们很可能使用过很多Hybrid app，却并没有意识到它们是借了Native台子唱戏的Web app。根据<a href="http://link.zhihu.com/?target=http%3A//www.appcelerator.com/" target="_blank" rel="noopener">Appcelerator</a>的官网，目前单是运行基于它的平台搭建的Hybrid app的设备就有近2.86亿台。国外常见的有LinkedIn、Yelp、Netflix、Wunderlist ，国内主流的大厂基本也是采用了Hybrid 模式，应该是应用很广泛，同时技术上也是成熟稳定。</p>
+<p><img src="/2017/10/26/2017-10-26-AndroidHybrid/app3.png" alt="主流比例"></p>
+<p><strong>4，选择 Hybrid 混合开发的原因</strong></p>
+<ol>
+<li><p>Hybrid 开发模式在开发页面 UI 上有天生的便利，而原生的则如果需要一个比较华丽的界面，就需要花很长的时间去开发。</p>
+</li>
+<li><p>在业务上，看具体情况，有些简单业务在 Web上就可以处理，而如果涉及到复杂的业务，则可以用原生来写。</p>
+</li>
+<li><p>在基本能力上，原生的强，可以提供手机端独有的特性，但 Hybrid 则需要依赖 Javascript 中间层进行转化获取设备能力。</p>
+</li>
+<li><p>对于少界面，重业务的可以用原生，对于多界面，重效果的，可以用 Web 方式进行开发。</p>
+</li>
+</ol>
+<h3 id="在实践过程中碰到什么问题和解决"><a href="#在实践过程中碰到什么问题和解决" class="headerlink" title="在实践过程中碰到什么问题和解决"></a>在实践过程中碰到什么问题和解决</h3><p><strong>项目背景介绍</strong></p>
+<p>目前在一个项目实行的开发模式就是 Hybrid 混合开发，Web 技术与 Android 原生能力结合开发，Web 技术负责界面开发和相关业务， Android 原生能力则提供手机端特有设备能力，比如调用摄像头，网络状态监听，数据库操作等等。但这个项目的特殊性相关业务与我们提供的 Android 原生插件能力高度耦合，比如为这个项目提供数据库插件就是专门定制开发的，对于 Excel 插件的能力也是高度依赖一机一档相关字段，这跟我们选型用Hybrid 混合开发模式 的初心是相背离。我们初心是希望 Web 开发人员只需要专注于业务开发和界面绘制，原生部分则是提供相应的Android 设备能力集即可，每个插件跟业务是完全无关，这样就可以做到原生开发和Web开发互相解耦，两者之间通过接口隔离即可。</p>
+<p><strong>实践过程中碰到的问题</strong></p>
+<p>无论如何，一机一档项目是第一个应用 Hybrid 混合开发进行实战的项目，遇到的问题或者坑都是很正常，积极面对解决，并且不断进行总结和反思。把之前碰到的问题，简单罗列总结下：</p>
+<ol>
+<li><p>开发人员调试困难问题。前端人员在开发时候是编写HTML5页面，所运行的环境跟 PC 端有很大的不同，因为需要运行在具体手机的环境上，因此需要每次编写完，需要通过移动端人员集成打包出一个APP 包进行安装验证，每新增或修改一个页面就需要重新打包验证，每次都需要集成测试，步骤繁琐，效率低下。</p>
+</li>
+<li><p>项目集成测试问题。Android 系统 Webview 和 PC 端浏览器内核版本差异问题导致加载效果不一致。</p>
+</li>
+<li><p>前端开发框架兼容问题。前端开发人员技术选型是基于 Vue.js 框架，这是一个渐进式 Javascript 框架，刚开始不支持。</p>
+</li>
+<li><p>文档不规范问题。在前期开发阶段，文档提供不详细，开发人员使用规则不清楚，导致沟通成本增加。</p>
+</li>
+<li><p>Webview 性能问题。</p>
+</li>
+</ol>
+<p><strong>如何解决</strong></p>
+<ol>
+<li><p>关于调试困难问题。提供一个调试工具叫做 Chrome DevTool，通过 Inspect 模式加载手机端里的 HTML5 页面，为何选择用 Chrome，因为Chrome 是目前主流前端开发调试利器，不仅能支持 Web 端开发，对于 HTML5 页面调试开发同样是能监听到 Javascript 报错或 CSS 报错，对于资源、网络、日志、内存等等，都是一步到位。同时在 APP 里提供一个在线调试环境，就是 Web 前端开发人员布置一个站点，在手机端通过 IP 地址远程访问站点，这样就可以在手机端实时看到刚刚修改内容是什么。</p>
+</li>
+<li><p>关于项目集成测试问题。在集成测试阶段，对Android 系统 Webview 和 PC 端浏览器内核版本区别有进一步认识，在Android 5.0 之前选用的是 Webkit 内核来加载 Web 资源文件，而在 Android 5.0 之后，则选用 Chromium 作为内核来加载，那么在为 PC 端浏览器端，如果你选择的是 Chorme 作为你默认浏览器的话，它的内核也是 Chromium 。尽管两者内核类型一样，都是 Chromium ，但两者加载 Javascript 效果上表现也不一样，比如最新浏览器版本可支持 ES 6 特性，但是在最新版的手机上就不一定 ES 6特性，目前通过调查 Android 5.0 之前的系统市场占有率，发现比例为不到20%，暂时适配到 Android 5.0 版本。</p>
+</li>
+<li><p>关于前端开发框架兼容问题。刚开始选用 Hybrid 开发模式时，对于公司内部 前端开发人员选用何种前端框架不甚了解，我们这边提供的 Demo 则是最原始的 HTML + Javascript + CSS 写法，以为前端人员只需要简单了解下就能上手，但在实践中发现却不是这样的。他们选型的前端技术是基于 Vue.js ，因为 Vue.js 是需要编译打包，生成发布的内容是混淆过的HTML + Javascript ，里面 Javascript 文件加载顺序使得我们开发 Javascript 插件调用引起问题，那样就会导致前端人员在调用具体插件能力时候，发现这个插件里的某个方法还没定义，就导致页面数据出错。后来通过了解 Vue.js 开发方式，调整项目工程中 Javascript 执行顺序，  确保具体插件调用在 Vue.js 执行前触发。</p>
+</li>
+<li><p>关于文档不规范问题。在前期开发阶段，前端人员没有统一查找目前已有插件能力的地方，仅仅根据我们提供的 Javascript 文件里的方法注释，虽然是针对每个方法的 Demo 用法，但是在实际开发中，前端开发人员也会调用出错。不是这个方法回调方法写错，就是参数类型传入传错，这样就导致的一个结果，前端开发人员不断地过来询问这个方法是如何调用的，我明明已经根据你的 Demo  写法进行编码了，为何还是报错的，前期的沟通成本还是很高。所以需要一个提供统一文档地方，里面写明了具体配置如何，写法如何，怎么是一步一步走，基本上可以避免类似的错误，更好的提高工作效率，减少沟通成本，所以一个规范的文档是很有必要的。</p>
+</li>
+<li><p>关于 WebView 性能加载问题。这是在解决 WebView 加载  HTML + Javascript + CSS 等资源时发现一个白屏问题，同时用 HTML5 做页面本身就会比原生加载来的慢。为了提高用户体验，在加载等待时，提供一个加载框来提示，等 HTML 资源文件全部渲染完毕后，等待框再消失，这样就可以避免一定的白屏现象。</p>
+</li>
+</ol>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>整体来说，为何会选择 Hybrid 混合开发模式是基于当前业务场景需要，技术是服务于业务发展，业务场景变化导致技术解决方案的选型也需要相应变化。面对以项目导向的开发现状，不能一昧追求最新最酷的技术，也不能对过时的技术方案过分保守，应该需要对当前业务场景进行判断，选择合适的解决方案才最佳的策略，没有一劳永逸的技术手段，只有时刻变化的业务需求和不断更新迭代技术方案。通过在一机一档项目中实战，面对问题，积极解决问题，也正是在解决问题过程中，产生新的想法和尝试，不断地完善框架能力，使得框架功能越来越全，进而更好的服务于业务开发问题，提高业务响应能力，降低开发成本，提升工作效率。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
+        <p><span>发布时间:</span>2017-10-26, 22:06:57</p>
+        <p><span>最后更新:</span>2017-10-26, 22:41:56</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2017/10/26/2017-10-26-AndroidHybrid/" title="有关 Hybrid 开发模式实践总结">http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/12/22/2017-12-22-AndroidAPP/">
+                    Android APP 性能优化的一些思考
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/08/20/2017-08-20-AndroidUnitTest/">
+                    开发人员必备的技能——单元测试
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"有关 Hybrid 开发模式实践总结　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2017/10/26/2017-10-26-AndroidHybrid/" data-title="有关 Hybrid 开发模式实践总结" data-url="http://cryallen.com/2017/10/26/2017-10-26-AndroidHybrid/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"zuoyejun"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/12/22/2017-12-22-AndroidAPP/" title="上一篇: Android APP 性能优化的一些思考">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/08/20/2017-08-20-AndroidUnitTest/" title="下一篇: 开发人员必备的技能——单元测试">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 Allen
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

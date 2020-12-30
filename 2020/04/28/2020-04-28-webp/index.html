@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Allen">
+
+
+
+<meta name="description" content="对于什么是WebP进行介绍，再结合最近调研的资料做一些总结。">
+<meta name="keywords" content="Android,知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对于WebP格式入门解读">
+<meta property="og:url" content="http://cryallen.com/2020/04/28/2020-04-28-webp/index.html">
+<meta property="og:site_name" content="斜杠Allen">
+<meta property="og:description" content="对于什么是WebP进行介绍，再结合最近调研的资料做一些总结。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://cryallen.com/2020/04/28/2020-04-28-webp/image1.png">
+<meta property="og:image" content="http://cryallen.com/2020/04/28/2020-04-28-webp/image2.jpg">
+<meta property="og:image" content="http://cryallen.com/2020/04/28/2020-04-28-webp/image3.jpg">
+<meta property="og:updated_time" content="2020-12-30T04:12:03.467Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对于WebP格式入门解读">
+<meta name="twitter:description" content="对于什么是WebP进行介绍，再结合最近调研的资料做一些总结。">
+<meta name="twitter:image" content="http://cryallen.com/2020/04/28/2020-04-28-webp/image1.png">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>对于WebP格式入门解读 | 斜杠Allen</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Allen</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-2020-04-28-webp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2020/04/28/2020-04-28-webp/" class="article-date">
+      <time datetime="2020-04-28T06:44:38.000Z" itemprop="datePublished">2020-04-28</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      对于WebP格式入门解读
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Andorid/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/知识点/">知识点</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>因为项目中需要用到大量动画效果，前期尝试过几种方案，比如GIF、帧动画、lottie、SVGA等格式的动画渲染方案，发现都存在各式各样的问题。比如：</p>
+<p>1，GIF格式。5秒的动画，一张图大小可能就会达到5-10M，然后UI那边制作背景需要透明的效果做不了，打包下载压缩包所需要更多的流量。</p>
+<p>2，帧动画。简单说就是把GIF图片给拆开为一张张图，比如一秒20帧的GIF图被拆开为20张静态图，然后用程序代码组成一帧一帧渲染效果动画，但是缺点也是很明显，做不到动态更新，只能提前集成在本地资源中，这个方案也被否决掉。</p>
+<p>3，第三方动画渲染库。比如基于Airbnb开源的lottie库和YY出品的SVGA解析库，lottie解析格式是以后缀为.json文件，相比GIF文件，大小是小10倍以上，但是在CPU占用上却奇高无比。因为我们的项目针对没有GPU能力的车机系统，车机上的内置芯片性能比目前主流手机性能差很多。同样SVGA库也是因为CPU占用率高的问题被否决掉。</p>
+<p>基于目前已有的硬件条件，可能最希望是升级硬件设备，那样的话无论是对于UI和开发来说，都是皆大欢喜，UI可基于lottie做炫酷的动效，而开发也不会因为性能问题而进行各种评估。但现实往往是残酷的，只能基于目前车机条件进行开发，那么作为开发人员，当然是得想各种方法去满足产品需求了，那就把目光转移，后来转移到一种叫做「<strong>WebP</strong>」格式的图片。</p>
+<p>基于<strong>WebP</strong>格式做出来的图片，UI那边可以做透明的背景动效，我们开发这边测了下性能，发现CPU和内存占用也满足产品测的要求，正好折中是我们想要选择的解决方案。既然之前是没怎么听过，那么就有必须去了解下「<strong>WebP</strong>」是什么东西了。</p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>对于之前没接触过的知识点，首先第一步是打Google，输入webp这四个字母，Google搜索出来的首页就会告诉你这是什么了，也就是What的定义。引用「<strong>WebP</strong>」官网定义的一句话：</p>
+<blockquote>
+<p>WebP is a modern <strong>image format</strong> that provides superior <strong>lossless and lossy</strong> compression for images on the web. Using WebP, webmasters and web developers can create smaller, richer images that make the web faster.</p>
+</blockquote>
+<p>进一步说，「<strong>WebP</strong>」是一种新的图片格式，可提供出色的无损和有损压缩，对于Web开发来说，可以创建更小和更丰富的图像。根据官网测试，WebP无损压缩的图片比PNG格式图片，文件大小上少 26%，WebP有损图片在同样 <a href="https://en.wikipedia.org/wiki/Structural_similarity" target="_blank" rel="noopener">SSIM</a> 质量指标上比JPEG格式图片少25~34%，SSIM是一种衡量两张数字影像相似的指标。</p>
+<p>官网给出有损压缩测试方法：</p>
+<ol>
+<li>将PNG图片设置不同的压缩参数压缩成JPEG图片，记录压缩后的对比的SSIM。</li>
+<li>将同一张PNG图片压缩成WebP图片，压缩的WebP图片的SSIM指标必须比1中记录的SSIM高。</li>
+</ol>
+<p>对比图如下：</p>
+<p><img src="/2020/04/28/2020-04-28-webp/image1.png" alt=""></p>
+<p>同样WebP与JPG格式进行加载时间对比，可以发现WebP优秀很多。</p>
+<p><img src="/2020/04/28/2020-04-28-webp/image2.jpg" alt=""></p>
+<p><img src="/2020/04/28/2020-04-28-webp/image3.jpg" alt=""></p>
+<p>从图中可以看到大小和图片加载速度上比jpg格式优胜很多，对于web页面来说，文件体积减少了，加载时间缩短了，那么页面的渲染速度加快了，特别是图片越来越多的情况下，能对性能进行提升和带宽节省。</p>
+<h3 id="对比GIF"><a href="#对比GIF" class="headerlink" title="对比GIF"></a>对比GIF</h3><p>对于项目中要用到各种动效图片，大部分人首先想到是GIF格式的图片，那么相比GIF，WebP有什么优势呢？</p>
+<ol>
+<li>支持有损和无损压缩，并且可以合并有损和无损图片帧。</li>
+<li>体积会更小，这点是很关键，亲测下来有损的图片可以减少60%的体积，而无损可以减少20%的体积。</li>
+<li>与GIF的8位颜色和1位alpha相比，支持24-bitRGB颜色和Alpha通道，对于UI设计来说更友好和更少限制，做出更炫酷的动效。</li>
+<li>有动画、关键帧、metadate、颜色配置文件等数据，有损压缩是调节的。</li>
+</ol>
+<h3 id="WebP一些劣势"><a href="#WebP一些劣势" class="headerlink" title="WebP一些劣势"></a>WebP一些劣势</h3><ol>
+<li>WebP的直线解码比GIF占用更多的CPU资源，有损WebP的解码时间是GIF的2.2倍，而无损WebP的解码时间是GIF的1.5倍，因此在客户端来说，对比GIF格式，WebP解码需要更多CPU计算资源。</li>
+<li>相比GIF来说，使用的普遍性不高，相关资料比较少，需要去解读官方文档。</li>
+<li>各个端支持情况不一，需要自己写个解释器去渲染WebP格式的图片。</li>
+<li>如果要迁移的话，迁移成本较大，需要对所有图片重新编码，考虑到对旧版的支持，需要额外开辟空间存两种格式的图片。</li>
+</ol>
+<h3 id="解码器设计"><a href="#解码器设计" class="headerlink" title="解码器设计"></a>解码器设计</h3><p>对于Android系统来说，WebP 在Android 4.0及以上原生支持，对于4.0以下可以使用官方提供提供的<a href="https://github.com/alexey-pelykh/webp-android-backport" target="_blank" rel="noopener">编解码库</a>，但现在主流的手机上，Android 4.0以下已经可以忽略不计了，反而对于在IOT设备上，则有可能存在低版本，因此对于此类开发项目，如果选择WebP格式则需要事先评估下了。</p>
+<p>从官网的描述来看，WebP是使用VP8关键帧编码以有损方式进行图像数据压缩，也就是说如果要支持解码的话，我们需要对这个VP8算法进行解码。WebP容器，也就是WebP的RIFF容器是支持在WebP的基本用例的功能。</p>
+<p>WebP文件格式基于RIFF（资源交换文件格式）文档格式。具体格式定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">0</span>                   <span class="number">1</span>                   <span class="number">2</span>                   <span class="number">3</span></span><br><span class="line"> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                         Chunk FourCC                          |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                          Chunk Size                           |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                         Chunk Payload                         |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p>RIFF文件的基本元素是一个块。它包括了Chunk FourCC 、  Chunk Size、  Chunk Payload三部分 。其中Chunk FourCC是一个32位ASCII编码的块文件的唯一标识。 Chunk Size则代表该块文件的大小， Chunk Payload则是数据有效承载，如果“块大小”为奇数，则添加一个填充字节（应为0）。</p>
+<p>我们常用<strong>ChunkHeader(‘ABCD’)</strong>来描述RIFF文件，这里ABCD则是FourCC单个块，则该元素大小为8个字节。</p>
+<p>那么接下去看WebP文件头，具体格式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">0</span>                   <span class="number">1</span>                   <span class="number">2</span>                   <span class="number">3</span></span><br><span class="line"> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|      <span class="string">'R'</span>      |      <span class="string">'I'</span>      |      <span class="string">'F'</span>      |      <span class="string">'F'</span>      |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                           File Size                           |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|      <span class="string">'W'</span>      |      <span class="string">'E'</span>      |      <span class="string">'B'</span>      |      <span class="string">'P'</span>      |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p>1，<strong>‘RIFF’: 32 bits</strong>：32位 ASCII字符“ R”，“ I”，“ F”，“ F”。</p>
+<p>2，文件大小，32位，从偏移量8开始的文件大小，以字节为单位。此字段的最大值为2 ^ 32减去10个字节，因此，整个文件的大小最多为4GiB减去2个字节。</p>
+<p>3，<strong>‘WEBP’: 32 bits</strong>：ASCII字符“ W”，“ E”，“ B”，“ P”。</p>
+<p>那么对于包含多帧动画为主的图片，它的头文件如何呢，具体如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">0</span>                   <span class="number">1</span>                   <span class="number">2</span>                   <span class="number">3</span></span><br><span class="line"> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> <span class="number">3</span> <span class="number">4</span> <span class="number">5</span> <span class="number">6</span> <span class="number">7</span> <span class="number">8</span> <span class="number">9</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                      ChunkHeader(<span class="string">'ANIM'</span>)                      |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|                       Background Color                        |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br><span class="line">|          Loop Count           |</span><br><span class="line">+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</span><br></pre></td></tr></table></figure>
+<p>Background Color：画布的默认背景颜色，以[B，G，R，Alpha]字节顺序排列，此颜色可用于填充框架周围画布上未使用的空间，以及第一帧的透明像素。处置方法为1时也使用背景色。</p>
+<p>Loop Count：循环播放动画的次数。 0表示无限循环。</p>
+<p>除了这几个文件头格式之外，还有其他几个文件头格式，比如VP8X、VP8、VP8L、ANMF、ICCP等，具体格式可以在 <a href="https://developers.google.cn/speed/webp/docs/riff_container#extended_file_format" target="_blank" rel="noopener">Extended File Format</a> 查看。基于Android系统的话，主要是以VP8X、VP8、VP8算法解码，对块文件进行解析，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> BaseChunk <span class="title">parseChunk</span><span class="params">(WebPReader reader)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//@link &#123;https://developers.google.com/speed/webp/docs/riff_container#riff_file_format&#125;</span></span><br><span class="line">        <span class="keyword">int</span> offset = reader.position();</span><br><span class="line">        <span class="keyword">int</span> chunkFourCC = reader.getFourCC();</span><br><span class="line">        <span class="keyword">int</span> chunkSize = reader.getUInt32();</span><br><span class="line">        BaseChunk chunk;</span><br><span class="line">        <span class="keyword">if</span> (VP8XChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> VP8XChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ANIMChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> ANIMChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ANMFChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> ANMFChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ALPHChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> ALPHChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (VP8Chunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> VP8Chunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (VP8LChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> VP8LChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ICCPChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> ICCPChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (XMPChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> XMPChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (EXIFChunk.ID == chunkFourCC) &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> EXIFChunk();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            chunk = <span class="keyword">new</span> BaseChunk();</span><br><span class="line">        &#125;</span><br><span class="line">        chunk.chunkFourCC = chunkFourCC;</span><br><span class="line">        chunk.payloadSize = chunkSize;</span><br><span class="line">        chunk.offset = offset;</span><br><span class="line">        chunk.parse(reader);</span><br><span class="line">        <span class="keyword">return</span> chunk;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在对算法解码之前，需要把WebP格式文件加载到内存中去，此时就需要用到Reader这个读写器，我们从官网的定义可以看到，读取WebP文件的代码称为读取器，而写入WebP文件的代码称为写入器。那么这个涉及到文件I/O的读写，数据流的读取和写入问题。</p>
+<p>具体定义读取器的接口代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Reader</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> total)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">byte</span> <span class="title">peek</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">position</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">byte</span>[] buffer, <span class="keyword">int</span> start, <span class="keyword">int</span> byteCount)</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">available</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * close io</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function">InputStream <span class="title">toInputStream</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体文件读取可以从文件、字节流等地方获取。读取数据之后，就需要对数据进行解析，我们知道如果是动画效果的图片，本质是以帧集合组成的内容，无论是GIF图支持WebP格式的动画图，本质也是一帧一帧进行渲染。好比我们看到的Android渲染视图是以一秒60帧，所以我们看到如果每帧超过16ms的话，就容易引起卡顿的原因。</p>
+<p>因此对于帧渲染接口的定义就显得很关键了，具体接口定义如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Frame</span>&lt;<span class="title">R</span> <span class="keyword">extends</span> <span class="title">Reader</span>, <span class="title">W</span> <span class="keyword">extends</span> <span class="title">Writer</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> R reader;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> frameWidth;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> frameHeight;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> frameX;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> frameY;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> frameDuration;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Frame</span><span class="params">(R reader)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.reader = reader;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Bitmap <span class="title">draw</span><span class="params">(Canvas canvas, Paint paint, <span class="keyword">int</span> sampleSize, Bitmap reusedBitmap, W writer)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一帧可以理解为一张静态图，如果有20帧组成的动画，可以理解成有20张图片按照连贯顺序一张张过一遍，那就形成了有动画的效果。所以我们要解析动画，本质是还是去解析每张静态图，通过每张图的绘制，把整个动画给绘制出来。这一张图片就包括宽度、高度、在屏幕上的横向、纵向坐标、运行时间等，但最关键还是需要把图会绘制出来，这里面就是draw方法的重写。</p>
+<p>关于draw方法重载，还是以绘制图片为主，具体代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">draw</span><span class="params">(Canvas canvas, Paint paint, <span class="keyword">int</span> sampleSize, Bitmap reusedBitmap, WebPWriter writer)</span> </span>&#123;</span><br><span class="line">        BitmapFactory.Options options = <span class="keyword">new</span> BitmapFactory.Options();</span><br><span class="line">        options.inJustDecodeBounds = <span class="keyword">false</span>;</span><br><span class="line">        options.inSampleSize = sampleSize;</span><br><span class="line">        options.inMutable = <span class="keyword">true</span>;</span><br><span class="line">        options.inBitmap = reusedBitmap;</span><br><span class="line">        <span class="keyword">int</span> length = encode(writer);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes = writer.toByteArray();</span><br><span class="line">        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, <span class="number">0</span>, length, options);</span><br><span class="line">        <span class="keyword">assert</span> bitmap != <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (blendingMethod) &#123;</span><br><span class="line">            paint.setXfermode(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            paint.setXfermode(PORTERDUFF_XFERMODE_SRC_OVER);</span><br><span class="line">        &#125;</span><br><span class="line">        canvas.drawBitmap(bitmap, (<span class="keyword">float</span>) frameX * <span class="number">2</span> / sampleSize, (<span class="keyword">float</span>) frameY * <span class="number">2</span> / sampleSize, paint);</span><br><span class="line">        <span class="keyword">return</span> bitmap;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>我们知道Bitmap在Android中指的是一张图片，可以是png格式也可以是jpg等其他常见的图片格式。BitmapFactory类提供了四类方法：decodeFile、decodeResource、decodeStream和decodeByteArray，分别用于支持从文件系统、资源、输入流以及字节数组中加载出一个Bitmap对象，其中decodeFile和decodeResource又间接调用了decodeStream方法，这四类方法最终是在Android的底层实现的，对应着BitmapFactory类的几个native方法。</p>
+<p>那么该高效地加载Bitmap呢，其实核心思也很简单，就是采用BitmapFactory.Options来加载所需尺寸的图片。主要是用到它的inSampleSize参数，即采样率。当inSampleSize为1时，采样后的图片大小为图片的原始大小，当inSampleSize大于1时，比如为2，那么采样后的图片其宽/宽均为原图大小的1/2，而像素数为原图的1/4，其占有的内存大小也为原图的1/4。从最新官方文档中指出，inSampleSize的取值应该是2的指数，比如1、2、4、8、16等等。</p>
+<p>通过采样率即可有效地加载图片，那么到底如何获取采样率呢，获取采样率也很简单，循序如下流程：</p>
+<ul>
+<li>将BitmapFactory.Options的inJustDecodeBounds参数设为True并加载图片</li>
+<li>从BitmapFactory.Options中取出图片的原始宽高信息，他们对应于outWidth和outHeight参数</li>
+<li>根据采样率的规则并结合目标View的所需大小计算出采样率inSampleSize</li>
+<li>将BitmapFactory.Options的inJustDecodeBounds参数设为False，然后重新加载图片。</li>
+</ul>
+<p>你看设计到最后，本质还是把由很多帧组成的动画格式，拆分到具体每一帧的图片，针对图片进行图片帧绘制，进而把动画的效果给渲染出来。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>总的来说，不同图片显示选择是根据具体业务场景来做评估，像我们最近在开发的项目中，主要是以图片形象为主，那么就会过多关注有关图片的CPU使用率和内存占用率的比例。如果发现常规的图片格式不满足需求，那么就是需要调研和寻找不同的解决方案。这本来就是没有固定的一套解决方案，只有相对合适的解决方案，因此，无论是从UI角度，还是从开发角度，甚至是产品角度，都得寻得整个产品中平衡度，寻找合适点，是能满足各方需求，进而打造更完善的产品应用。</p>
+<p>参考地址：</p>
+<p>1，<a href="https://developers.google.cn/speed/webp" target="_blank" rel="noopener">https://developers.google.cn/speed/webp</a></p>
+<p>2，<a href="https://developers.google.cn/speed/webp/docs/riff_container" target="_blank" rel="noopener">https://developers.google.cn/speed/webp/docs/riff_container</a></p>
+<p>2，<a href="https://github.com/penfeizhou/APNG4Android" target="_blank" rel="noopener">https://github.com/penfeizhou/APNG4Android</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
+        <p><span>发布时间:</span>2020-04-28, 14:44:38</p>
+        <p><span>最后更新:</span>2020-12-30, 12:12:03</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2020/04/28/2020-04-28-webp/" title="对于WebP格式入门解读">http://cryallen.com/2020/04/28/2020-04-28-webp/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2020/04/28/2020-04-28-webp/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2020/12/30/2020-12-30-2020review/">
+                    2020，习惯被重塑的一年
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2020/01/13/2020-01-13-javajvm/">
+                    Java虚拟机的一些理解
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"对于WebP格式入门解读　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2020/04/28/2020-04-28-webp/" data-title="对于WebP格式入门解读" data-url="http://cryallen.com/2020/04/28/2020-04-28-webp/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"zuoyejun"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2020/12/30/2020-12-30-2020review/" title="上一篇: 2020，习惯被重塑的一年">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2020/01/13/2020-01-13-javajvm/" title="下一篇: Java虚拟机的一些理解">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 Allen
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>

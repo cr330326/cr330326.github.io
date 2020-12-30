@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Allen">
+
+
+
+<meta name="description" content="组件化概念很早就有了，并且在服务端开放，对于组件的理解会更深刻，那么在移动端又是一番怎么样的景象呢，设计实现如何呢，让我们去看看。">
+<meta name="keywords" content="Android,知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android组件化框架设计与实践">
+<meta property="og:url" content="http://cryallen.com/2018/02/05/2018-02-05-AndroidComponent/index.html">
+<meta property="og:site_name" content="斜杠Allen">
+<meta property="og:description" content="组件化概念很早就有了，并且在服务端开放，对于组件的理解会更深刻，那么在移动端又是一番怎么样的景象呢，设计实现如何呢，让我们去看看。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-752c547daade5343.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-9bffe938885a485e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-f2e5060255c24179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-37616b1cdbd791da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-8c6f303047be6182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-2c26405226fd9ed8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-88c4fd466fb21038.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-e85a29280a5b0bb3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-ef599f6c33ba46be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-fe219baac5388f13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-12b085cd01eb8102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-1a252fdf67017380.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-02-05T14:51:19.576Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android组件化框架设计与实践">
+<meta name="twitter:description" content="组件化概念很早就有了，并且在服务端开放，对于组件的理解会更深刻，那么在移动端又是一番怎么样的景象呢，设计实现如何呢，让我们去看看。">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/788498-752c547daade5343.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
+
+
+
+    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Android组件化框架设计与实践 | 斜杠Allen</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: true,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: undefined
+    }
+</script>
+
+
+    <script>
+        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
+    </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
+</head></html>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Allen</a></h1>
+        </hgroup>
+
+        
+        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>菜单</li>
+                        <li>标签</li>
+                        
+                        <li>友情链接</li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
+            </hgroup>
+            
+            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
+                            
+                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
+                            
+                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
+                            
+                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
+                            
+                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+</nav>
+      <div class="body-wrap"><article id="post-2018-02-05-AndroidComponent" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/05/2018-02-05-AndroidComponent/" class="article-date">
+      <time datetime="2018-02-05T14:47:50.000Z" itemprop="datePublished">2018-02-05</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android组件化框架设计与实践
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+    <div class="article-category tagcloud">
+    <a class="article-category-link" href="/categories/Andorid/">Android</a>
+    </div>
+
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/知识点/">知识点</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <p>在目前移动互联网时代，每个 APP 就是流量入口，与过去 PC Web 浏览器时代不同的是，APP 的体验与迭代速度影响着用户的粘性，这同时也对从事移动开发人员提出更高要求，进而移动端框架也层出不穷。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-752c547daade5343.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="服务端与移动端对比"></p>
+<p>上图显示的是传统的服务端架构和客户端 App 架构对比。传统的服务端架构中最底下是一个 OS，一般是 Linux，最上面服务端的业务，而中间有非常多的层次可以在架构上，按照我们的意愿搭建中间的各个层次的衔接环节，使得架构具有足够的灵活性和扩展性。但是到了 App 就会面对一个完全不同的现状，App 的OS（Android或iOS）本质上并不是一个很瘦的像 Linux 这样的 OS，而是在 OS 上有一个很重的 App Framework，开发一个普通的客户端应用所要用到的绝大多数接口都在 Framework 里，而上面的业务也是一个非常复杂多样化的业务，最后会发现“架构”是在中间的一个非常尴尬的夹心层，因为会遇到很多在服务端架构中不需要面临的挑战。比如以下两点：</p>
+<ul>
+<li>体积的制约。体积对用户来说是一个非常敏感的概念，如果我们要在架构上做很多事情的话，通常意味着架构占据的代码量会比较大。在服务端架构中我们可以容忍我们在架构层面去做几十兆的代码。但是对于客户端架构，即使你的架构只有一两兆，对于一个客户端可能都占据了 10%，20%的容量。</li>
+<li>性能的挑战。从性能上来看，对于服务端架构我们通常关注的是吞吐率，我们不会去关注启动速度。一个服务端的启动哪怕是花了一两分钟，只要它运作起来吞吐率足够高，支持的并发能力足够好，响应速度足够快，我们就认为这是一个良好的架构。但客户端不同，客户端的进程对用户而言，往往是一个栈态的，手机里面使用完一个应用，退出之后可能过不了多久就会被回收掉，当用户下次再打开的时候，它会再次启动进程，需要重新完成一次初始化的流程。如果在这个上面做了很多事情的话，会导致程序启动的速度会很慢，在很多用户看来，这就是一种不可接受的用户体验。</li>
+</ul>
+<p>客户端 APP 与服务端在架构上是有着一定的区别，在选择对客户端架构需要谨慎对待，需要有许多权衡的条件，在此前提上，是否有一种归一的方式呢，可以分而治之，并行开发，把业务分隔成一个个单独的组件，整个架构围绕组件开发，构建也是组件，一切皆组件。答案是有的，那就是打造客户端组件框架。</p>
+<h3 id="起源，为何组件化"><a href="#起源，为何组件化" class="headerlink" title="起源，为何组件化"></a>起源，为何组件化</h3><p>客户端 APP 自身在飞速发展，APP 版本不断迭代，新功能不断增加，业务模块数量不断增加，业务上的处理逻辑越变越复杂，同时每个模块代码也变得越来越多，这就引发一个问题，所维护的代码成本越来越高，稍微一改动可能就牵一发而动全身，改个小的功能点就需要回归整个 APP 测试，这就对开发和维护带来很大的挑战。同时原来APP 架构方式是单一工程模式，业务规模扩大，随之带来的是团队规模扩大，那就涉及到多人协作问题，每个移动端软件开发人员势必要熟悉如此之多代码，如果不按照一定的模块组件机制去划分，将很难进行多人协作开发，随着单一项目变大，而且 Andorid 项目在编译代码方面就会变得非常卡顿，在单一工程代码耦合严重，每修改一处代码后都需要重新编译打包测试，导致非常耗时，最重要的是这样的代码想要做单元测试根本无从下手，所以必须要有一个更灵活的架构去代替过去单一工程模式。</p>
+<p>同样这样的问题在我们工作具体项目中处处碰到，就拿我们组内负责的某个移动端 APP 来说，就碰到如下几个问题：</p>
+<ol>
+<li>代码量膨胀，不利于维护，不利于新功能的开发。</li>
+<li>项目工程构建速度慢，在一些电脑上写两句代码，重新编译测试的话编译速度起码 10-20 分钟，有的甚至更长。</li>
+<li>不同模块之间代码耦合严重，比如消息模块严重耦合视频模块，如果修改视频模块，相应的消息模块也需要修改，不然会产生一连串问题。</li>
+<li>每个模块之间都有引用第三方库，但有些第三方库版本不一致，导致打包 APP 时候代码冗余，容易引起版本冲突。</li>
+<li>有些定制项目如果只需要消息模块，其他模块不需要的话，做不到按需加载打包，因为模块之间有互联依赖。</li>
+<li>现有项目基于以前其他人项目基础上开发，经手的人次过多，存在着不同的代码风格，项目中代码规范乱，类似的功能写法却不一样，导致不统一。</li>
+</ol>
+<p>项目工程架构模式改变是大势所趋，那又该如何做呢？那就是：<strong>打造组件化开发框架</strong>，用以解决目前所面临问题，在讲解如何打造之前，需要谈谈组件化概念，组件化框架是什么。</p>
+<h3 id="概念，组件化是什么"><a href="#概念，组件化是什么" class="headerlink" title="概念，组件化是什么"></a>概念，组件化是什么</h3><p>问：什么是组件，什么是组件化？</p>
+<p>答：在软件开发领域，<strong>组件（Component）</strong>是对数据和方法的简单封装，功能单一，高内聚，并且是业务能划分的最小粒度。举个我们生活中常见的例子就是电脑主板上每个元件电容器件，每个元件负责的功能单一、容易组装、即插即拔，但作用有限，需要一定的依赖条件才可使用。如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-9bffe938885a485e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="电容元件"></p>
+<p>那么同样，<strong>组件化</strong> 就是基于组件可重用的目的上，将一个大的软件系统按照分离关注点的形式，拆分成多个独立的组件，使得整个软件系统也做到电路板一样，是单个或多个组件元件组装起来，哪个组件坏了，整个系统可继续运行，而不出现崩溃或不正常现象，做到更少的耦合和更高的内聚。</p>
+<p>问：组件化、模块化容易混淆，两者区别又是什么？</p>
+<p>答：模块化就是将一个程序按照其功能做拆分，分成相互独立的模块，以便于每个模块只包含与其功能相关的内容，模块我们相对熟悉,比如登录功能可以是一个模块,搜索功能可以是一个模块等等。而组件化就是更关注可复用性，更注重关注点分离，如果从集合角度来看的话，可以说往往一个模块包含了一个或多个组件，或者说模块是一个容器，由组件组装而成。简单来说，组件化相比模块化粒度更小，两者的本质思想都是一致的，都是把大往小的方向拆分，都是为了复用和解耦，只不过模块化更加侧重于业务功能的划分，偏向于复用，组件化更加侧重于单一功能的内聚，偏向于解耦。</p>
+<p>问：组件化能带来什么好处？</p>
+<p>答：简单来说就是提高工作效率，解放生产力，好处如下：</p>
+<ul>
+<li>代码简洁，冗余量少，维护方便，易扩展新功能。</li>
+<li>提高编译速度，从而提高并行开发效率。</li>
+<li>避免模块之间的交叉依赖，做到低耦合、高内聚。</li>
+<li>引用的第三方库代码统一管理，避免版本统一，减少引入冗余库。</li>
+<li>定制项目可按需加载，组件之间可以灵活组建，快速生成不同类型的定制产品。</li>
+<li>制定相应的组件开发规范，可促成代码风格规范，写法统一。</li>
+<li>系统级的控制力度细化到组件级的控制力度，复杂系统构建变成组件构建。</li>
+<li>每个组件有自己独立的版本，可以独立编译、测试、打包和部署。</li>
+</ul>
+<h3 id="设计，构建组件化框架"><a href="#设计，构建组件化框架" class="headerlink" title="设计，构建组件化框架"></a>设计，构建组件化框架</h3><p>回到刚开始讲的 APP 单一工程模式，看张常见 APP 单一工程模式架构图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-f2e5060255c24179.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="APP单一工程模式架构"></p>
+<p>上图是目前比较普遍使用的 Android APP 技术架构，往往是在一个界面中存在大量的业务逻辑，而业务逻辑中充斥着各种网络请求、数据操作等行为，整个项目中也没有模块的概念，只有简单的以业务逻辑划分的文件夹，并且业务之间也是直接相互调用、高度耦合在一起的。单一工程模型下的业务关系，总的来说就是：你中有我，我中有你，相互依赖，无法分离。如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-37616b1cdbd791da.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="业务模块互相耦合"></p>
+<p>组件化的指导思想是：分而治之，并行开发，一切皆组件。要实现组件化，无论采用什么样的技术方式，需要考虑以下七个方面问题：</p>
+<ol>
+<li>代码解耦。如何将一个庞大的工程分成有机的整体？</li>
+<li><p>组件单独运行。因为每个组件都是高度内聚的，是一个完整的整体，如何让其单独运行和调试？</p>
+</li>
+<li><p>组件间通信。由于每个组件具体实现细节都互相不了解，但每个组件都需要给其他调用方提供服务，那么主项目与组件、组件与组件之间如何通信就变成关键？</p>
+</li>
+<li>UI 跳转。UI 跳转指的是特殊的数据传递，跟组件间通信区别有什么不同？</li>
+<li>组件生命周期。这里的生命周期指的是组件在应用中存在的时间，组件是否可以做到按需、动态使用、因此就会涉及到组件加载、卸载等管理问题。</li>
+<li>集成调试。在开发阶段如何做到按需编译组件？一次调试中可能有一两个组件参与集成，这样编译时间就会大大降低，提高开发效率。</li>
+<li>代码隔离。组件之间的交互如果还是直接引用的话，那么组件之间根本没有做到解耦，如何从根本上避免组件之间的直接引用，也就是如何从根本上杜绝耦合的产生？</li>
+</ol>
+<p>组件化架构目标：告别结构臃肿，让各个业务变得相对独立，业务组件在组件模式下可以独立开发，而在集成模式下又可以变为 AAR 包集成到“ APP 壳工程”中，组成一个完整功能的 APP。</p>
+<p>先给出框架设计图，然后再对这七个问题进行一一解答。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-8c6f303047be6182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A组件化框架架构"></p>
+<p>从图中可以看到，<strong>业务组件之间是独立的，互相没有关联</strong>，这些业务组件在集成模式下是一个个 Library，被 APP 壳工程所依赖，组成一个具有完整业务功能的 APP 应用，但是在组件开发模式下，业务组件又变成了一个个 Application，它们可以独立开发和调试，由于在组件开发模式下，业务组件们的代码量相比于完整的项目差了很远，因此在运行时可以显著减少编译时间。</p>
+<p>各个业务组件通信是通过路由转发，如图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-2c26405226fd9ed8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="路由转发通信"></p>
+<p>这是组件化工程模型下的业务关系，业务之间将不再直接引用和依赖，而是通过“路由”这样一个中转站间接产生联系。</p>
+<p>那么针对以上提出的七个问题，具体解决如下：</p>
+<p>1，代码解耦问题</p>
+<p>对已存在的项目进行模块拆分，模块分为两种类型，一种是功能组件模块，封装一些公共的方法服务等，作为依赖库对外提供，一种是业务组件模块，专门处理业务逻辑等功能，这些业务组件模块最终负责组装APP。</p>
+<p>2，组件单独运行问题</p>
+<p>通过 <strong>Gradle</strong> 脚本配置方式，进行不同环境切换。比如只需要把 Apply plugin: ‘com.android.library’ 切换成Apply plugin: ‘com.android.application’ 就可以，同时还需要在 AndroidManifest 清单文件上进行设置，因为一个单独调试需要有一个入口的 Activity。比如设置一个变量 isModule，标记当前是否需要单独调试，根据isModule 的取值，使用不同的 gradle 插件和 AndroidManifest 清单文件，甚至可以添加 Application 等 Java 文件，以便可以做一下初始化的操作。</p>
+<p>3，组件间通信问题</p>
+<p>通过接口+实现的结构进行组件间的通信。每个组件声明自己提供的服务 Service API，这些 Service 都是一些接口，组件负责将这些 Service 实现并注册到一个统一的路由 Router 中去，如果要使用某个组件的功能，只需要向Router 请求这个 Service 的实现，具体的实现细节我们全然不关心，只要能返回我们需要的结果就可以了。在组件化架构设计图中 Common 组件就包含了路由服务组件，里面包括了每个组件的路由入口和跳转。</p>
+<p>4，UI 跳转问题</p>
+<p>可以说 UI 跳转也是组件间通信的一种，但是属于比较特殊的数据传递。不过一般 UI 跳转基本都会单独处理，一般通过短链的方式来跳转到具体的 Activity。每个组件可以注册自己所能处理的短链的 Scheme 和 Host，并定义传输数据的格式，然后注册到统一的 UIRouter 中，UIRouter 通过 Scheme 和 Host 的匹配关系负责分发路由。但目前比较主流的做法是通过在每个 Activity 上添加注解，然后通过 APT 形成具体的逻辑代码。目前方式是引用阿里的 <a href="https://github.com/alibaba/ARouter" target="_blank" rel="noopener">ARouter</a> 框架，通过注解方式进行页面跳转。</p>
+<p>5，组件生命周期问题</p>
+<p>在架构图中的核心管理组件会定义一个组件生命周期接口，通过在每个组件设置一个配置文件,这个配置文件是通过使用注解方式在编译时自动生成，配置文件中指明具体实现组件生命周期接口的实现类，来完成组件一些需要初始化操作并且做到自动注册，暂时没有提供手动注册的方式。</p>
+<p>6，集成调试问题</p>
+<p>每个组件单独调试通过并不意味着集成在一起没有问题，因此在开发后期我们需要把几个组件机集成到一个 APP 里面去验证。由于经过前面几个步骤保证了组件之间的隔离，所以可以任意选择几个组件参与集成，这种按需索取的加载机制可以保证在集成调试中有很大的灵活性，并且可以加大的加快编译速度。需要注意的一点是，每个组件开发完成之后，需要把 isModule 设置为 true并同步，这样主项目就可以通过参数配置统一进行编译。</p>
+<p>7，代码隔离问题</p>
+<p>如果还是 compile project(xxx:xxx.aar) 来引入组件，我们就完全可以直接使用到其中的实现类，那么主项目和组件之间的耦合就没有消除，那之前针对接口编程就变得毫无意义。我们希望只在 assembleDebug 或者 assembleRelease 的时候把 AAR 引入进来，而在开发阶段，所有组件都是看不到的，这样就从根本上杜绝了引用实现类的问题。</p>
+<p>目前做法是主项目只依赖 Common 的依赖库，业务组件通过路由服务依赖库按需进行查找，用反射方式进行组件加载，然后在主工程中调用组件服务，组件与组件之间调用则是通过接口+实现进行通信，后续规划通过自定义Gradle 插件，通过字节码自动插入组件的依赖进行编译打包，实现自动筛选 assembleDebug 或 assembleRelease 这两个编译命任务，只有属于包含这两个任务的命令才引入具体实现类，其他的则不引入。</p>
+<h3 id="代码，具体项目实践"><a href="#代码，具体项目实践" class="headerlink" title="代码，具体项目实践"></a>代码，具体项目实践</h3><p><strong>一，创建工程</strong></p>
+<p>1，APP空壳工程</p>
+<p>通过AndroidStudio创建一个APP空壳工程，如图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-88c4fd466fb21038.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="APP空壳工程"></p>
+<p>然后在 APP 工程添加依赖具体业务组件 Module。比如：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-e85a29280a5b0bb3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="依赖关系"></p>
+<p>2，具体业务组件Module</p>
+<p>需要遵循一定组件命名规范，为何需要规范呢，因为需要通过组件命名规范来约束和保证组件的统一性和一致性，避免出现冲突。比如登陆组件，那么名称：b(类型)-ga(部门缩写)-login(组件名称)，这就是我们基于共同的约定进行命名的，为后期维护和扩展都带来辨识度。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-ef599f6c33ba46be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Login业务组件"></p>
+<p><strong>二，业务组件配置文件</strong></p>
+<p>1，build.gradle配置文修改。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion rootProject.ext.compileSdkVersion</span><br><span class="line">    buildToolsVersion rootProject.ext.buildToolsVersion</span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion rootProject.ext.minSdkVersion</span><br><span class="line">        targetSdkVersion rootProject.ext.targetSdkVersion</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">            applicationId <span class="string">"com.hik.ga.business.login"</span></span><br><span class="line">            versionCode <span class="number">1</span></span><br><span class="line">            versionName <span class="string">"1.0"</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//ARouter</span></span><br><span class="line">            javaCompileOptions &#123;</span><br><span class="line">                annotationProcessorOptions &#123;</span><br><span class="line">                    arguments = [ moduleName : project.getName() ]</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            <span class="keyword">if</span> (isModule.toBoolean()) &#123;</span><br><span class="line">                manifest.srcFile <span class="string">'src/main/module/AndroidManifest.xml'</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                manifest.srcFile <span class="string">'src/main/AndroidManifest.xml'</span></span><br><span class="line">                <span class="comment">//集成开发模式下排除debug文件夹中的所有Java文件</span></span><br><span class="line">                java &#123;</span><br><span class="line">                    exclude <span class="string">'debug/**'</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':b-ga-common-function-comlib'</span>)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(!isModule.toBoolean()</span>) </span>&#123;</span><br><span class="line">        annotationProcessor <span class="string">"com.alibaba:arouter-compiler:$&#123;rootProject.annotationProcessor&#125;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里需要有几点说明一下：</p>
+<p>1，通过 isModule.toBoolean() 方法来进行组件间集成模式和组件模式的切换，包括模块是属于Application 还是 Library，由于集成了 ARouter，所以需要对 ARouter 配置文件进行处理。</p>
+<p>2，如果组件模式下， 则需要重新设置 AndroidManifest.xml 文件，里面配置新的Application路径。比如Login组件单独运行 AndroidManifest 清单文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;manifest xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    <span class="keyword">package</span>=<span class="string">"hik.ga.business.applogin"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;application</span><br><span class="line">        android:name=<span class="string">"debug.LoginApplication"</span></span><br><span class="line">        android:allowBackup=<span class="string">"false"</span></span><br><span class="line">        android:icon=<span class="string">"@mipmap/ic_launcher"</span></span><br><span class="line">        android:label=<span class="string">"@string/login_btn_str"</span></span><br><span class="line">        android:supportsRtl=<span class="string">"true"</span></span><br><span class="line">        android:theme=<span class="string">"@style/Theme.AppCompat.Light.NoActionBar"</span>&gt;</span><br><span class="line"></span><br><span class="line">        &lt;activity</span><br><span class="line">            android:name=<span class="string">"hik.ga.business.applogin.login.views.LoginActivity"</span></span><br><span class="line">            android:label=<span class="string">"@string/login_btn_str"</span></span><br><span class="line">            android:launchMode=<span class="string">"singleTop"</span></span><br><span class="line">            android:screenOrientation=<span class="string">"portrait"</span></span><br><span class="line">            android:theme=<span class="string">"@style/AppTheme.NoActionBarFullScreen"</span>&gt;</span><br><span class="line">            &lt;intent-filter&gt;</span><br><span class="line">                &lt;action android:name=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span><br><span class="line">                &lt;category android:name=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span><br><span class="line">            &lt;/intent-filter&gt;</span><br><span class="line">        &lt;/activity&gt;</span><br><span class="line"></span><br><span class="line">    &lt;/application&gt;</span><br><span class="line">&lt;/manifest&gt;</span><br></pre></td></tr></table></figure>
+<p>3，实现组件全局应用配置类，这个类的目的是在组件加载时初始化一些组件自身的资源，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginApplicationDelegate</span> <span class="keyword">implements</span> <span class="title">IApplicationDelegate</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"LoginApplicationDelegate"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onCreate()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enterBackground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------enterBackground()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enterForeground</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------enterForeground()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiveRemoteNotification</span><span class="params">(Map&lt;String, String&gt; message)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"receiveRemoteNotification msg = "</span> + message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTerminate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onTerminate()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onConfigurationChanged</span><span class="params">(Configuration configuration)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onConfigurationChanged()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLowMemory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onLowMemory()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onTrimMemory</span><span class="params">(<span class="keyword">int</span> var1)</span> </span>&#123;</span><br><span class="line">        EFLog.d(TAG, <span class="string">"*------------------onTrimMemory()----------------&gt;"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>三，路由服务</strong></p>
+<p>1，定义公共组件路由API和入口，通过路由服务组件查找，如图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-fe219baac5388f13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="公共路由服务"></p>
+<p>2，组件路由实现</p>
+<p>每个组件对外提供什么能力，首先需要在路由服务组件创建一个接口文件，如下是登陆组件接口声明和实现。</p>
+<p>Login 接口：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-12b085cd01eb8102.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="定义Login接口"></p>
+<p>具体实现：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/788498-1a252fdf67017380.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Login接口具体实现"></p>
+<p>路由使用：比如我们想从设置页面跳转到登陆页面，使用 Login 接口里的方法，使用如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ILoginProvider loginService = (ILoginProvider) ARouter.getInstance().build(RouterPath.ROUTER_PATH_TO_LOGIN_SERVICE).navigation();</span><br><span class="line"><span class="keyword">if</span>(loginService != <span class="keyword">null</span>)&#123;</span><br><span class="line">	loginService.accountToLogin(AccountActivity.<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>总的来说，通过应用组件化框架，使得我们工作中的具体项目变得更轻、好组装、编译构建更快，不仅提高工作效率，同时自我对移动应用开发认知有进一步的提升。因为组件化框架具有通用性，特别适用于业务模块迭代多，量大的大中型项目，是一个很好的解决方案。至于组件化框架之后演化的道路，则是打造组件仓库，完善组件开发规范，丰富组件功能库，有一些粒度大的业务组件可以进一步的细化，对组件功能进行更单一的内聚，同时基于现有组件化框架，便于过度在未来打造插件化框架，进一步升级 APP 动态能力，比如热加载、热修复等，那又是另一种使用场景和设计架构了，其实组件化和插件化框架最大的区别就是在是否具备动态更新能力。</p>
+<p>把项目简化下，github地址：<a href="https://github.com/cr330326/DemoComponent" target="_blank" rel="noopener">DemoComponent</a>，感兴趣的可以下过去看看。</p>
+<p>参考文章：</p>
+<p>1，<a href="http://blog.csdn.net/guiying712/article/details/55213884" target="_blank" rel="noopener">Android组件化方案</a></p>
+<p>2，<a href="https://www.jianshu.com/p/1b1d77f58e84" target="_blank" rel="noopener">Android彻底组件化方案实践</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>本文标题:</span><a href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
+        <p><span>发布时间:</span>2018-02-05, 22:47:50</p>
+        <p><span>最后更新:</span>2018-02-05, 22:51:19</p>
+        <p>
+            <span>原始链接:</span><a class="post-url" href="/2018/02/05/2018-02-05-AndroidComponent/" title="Android组件化框架设计与实践">http://cryallen.com/2018/02/05/2018-02-05-AndroidComponent/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2018/02/05/2018-02-05-AndroidComponent/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2018/07/21/2018-07-21-httpsay/">
+                    我所理解的HTTP协议
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2018/01/31/2018-01-31-AndroidAdvance/">
+                    浅谈Android进阶之路
+                </a>
+            </div>
+        
+    </nav>
+
+  
+</article>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android组件化框架设计与实践　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+      <div class="duoshuo" id="comments">
+    <div id="comment-box" ></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2018/02/05/2018-02-05-AndroidComponent/" data-title="Android组件化框架设计与实践" data-url="http://cryallen.com/2018/02/05/2018-02-05-AndroidComponent/"></div>
+    <script>
+        var duoshuoQuery = {short_name:"zuoyejun"};
+        var loadComment = function(){
+            var d = document, s = d.createElement('script');
+            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            s.async = true; s.charset = 'UTF-8';
+            (d.head || d.body).appendChild(s);
+        }
+
+        
+    </script>
+    
+    <script> loadComment(); </script>
+
+</div>
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2018/07/21/2018-07-21-httpsay/" title="上一篇: 我所理解的HTTP协议">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2018/01/31/2018-01-31-AndroidAdvance/" title="下一篇: 浅谈Android进阶之路">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2020 Allen
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" >本站到访数: 
+                            <span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>, </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit">本页阅读量: 
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        $("a").attr("target", "_blank");
+        $("#scroll a, #toc a").removeAttr("target");
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
