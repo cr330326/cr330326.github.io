@@ -15,18 +15,22 @@
 
 
 
-<meta name="description" content="本篇文章主要讲述内容有：用enum代替int常量、用EnumSet代替位域、注解优先于命名模式。">
-<meta name="keywords" content="枚举,注解">
+<meta name="description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【EFJava】关于枚举和注解">
-<meta property="og:url" content="http://cryallen.com/2016/07/11/2016-07-11-EFJavaEnumAnnotation/index.html">
+<meta property="og:title" content="我所理解的Java平台">
+<meta property="og:url" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/index.html">
 <meta property="og:site_name" content="斜杠Allen">
-<meta property="og:description" content="本篇文章主要讲述内容有：用enum代替int常量、用EnumSet代替位域、注解优先于命名模式。">
+<meta property="og:description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
+<meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore01.png">
+<meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore02.png">
+<meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore03.png">
+<meta property="og:updated_time" content="2021-08-04T14:30:02.817Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【EFJava】关于枚举和注解">
-<meta name="twitter:description" content="本篇文章主要讲述内容有：用enum代替int常量、用EnumSet代替位域、注解优先于命名模式。">
+<meta name="twitter:title" content="我所理解的Java平台">
+<meta name="twitter:description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
+<meta name="twitter:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore01.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +62,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>【EFJava】关于枚举和注解 | 斜杠Allen</title>
+<title>我所理解的Java平台 | 斜杠Allen</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -281,11 +285,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-2016-07-11-EFJavaEnumAnnotation" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-2021-08-04-javacore01" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/" class="article-date">
-      <time datetime="2016-07-11T08:15:12.000Z" itemprop="datePublished">2016-07-11</time>
+      <a href="/2021/08/04/2021-08-04-javacore01/" class="article-date">
+      <time datetime="2021-08-04T13:27:14.000Z" itemprop="datePublished">2021-08-04</time>
 </a>
 
 
@@ -300,7 +304,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      【EFJava】关于枚举和注解
+      我所理解的Java平台
     </h1>
   
 
@@ -309,13 +313,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Java基础/">Java基础</a>
+    <a class="article-category-link" href="/categories/Java面试/">Java面试</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/枚举/">枚举</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/注解/">注解</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -325,28 +329,36 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>在Java1.5版本中，引入了两个类型：枚举类型<code>enum type</code>和注解类型<code>annotation type</code>。</p>
-<h1 id="Num1：用enum代替int常量"><a href="#Num1：用enum代替int常量" class="headerlink" title="Num1：用enum代替int常量"></a>Num1：用enum代替int常量</h1><p>枚举类型<code>enum type</code>是指由一组固定的常量组成合法值的类型。比如：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> Planet &#123;</span><br><span class="line">	MERCURY(<span class="number">3.302e+23</span>, <span class="number">2.439e6</span>), VENUS(<span class="number">4.869e+24</span>, <span class="number">6.052e6</span>), EARTH(<span class="number">5.975e+24</span>,</span><br><span class="line">			<span class="number">6.378e6</span>), MARS(<span class="number">6.419e+23</span>, <span class="number">3.393e6</span>), JUPITER(<span class="number">1.899e+27</span>, <span class="number">7.149e7</span>), SATURN(</span><br><span class="line">			<span class="number">5.685e+26</span>, <span class="number">6.027e7</span>), URANUS(<span class="number">8.683e+25</span>, <span class="number">2.556e7</span>), NEPTUNE(<span class="number">1.024e+26</span>,</span><br><span class="line">			<span class="number">2.477e7</span>);</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> mass; <span class="comment">// In kilograms</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> radius; <span class="comment">// In meters</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">double</span> surfaceGravity; <span class="comment">// In m / s^2</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Universal gravitational constant in m^3 / kg s^2</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">double</span> G = <span class="number">6.67300E-11</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Constructor</span></span><br><span class="line">	Planet(<span class="keyword">double</span> mass, <span class="keyword">double</span> radius) &#123;</span><br><span class="line">		<span class="keyword">this</span>.mass = mass;</span><br><span class="line">		<span class="keyword">this</span>.radius = radius;</span><br><span class="line">		surfaceGravity = G * mass / (radius * radius);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">mass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> mass;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">radius</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> radius;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceGravity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> surfaceGravity;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">surfaceWeight</span><span class="params">(<span class="keyword">double</span> mass)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> mass * surfaceGravity; <span class="comment">// F = ma</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightTable</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">double</span> earthWeight = Double.parseDouble(args[<span class="number">0</span>]);</span><br><span class="line">		<span class="keyword">double</span> mass = earthWeight / Planet.EARTH.surfaceGravity();</span><br><span class="line">		<span class="keyword">for</span> (Planet p : Planet.values())</span><br><span class="line">			System.out.printf(<span class="string">"Weight on %s is %f%n"</span>, p, p.surfaceWeight(mass));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="Num2：用EnumSet代替位域"><a href="#Num2：用EnumSet代替位域" class="headerlink" title="Num2：用EnumSet代替位域"></a>Num2：用EnumSet代替位域</h1><p>示例代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Text</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">enum</span> Style &#123;</span><br><span class="line">		BOLD, ITALIC, UNDERLINE, STRIKETHROUGH</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Any Set could be passed in, but EnumSet is clearly best</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyStyles</span><span class="params">(Set&lt;Style&gt; styles)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// Body goes here</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Sample use</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Text text = <span class="keyword">new</span> Text();</span><br><span class="line">		text.applyStyles(EnumSet.of(Style.BOLD, Style.ITALIC));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>总而言之，正是因为枚举类型要用在集合<code>Set</code>中，所以没有理由用位域来表示它。</p>
-<h1 id="Num3：注解优先于命名模式"><a href="#Num3：注解优先于命名模式" class="headerlink" title="Num3：注解优先于命名模式"></a>Num3：注解优先于命名模式</h1><p>命名模式有两个缺点：</p>
+        <p>对于Java技术体系，相信每个Java程序员都会惊叹于整个技术栈的庞大，很多时候会有入门到放弃的心态，因为技术在不断更新，作为Java程序员也时刻保持进步学习状态，这样才能跟上技术的发展。对于我自己来说，同样也是使用Java技术栈工作多年，无论是面试还是日常工作中同事技术交流，会有很多Java相关知识点总感觉没有掌握到位，经常是似懂非懂。</p>
+<p>因此希望能通过写作文章来对Java的知识点进行巩固，一方面是希望自己能对Java平台理解更深刻点，另一方面也是希望能通过这样以抛出问题，后续解答的方式进一步加强学习，以便达到巩固和掌握知识点。</p>
+<p>那么今天我想谈论的话题是这么一道面试题：「<strong>谈谈你对 Java 平台的理解？“Java 是解释执行”，这句话正确吗？</strong>」</p>
+<h3 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h3><p>针对Java平台理解，我的回答是如下思维导图：</p>
+<p><img src="/2021/08/04/2021-08-04-javacore01/JavaCore01.png" alt="JavaCore01"></p>
+<p>从四个方面来回答自己对于Java平台的理解：</p>
 <ul>
-<li>文字拼写错误会导致失败，且没有任何提示。</li>
-<li>无法确保它们只用于相应的程序元素上。</li>
-<li>它们没有提供将参数值与程序元素关联起来的好方法。</li>
+<li>基本特性</li>
+<li>Java类库</li>
+<li>Java虚拟机</li>
+<li>工具</li>
 </ul>
-<p>针对以上几个问题，注解很好地解决了所有这些问题。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Indicates that the annotated method is a test method. Use only on</span></span><br><span class="line"><span class="comment"> * parameterless static methods.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Test &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Test注解类型的声明就是它自身通过<code>Retention</code>和<code>Target</code>注解进行了注解。注解类型声明中的这张注解被称作”元注解“<code>meta-annotaition</code>。</p>
-<p>那么声明的Test注解，则称作为”标记注解”<code>marker annotation</code>。因为它没有参数，只是“标注”被注解的元素。</p>
-<p>示例代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125; <span class="comment">// Test should pass</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m3</span><span class="params">()</span> </span>&#123; <span class="comment">// Test Should fail</span></span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Boom"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">m5</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125; <span class="comment">// INVALID USE: nonstatic method</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m6</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m7</span><span class="params">()</span> </span>&#123; <span class="comment">// Test should fail</span></span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Crash"</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m8</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>另外一种注解方式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)</span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> ExceptionTest &#123;</span><br><span class="line">	Class&lt;? extends Exception&gt;[] value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用方式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample2</span> </span>&#123;</span><br><span class="line">	<span class="meta">@ExceptionTest</span>(ArithmeticException.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m1</span><span class="params">()</span> </span>&#123; <span class="comment">// Test should pass</span></span><br><span class="line">		<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">		i = i / i;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ExceptionTest</span>(ArithmeticException.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m2</span><span class="params">()</span> </span>&#123; <span class="comment">// Should fail (wrong exception)</span></span><br><span class="line">		<span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>];</span><br><span class="line">		<span class="keyword">int</span> i = a[<span class="number">1</span>];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@ExceptionTest</span>(ArithmeticException.class)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	&#125; <span class="comment">// Should fail (no exception)</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Code containing an annotation with an array parameter - Page 174</span></span><br><span class="line">	<span class="meta">@ExceptionTest</span>(&#123; IndexOutOfBoundsException.class,</span><br><span class="line">			NullPointerException.class &#125;)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">doublyBad</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line"></span><br><span class="line">		<span class="comment">// The spec permits this method to throw either</span></span><br><span class="line">		<span class="comment">// IndexOutOfBoundsException or NullPointerException</span></span><br><span class="line">		list.addAll(<span class="number">5</span>, <span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基本特性"><a href="#基本特性" class="headerlink" title="基本特性"></a>基本特性</h3><p>Java平台有什么基本特性呢？有面向对象、反射、泛型，这三点也是我们在实际工作项目中会用经常用到的。</p>
+<p>面向对象（OOP）是一种编程思想，相对于面向过程来说，更符合我们人类来阅读代码的习惯，更容易写出通俗易懂的代码，而面向过程对于计算机来说，逐行加载执行更便利。面向对象三大特性，封装、重载、多态，具体什么含义就不展开了，网上一搜一大把。我更想强调的是，这三大特性引申出软件设计六大原则，如果你设计的程序围绕的这六大原则，从软件架构角度来看基本不会太差，合乎主流软件设计潮流。</p>
+<p>至于反射，也是Java平台的一大利器，可以满足动态加载功能和并行开发模式，比如很多Java框架都是利用反射机制达到开发的便利性，提高程序员开发效率，让程序员可以更专注在自身业务开发上。</p>
+<p>最后一点，泛型机制，主要是为了提高开发稳定性，也就是说类型安全，极大提高了程序健壮性，并且泛型机制还借鉴模板机制，对于同一种行为规范，可以套用在不同的数据类型上。</p>
+<h3 id="Java类库"><a href="#Java类库" class="headerlink" title="Java类库"></a>Java类库</h3><p>除了基本特性之外，Java平台还有一个很大特色是丰富的类库。</p>
+<p>比如基础类库：集合、IO/NIO、网络、并发、安全等。我们日常工作常用的容器类库，ArrayList、Map，都有着共同父类，看张图，你就清楚了，这些系统自带的容器类：</p>
+<p><img src="/2021/08/04/2021-08-04-javacore01/JavaCore02.png" alt="JavaCore02"></p>
+<p>除此之外，还有线程安全类和丰富的第三方类库。</p>
+<h3 id="Java虚拟机"><a href="#Java虚拟机" class="headerlink" title="Java虚拟机"></a>Java虚拟机</h3><p>Java为何能受广大开发者喜爱，很重要的一点就是跨平台，其中跨平台最大的特色就是 Write once，run anywhere （写一次，到处运行）。那么跨平台的关键因素就是Java虚拟机。看下Java虚拟机的结构图：</p>
+<p><img src="/2021/08/04/2021-08-04-javacore01/JavaCore03.png" alt="JavaCore03"></p>
+<p>其中重点了解下JVM中每个模块的作用，主要包括以下几个运行时区域：</p>
+<p>1，程序计数器（PC Register），主要是当前线程所执行的字节码的行号指示器。<br>2，Java虚拟机栈（Stack）Java中的每个方法在执行的同时都会创建一个栈帧用于存储局部变量表、操作数栈、动态链接、方法出口等信息。我们常见的StackOverflowError错误，就是常见栈深度大于虚拟机所允许的深度。<br>3，本地方法栈（Native Method Stack），执行的是虚拟机使用到Nativie方法服务。<br>4，Java堆，也叫Java Heap，这个是Java虚拟机所管理的内存中最大的一块，Java堆是被所有线程共享的一块内存区域，在虚拟机启动时就创建了。几乎所有的对象实例都在这里分配内存。<br>5，方法区（Class Area）。这个是主要是用以虚拟机加载类信息、常量、静态变量、编译之后的代码等等。</p>
+<p>JVM还有一个特性是垃圾回收策略，相信不少程序员在面试时经常会被问到JVM的垃圾回收策略是什么，新生代、老年代等。主要的垃圾回收策略有这么几种算法：标记-清除算法、复制算法、标记整理算法、分代收集算法，这几个算法的依据是基于可达分析和引用计数思想，来判断对象是否可回收，进一步达到垃圾回收目的。</p>
+<p>至于Java编译过程，有这四步：源码-字节码-虚拟机解释-机器码，hotspot 提供了JIT编译器，Java类加载机制，常用版本 JDK（如 JDK 8）内嵌的 Class-Loader，例如 Bootstrap、 Application 和 Extension Class-loader；类加载大致过程：加载、验证、链接、初始化</p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>我们日常会接触到 JRE（Java Runtime Environment）或者 JDK（Java Development Kit）。 JRE，也就是 Java 运行环境，包含了 JVM 和 Java 类库，以及一些模块等。而 JDK 可以看作是 JRE 的一个超集，提供了更多工具，比如编译器、各种诊断工具等。</p>
+<p>我们需要善于利用这些工具，了解各种工具用法，以便在面对实际问题时，可以通过不同工具进一步排查，很多时候面对问题时候，往往不是解决问题有多困难，而是分析定位问题原因有多耗时。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>总的来说，我是从以上四个方面来理解所谓的Java平台，除此之外，还想补充一点，那就是「<strong>静态编译与动态解释</strong>」这点。 静态编译的程序在执行前全部被翻译为机器码，通常将这种类型称为AOT （Ahead of time）即 “提前编译”； 而解释执行的则是一句一句边翻译边运行，通常将这种类型称为JIT（Just-in-time）即“即时编译”。 AOT程序的典型代表是用C/C++开发的应用，它们必须在执行前编译成机器码，而JIT的代表则非常多，如JavaScript、python等。 事实上，所有脚本语言都支持JIT模式。但需要注意的是JIT和AOT指的是程序运行方式，和编程语言并非强关联的，有些语言既可以以JIT方式运行也可以以AOT方式运行，如Java、Python，它们可以在第一次执行时编译成中间字节码、然后在之后执行时可以直接执行字节码。</p>
+<p>至于Java语言是否是解释执行，因为Java平台有AOT也有JIT，因此Java语言是可以进行解释执行的，可以直接将字节码编译成机器代码，这样就避免了 JIT 预热等各方面的开销，比如 Oracle JDK 9 就引入了实验性的 AOT 特性，并且增加了新的 jaotc 工具。</p>
 
       
     </div>
@@ -355,13 +367,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></p>
+        <p><span>本文标题:</span><a href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
-        <p><span>发布时间:</span>2016-07-11, 16:15:12</p>
-        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
+        <p><span>发布时间:</span>2021-08-04, 21:27:14</p>
+        <p><span>最后更新:</span>2021-08-04, 22:30:02</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/" title="【EFJava】关于枚举和注解">http://cryallen.com/2016/07/11/2016-07-11-EFJavaEnumAnnotation/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/11/2016-07-11-EFJavaEnumAnnotation/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2021/08/04/2021-08-04-javacore01/" title="我所理解的Java平台">http://cryallen.com/2021/08/04/2021-08-04-javacore01/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2021/08/04/2021-08-04-javacore01/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -373,16 +385,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">
-                    【EFJava】通用程序设计
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/07/11/2016-07-11-EFJavaInterface/">
-                    【EFJava】关于类和接口
+                <a href="/2021/07/21/2021-07-21-asr/">
+                    当下语音识别技术发展
                 </a>
             </div>
         
@@ -407,7 +413,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"【EFJava】关于枚举和注解　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"我所理解的Java平台　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -423,7 +429,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/07/11/2016-07-11-EFJavaEnumAnnotation/" data-title="【EFJava】关于枚举和注解" data-url="http://cryallen.com/2016/07/11/2016-07-11-EFJavaEnumAnnotation/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2021/08/04/2021-08-04-javacore01/" data-title="我所理解的Java平台" data-url="http://cryallen.com/2021/08/04/2021-08-04-javacore01/"></div>
     <script>
         var duoshuoQuery = {short_name:"zuoyejun"};
         var loadComment = function(){
@@ -446,15 +452,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/" title="上一篇: 【EFJava】通用程序设计">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2016/07/11/2016-07-11-EFJavaInterface/" title="下一篇: 【EFJava】关于类和接口">
+            <a href="/2021/07/21/2021-07-21-asr/" title="下一篇: 当下语音识别技术发展">
                 <i class="fa fa-angle-right"></i>
             </a>
         
