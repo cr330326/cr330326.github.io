@@ -15,18 +15,20 @@
 
 
 
-<meta name="description" content="Android中Drawable和动画都是一种表现效果的资源，可以让用户体验更佳。">
-<meta name="keywords" content="Android,读书笔记">
+<meta name="description" content="2022年注定是不平凡的一年，大到国家还是处于疫情肆虐的第三年，小到家庭处于我们家小宝宝出生了，后续的路需要且行且珍惜，见证孩子长大重要节点。">
+<meta name="keywords" content="个人成长">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android中的Drawable和动画">
-<meta property="og:url" content="http://cryallen.com/2017/03/28/2017-03-28-AndroidArtChapter12/index.html">
+<meta property="og:title" content="2022，为人父母的喜悦">
+<meta property="og:url" content="http://cryallen.com/2022/12/25/2022-12-25-2022review/index.html">
 <meta property="og:site_name" content="斜杠Allen">
-<meta property="og:description" content="Android中Drawable和动画都是一种表现效果的资源，可以让用户体验更佳。">
+<meta property="og:description" content="2022年注定是不平凡的一年，大到国家还是处于疫情肆虐的第三年，小到家庭处于我们家小宝宝出生了，后续的路需要且行且珍惜，见证孩子长大重要节点。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
+<meta property="og:image" content="http://cryallen.com/2022/12/25/2022-12-25-2022review/202212.png">
+<meta property="og:updated_time" content="2022-12-25T08:40:03.893Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android中的Drawable和动画">
-<meta name="twitter:description" content="Android中Drawable和动画都是一种表现效果的资源，可以让用户体验更佳。">
+<meta name="twitter:title" content="2022，为人父母的喜悦">
+<meta name="twitter:description" content="2022年注定是不平凡的一年，大到国家还是处于疫情肆虐的第三年，小到家庭处于我们家小宝宝出生了，后续的路需要且行且珍惜，见证孩子长大重要节点。">
+<meta name="twitter:image" content="http://cryallen.com/2022/12/25/2022-12-25-2022review/202212.png">
 
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
@@ -58,7 +60,7 @@
 <link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
 
-<title>Android中的Drawable和动画 | 斜杠Allen</title>
+<title>2022，为人父母的喜悦 | 斜杠Allen</title>
 
 <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
@@ -281,11 +283,11 @@
     </div>
     <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
 </nav>
-      <div class="body-wrap"><article id="post-2017-03-28-AndroidArtChapter12" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-2022-12-25-2022review" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/03/28/2017-03-28-AndroidArtChapter12/" class="article-date">
-      <time datetime="2017-03-28T02:58:44.000Z" itemprop="datePublished">2017-03-28</time>
+      <a href="/2022/12/25/2022-12-25-2022review/" class="article-date">
+      <time datetime="2022-12-25T08:13:53.000Z" itemprop="datePublished">2022-12-25</time>
 </a>
 
 
@@ -300,7 +302,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android中的Drawable和动画
+      2022，为人父母的喜悦
     </h1>
   
 
@@ -309,13 +311,13 @@
       <div class="article-info article-info-post">
         
     <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Andorid/">Android</a>
+    <a class="article-category-link" href="/categories/Personal/">Personal</a>
     </div>
 
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/个人成长/">个人成长</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -325,33 +327,38 @@
     <div class="article-entry" itemprop="articleBody">
       
           
-        <p>Android中Drawable是一种可以在Canvas上进行绘制抽象的概念，种类很多，常见的颜色和图片都可以是一个Drawable。Drawable有很多种，它们表示一种图像的概念，但是它们又不全是图片，通过颜色也可以构造出各式各样的图像的效果。</p>
-<h3 id="Drawable的分类"><a href="#Drawable的分类" class="headerlink" title="Drawable的分类"></a>Drawable的分类</h3><ul>
-<li>BitmapDrawable。它表示的就是一张图片，在实际开发中我们可以直接引用原始的图片即可。</li>
-<li>ShapeDrawable。可以理解为通过颜色来构造图形，可以有纯色的图形，也可以具有渐变效果的图形。</li>
-<li>LayerDrawable。对应的标签是<layer-list>，它表示一种层次化的Drawable集合，通过将不同的Drawable放置在不同的层上面从而达到一种叠加后的效果。</layer-list></li>
-<li>StateListDrawable。对应于<selector>，它表示Drawable集合，每个Drawable都对应着View的一种状态，这样系统就会根据View的状态来选择合适的Drawable。</selector></li>
-<li>LeveListDrawable。对应于<level-list>标签，表示一个Drawable集合，集合中的每个Drawable都有一个等级Level的概念。</level-list></li>
-<li>InsetDrawable。对应于<insert>标签，它可以将其他的Drawable内嵌到自己当中，并可以在四周留出一定的间距。</insert></li>
-<li>ScaleDrawable。对应于<scale>，它可以根据自己的等级(level)将指定的Drawable缩放到一定比例。</scale></li>
-<li>ClipDrawable。对应于<clip>，它可以根据自己当前的等级(level)来裁剪另一个Drawable，裁剪方向可以通过android:clipOrientation和android:gravity这两个属性来共同控制。</clip></li>
+        <h3 id="2022梦想版"><a href="#2022梦想版" class="headerlink" title="2022梦想版"></a>2022梦想版</h3><p><img src="/2022/12/25/2022-12-25-2022review/202212.png" alt="梦想版"></p>
+<h3 id="2022年度目标"><a href="#2022年度目标" class="headerlink" title="2022年度目标"></a>2022年度目标</h3><ul>
+<li><strong>成长一名有1万粉丝的UP主</strong></li>
+<li><strong>践行当一名新手爸爸的准备</strong></li>
+<li><strong>体重控制在65-70公斤</strong></li>
 </ul>
-<h3 id="Android动画"><a href="#Android动画" class="headerlink" title="Android动画"></a>Android动画</h3><p>Android的动画可以分为三种：View动画、帧动画和属性动画。View动画通过对场景里的对象不断做图像变换（平移、缩放、旋转、透明度）从而产生动画效果，它是一种渐近式动画，并且View动画支持自定义。帧动画通过顺序播放一系列图像从而产生动画效果，可以简单理解为图片切换动画。属性动画通过动态地改变对象的属性从而达到动画效果，属性动画为API 11的新特性，在低版本无法直接使用属性动画，但我们仍然可以通过兼容库来使用它。</p>
-<h4 id="View动画"><a href="#View动画" class="headerlink" title="View动画"></a>View动画</h4><p>View动画的作用对象是View，它支持平移动画、缩放动画、旋转动画和透明度动画。有四个子类：TranslateAnimation，ScaleAnimation，RotateAnimation和AlphaAnimation。可以通过XML来定义。比如：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;set xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:duration=<span class="string">"300"</span></span><br><span class="line">    android:interpolator=<span class="string">"@android:anim/accelerate_interpolator"</span></span><br><span class="line">    android:shareInterpolator=<span class="string">"true"</span> &gt;</span><br><span class="line"></span><br><span class="line">    &lt;alpha</span><br><span class="line">        android:fromAlpha=<span class="string">"0.0"</span></span><br><span class="line">        android:toAlpha=<span class="string">"1.0"</span> /&gt;</span><br><span class="line"></span><br><span class="line">    &lt;translate</span><br><span class="line">        android:fromYDelta=<span class="string">"500"</span></span><br><span class="line">        android:toXDelta=<span class="string">"0"</span> /&gt;</span><br><span class="line"></span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h4><p>帧动画是顺序播放一组预先定义好的图片，类似于电影播放。不同于View动画，系统提供了另外一个类AnimationDrawable来使用帧动画。虽然比较简单，但是容易引起OOM，所以在使用帧动画时应尽量避免使用过多尺寸较大的图片。</p>
-<h4 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h4><p>属性动画中有ValueAnimator、ObjectAnimator和AnimatorSet等概念，通过它们可以实现绚丽的动画。属性动画可以对任意对象的属性进行动画而不仅仅是View，动画默认时间间隔300ms，默认帧率10ms/帧。在一个时间间隔内完成对象从一个属性值到另一个属性值的改变，因此属性动画几乎是无所不能，只要对象有这个属性，它都能实现动画效果。</p>
-<p>有个开源动画库：nineoldandroids来兼容之前的版本，因为属性动画是从API 11开始才有的。比较常用的动画类ValueAnimator、ObjectAnimator和AnimatorSet，其中ObjectAnimator继承ValueAnimator，AnimatorSet是动画集合，可以定义一组动画，它们使用起来也是极其简单的。如何使用呢：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">performAnimate</span><span class="params">(<span class="keyword">final</span> View target, <span class="keyword">final</span> <span class="keyword">int</span> start, <span class="keyword">final</span> <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">       ValueAnimator valueAnimator = ValueAnimator.ofInt(<span class="number">1</span>, <span class="number">100</span>);</span><br><span class="line">       valueAnimator.addUpdateListener(<span class="keyword">new</span> AnimatorUpdateListener() &#123;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 持有一个IntEvaluator对象，方便下面估值的时候使用</span></span><br><span class="line">           <span class="keyword">private</span> IntEvaluator mEvaluator = <span class="keyword">new</span> IntEvaluator();</span><br><span class="line"></span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animator)</span> </span>&#123;</span><br><span class="line">               <span class="comment">// 获得当前动画的进度值，整型，1-100之间</span></span><br><span class="line">               <span class="keyword">int</span> currentValue = (Integer) animator.getAnimatedValue();</span><br><span class="line">               Log.d(TAG, <span class="string">"current value: "</span> + currentValue);</span><br><span class="line"></span><br><span class="line">               <span class="comment">// 获得当前进度占整个动画过程的比例，浮点型，0-1之间</span></span><br><span class="line">               <span class="keyword">float</span> fraction = animator.getAnimatedFraction();</span><br><span class="line">               <span class="comment">// 直接调用整型估值器通过比例计算出宽度，然后再设给Button</span></span><br><span class="line">               target.getLayoutParams().width = mEvaluator.evaluate(fraction, start, end);</span><br><span class="line">               target.requestLayout();</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line"></span><br><span class="line">       valueAnimator.setDuration(<span class="number">5000</span>).start();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="使用动画注意点"><a href="#使用动画注意点" class="headerlink" title="使用动画注意点"></a>使用动画注意点</h4><ul>
-<li>OOM问题。这个主要是出现在帧动画中，当图片数量较多且图片较大时就极易出现OOM。</li>
-<li>内存泄漏。在属性动画中有一类无限循环的动画，这类动画需要在Activity退出时及时停止，否则将导致Activity无法释放从而造成内存泄漏，View动画则并不存在此问题。</li>
-<li>兼容性问题。动画在3.0以下的系统上有兼容性问题，在某些特殊场景可能无法正常工作，因此要做好适配问题。</li>
-<li>View动画的问题。View动画是对View的影像做动画，并不是真正改变View的状态，因此有时候会出现动画完成后View无法隐藏的现象，即setVisibility(View.GONE)失效了，这个时候只要调用View.clearAnimation()清除View动画即可解决此问题。</li>
-<li>不要使用PX。在进行动画的过程中，要尽量使用dp，使用px会导致在不同设备上有不同的效果。</li>
-<li>动画元素的交互。将View移动（平移）后，在Android 3.0以前的系统上，不管是View动画还是属性动画，新位置均无法触发单击事件，同时，老位置仍然可以触发单击事件。尽管View已经在视觉上不存在了，将View移回原位置以后，原位置的单击事件继续生效。从3.0开始，属性动画的单击事件触发位置为移动后的位置，但是View动画仍然在原位置。</li>
-<li>硬件加速。使用动画过程中，建议开启硬件加速，这样会提高动画的流畅性。</li>
-</ul>
+<p>每当岁末年初，都会总结一下过去一年所经历的人和事。不管这一年过得如何，都有这么一个习惯，就是文字来记录下这一年发生的点点滴滴，令人印象深刻的事件，同样也是对年初设立的目标是否达成进行自我评分，无论有没有做到，都是自我成长的宝贵一年。</p>
+<p>2022年，怎么说呢，总之一言难尽。做年度总结的今天，正好是12月25号，往常都是沉浸在圣诞假日里，无论是线上还是线下都会有体现圣诞的元素。但是今年比较特殊，各种社交APP里还是新闻媒体里，讨论的最多话题是「<strong>你阳了没</strong>」，或者说你「<strong>你阳康了没</strong>」，意思就是现在疫情肆虐第三年了，我们已经到了疫情放开的准备前期关键阶段，也就是全面放开抗疫。</p>
+<p>历经3年疫情发展，现在新冠病毒呈现的是传播速度快，但是病症轻，从网上各种阳的人反应来看，一般康复过程要7-10天左右，不需要额外隔离点，只需要居家隔离，然后症状出来了，对于青壮年们靠自身免疫力就行，除非发热温度很高，则需要退热药辅助，而对于老人和小孩，需要重点做好个人防护，同样紧张的医疗资源尽量留给老人和小孩，相信再过个半年时间，我们应该能走出疫情给我们生活带来影响和限制。</p>
+<p>纵观2022这一整年，外部环境冲击变化更大了，除了疫情冲击依旧影响很大，政治边缘、能源危机、经济环境持续恶劣等等各种因素作用，各行各业都难熬，大家都期盼「春暖花开，面朝大海」这一刻的到来，希望2023年会有新气象、新变化，我们能回归到疫情前车水马龙的生活状态，年轻人拿起一个背包，来一场说走就走的旅行，拖家带口的家庭则有更多陪伴孩子成长的亲子时光度过。</p>
+<p>对于个人来说，外部环境变化不是个人所能决定的，能做的不断适应外部环境变化，那么对于个人变化呢，掌控维度则会更多些。回顾2022年初设立的目标，比如自我变化更多是希望在过去一年里能有所收货，曾经年初设立的目标，现在回过头看看是否依然存在，哪些做的好，哪些做的不足，为人处世是否更加稳重，心智是否变得更加成熟，这些变化只能是自我觉察，外人是难以察觉的。</p>
+<p>过去一年时光，点点滴滴发生的人和事，成为了目前现状的我，只有理清过去经历，才能立足未来，不忘初心，一年又一年向上成长足以。</p>
+<h3 id="对于健康"><a href="#对于健康" class="headerlink" title="对于健康"></a>对于健康</h3><p>在2022年初我设立的第一个目标，「<strong>体重控制在65-70公斤</strong>」。</p>
+<p>这个目标的初心主要是为了控制下体重增长。我们知道，一个人随着年龄增长，新陈代谢功能会逐渐弱化的，也就是说20多岁时一个人食量是两碗饭水准，那么在30多岁时如果还是按照两碗饭水准的话，因为摄入量比消耗量要大，那么多余的热量就容易转化为脂肪，进而表现出来就是体重的增长，人变得肥胖。从个人健康角度来看，肥胖可以说一切病因的诱因，比如高血压、高血糖、高血脂这三高等。</p>
+<p>既然要控制体重，那么如何控制呢，要不控制减少摄入量，也就是刻意吃的相对少点，保持饮食结构平衡，要不就是还是原来饮食量保持不变，多进行其他运动锻炼，把多余的热量摄入给消耗掉，也是可以把体重控制住。</p>
+<p>正好前几天进行体检了，一看体重维持在70.4公斤，但是体检报告中说有个轻度脂肪肝，这个脂肪肝其实已经伴随很多年了，每次去体检都会说有，所以说如果体重控制着不好的话，再过度增长的情况，后续就可能演变成肝硬化，更恶劣的病源就出来了，因此控制着个人体重增长是很有必要的。</p>
+<p>总体来说，对于这项目标，现在回头来看，这一年曾经在4-7月份进行减肥锻炼，那时候体重也是达到67公斤，没有继续减到65公斤，后续没有继续减肥锻炼，体重又开始反弹到70公斤左右，因此来明年的规划里，我会培养固化锻炼习惯，把饮食和运动有机的结合起来，打造更适合自己健康习惯。</p>
+<p>现在要知道健康不仅仅是对自己负责了，更多是对家庭其他人负责了，因为在开展多么宏伟高大的目标之前，良好的身体状态是做一切事情的前提和后盾。</p>
+<h3 id="对于探索"><a href="#对于探索" class="headerlink" title="对于探索"></a>对于探索</h3><p>在2022年初我设立的第二个目标，「<strong>成长为一名有1万粉丝的UP主</strong>」。</p>
+<p>这个目标的初心主要是能记录媳妇怀孕过程的日常点滴，希望能通过记录分享给更多地准宝爸和宝妈。说来惭愧的是，这块在4月份输出几个视频之后，后续就没继续了，为何没继续的原因，在于自己认知不足，对于创作视频内容的难度预估不足，可能开始想法是美好的，但是在执行过程中，缺少一些基础知识的学习，比如创作脚本、素材收集、平台选择、运营策略等等，并且做视频内容结构输出，到底是有人出境，还是配图和文字说明等，都没明确好。</p>
+<p>因此，这一目标之前设立的有点不切实际，总结过去的经验，在2023年，我会回归以文字记录输出来表达自己的生活，无论是通过学习总结，还是经历的人和事来表达，毕竟用文字记录来表达比较适合自己，自己所擅长也是写作输出，面对镜头通过语言表达，这一阶段没去刻意练习，表达出来的反馈平平，还不如扬长避短，把美好的时光浪费到自己所擅长的优势上去，能明白这点弥足珍贵。</p>
+<p>在2023年里，我给自己确立新的方向，那就是持续经营自己的公众号，可能已经做不到2019年那样每天都写一篇文章，但是起码能做到每周一篇文章，因为一年下来也就52周，写52篇文章还是在力所能及的范围内的。</p>
+<h3 id="对于家庭"><a href="#对于家庭" class="headerlink" title="对于家庭"></a>对于家庭</h3><p>在2022年初我设立的第三个目标，「<strong>践行当一名新手爸爸的准备</strong>」。</p>
+<p>当然这个目标完成了，7月份我们家小宝贝出生了，10月怀胎，瓜熟蒂落，随着小宝宝的诞生，对于我来说真正是组建了三口之家，以前过得是二人世界，现在过得有孩子的生活，完全是两种不一样的生活状态。</p>
+<p>其实为了小孩的出生，新手宝爸和宝妈要准备的内容是很多的，无论是物质上还是精神上都得准备。比如提前学习育儿知识，关注小孩每月成长变化，至于喂奶、换尿布、穿衣这三部曲是最基本了，还有不断阶段打疫苗，哄陪小孩，要陪他玩，要哄睡等等，无不考验着宝爸和宝妈。</p>
+<p>还有小孩出生后，妈妈喂奶的辛苦，比如堵奶严重怎么办，要断奶吗？孩子太小怕吃奶粉营养不良，明显能知道母乳会更好，但不断奶的话，妈妈堵奶太遭罪了，本来顺产孩子宝妈就经历了苦不堪言的疼痛，现在又得忍受着这堵奶仿佛针扎的痛苦，对于新手宝爸来说，都是选择题。</p>
+<p>这些选择题，我都经历过，因此也能知道当一名父母的不容易。之前重心可能更多是自身或伴侣身上，现在重心可能会更聚焦在小孩身上，可能这也是人类本能，当有人类幼崽时，母爱或父爱的伟大就会体现，抚养孩子，培养孩子长大成人，也是一个人天职所在，也是义不容辞的责任。=</p>
+<p>总的来说，这一年我可以说也完成可人生中另外一件最重要的事情，去年是完成了结婚这一重要事情，今年则是完成了生子这一重要事情。当然后续还有可能其他重要事情的发生，但从一个人一生的角度来看，你完成了后代的延续，并承担起养育后代的职责，对于人类社会的发展，不也小小地贡献一把自己应有的力量吗？</p>
+<p>始于2013年开始写年终总结，今年也是给自己写年终总结的第10年了，翻看过去几年所写的年度总结，会明显感觉自己过去几年经历了什么，收获有什么，哪些地方发生明显变化，哪些地方有遗憾的，哪些地方需要改进的，但是到现在却一直没有改进，这些记录能形成一个你自己独特的成长轨迹。</p>
+<p>年复一年，日复一日，日子过得平平淡淡，在岁末时静下心来，去寻找这一年发生在自身身上的感动时刻，并且用文字把它给记录和表达出来，形成每年记忆时刻，几十年后，再回头来看时，你或许会发现曾经可爱的你，是怎么一步一步走到现在的你，这些文字记录的人和事，就构成了你这一生的经历。</p>
+<p><strong>年终复盘很有必要，就是看看自己哪里表现的好「得瑟下」，表现的不好，督促自己去完善，因为一切都是为了遇见更美好的将来而努力着。</strong></p>
+<p><strong>2023年，聚焦「高效生活的践行」主题</strong></p>
 
       
     </div>
@@ -360,13 +367,13 @@
   
     
     <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></p>
+        <p><span>本文标题:</span><a href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></p>
         <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
-        <p><span>发布时间:</span>2017-03-28, 10:58:44</p>
-        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
+        <p><span>发布时间:</span>2022-12-25, 16:13:53</p>
+        <p><span>最后更新:</span>2022-12-25, 16:40:03</p>
         <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/03/28/2017-03-28-AndroidArtChapter12/" title="Android中的Drawable和动画">http://cryallen.com/2017/03/28/2017-03-28-AndroidArtChapter12/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2017/03/28/2017-03-28-AndroidArtChapter12/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span>原始链接:</span><a class="post-url" href="/2022/12/25/2022-12-25-2022review/" title="2022，为人父母的喜悦">http://cryallen.com/2022/12/25/2022-12-25-2022review/</a>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2022/12/25/2022-12-25-2022review/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -378,16 +385,10 @@
 
     <nav id="article-nav">
         
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">
-                    RecyclerView中装饰者模式应用
-                </a>
-            </div>
-        
         
             <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/03/02/2017-03-02-AndroidArtChapter11/">
-                    Android的线程和线程池
+                <a href="/2022/01/03/2022-01-03-2021review/">
+                    2021，组建家庭的突破
                 </a>
             </div>
         
@@ -412,7 +413,7 @@
         </div>
         <script>
             window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"Android中的Drawable和动画　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+                "common":{"bdSnsKey":{},"bdText":"2022，为人父母的喜悦　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     
 
@@ -428,7 +429,7 @@
     
       <div class="duoshuo" id="comments">
     <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/03/28/2017-03-28-AndroidArtChapter12/" data-title="Android中的Drawable和动画" data-url="http://cryallen.com/2017/03/28/2017-03-28-AndroidArtChapter12/"></div>
+    <div class="ds-thread" id="ds-thread" data-thread-key="2022/12/25/2022-12-25-2022review/" data-title="2022，为人父母的喜悦" data-url="http://cryallen.com/2022/12/25/2022-12-25-2022review/"></div>
     <script>
         var duoshuoQuery = {short_name:"zuoyejun"};
         var loadComment = function(){
@@ -451,15 +452,13 @@
 
     <div class="scroll" id="post-nav-button">
         
-            <a href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/" title="上一篇: RecyclerView中装饰者模式应用">
-                <i class="fa fa-angle-left"></i>
-            </a>
+            <a href="/" title="回到主页"><i class="fa fa-home"></i></a>
         
 
         <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
 
         
-            <a href="/2017/03/02/2017-03-02-AndroidArtChapter11/" title="下一篇: Android的线程和线程池">
+            <a href="/2022/01/03/2022-01-03-2021review/" title="下一篇: 2021，组建家庭的突破">
                 <i class="fa fa-angle-right"></i>
             </a>
         
