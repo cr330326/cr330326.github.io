@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
 
     <!--[if lt IE 9]>
         <style>body {display: none; background: none !important} </style>
@@ -8,32 +8,34 @@
     <![endif]-->
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Allen">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Allen" />
 
 
 
 <meta name="description" content="谷歌在2015年8月份时候，发布了Android 6.0版本，代号叫做“棉花糖”（Marshmallow ），其中的很大的一部分变化，是在用户权限授权上，或许是感觉之前默认授权的不合理，现在6.0出来，使得用户权限授权变得合理。这可能也是参考IOS系统的，只有在用户需要使用权限的时候，才去授权请求，这样做的目的是提高用户体验，当然，用户感觉好了，受苦的是我们开发人员，原来的规则不适用了，现在我们去">
-<meta name="keywords" content="Android,Marshmallow,Permission">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对于Android 6.0运行时权限理解">
 <meta property="og:url" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="谷歌在2015年8月份时候，发布了Android 6.0版本，代号叫做“棉花糖”（Marshmallow ），其中的很大的一部分变化，是在用户权限授权上，或许是感觉之前默认授权的不合理，现在6.0出来，使得用户权限授权变得合理。这可能也是参考IOS系统的，只有在用户需要使用权限的时候，才去授权请求，这样做的目的是提高用户体验，当然，用户感觉好了，受苦的是我们开发人员，原来的规则不适用了，现在我们去">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale">
 <meta property="og:image" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/m1.png">
 <meta property="og:image" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/m2.png">
 <meta property="og:image" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/m3.jpg">
 <meta property="og:image" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/m4.png">
-<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
+<meta property="article:published_time" content="2016-07-22T04:47:33.000Z">
+<meta property="article:modified_time" content="2023-04-05T02:08:05.218Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Marshmallow">
+<meta property="article:tag" content="Permission">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="对于Android 6.0运行时权限理解">
-<meta name="twitter:description" content="谷歌在2015年8月份时候，发布了Android 6.0版本，代号叫做“棉花糖”（Marshmallow ），其中的很大的一部分变化，是在用户权限授权上，或许是感觉之前默认授权的不合理，现在6.0出来，使得用户权限授权变得合理。这可能也是参考IOS系统的，只有在用户需要使用权限的时候，才去授权请求，这样做的目的是提高用户体验，当然，用户感觉好了，受苦的是我们开发人员，原来的规则不适用了，现在我们去">
 <meta name="twitter:image" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/m1.png">
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
 
     <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
@@ -56,7 +58,9 @@
     <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
 
 
+
 <link rel="stylesheet" href="/css/style.css">
+
 
 
 
@@ -79,7 +83,7 @@
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
+        search: 
     }
 </script>
 
@@ -107,7 +111,7 @@
     </script>
 
 <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-</head></html>
+<meta name="generator" content="Hexo 7.0.0-rc1"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -118,11 +122,9 @@
             <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">Allen</a></h1>
+          <h1 class="header-author"><a href="/"></a></h1>
         </hgroup>
 
-        
-        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
         
 
         
@@ -205,7 +207,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/" rel="tag">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/" rel="tag">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/" rel="tag">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/" rel="tag">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/" rel="tag">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/" rel="tag">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/" rel="tag">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/" rel="tag">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/" rel="tag">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/" rel="tag">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/" rel="tag">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/" rel="tag">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/" rel="tag">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/" rel="tag">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/" rel="tag">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/" rel="tag">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/" rel="tag">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B/" rel="tag">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%82%E6%95%B0/" rel="tag">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" rel="tag">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" rel="tag">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82/" rel="tag">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="tag">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E6%92%AD/" rel="tag">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" rel="tag">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3/" rel="tag">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B9%E6%B3%95/" rel="tag">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%89%E6%95%88%E6%80%A7/" rel="tag">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1/" rel="tag">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%99%A8/" rel="tag">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CAndroid/" rel="tag">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0/" rel="tag">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85/" rel="tag">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="tag">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E7%94%A8/" rel="tag">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E8%BD%BD/" rel="tag">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82/" rel="tag">静态工厂</a></li></ul>
                     </div>
                 </section>
                 
@@ -234,7 +236,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -242,10 +244,8 @@
                 <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
             </hgroup>
-            
-            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
             
             <nav class="header-menu">
                 <ul>
@@ -320,7 +320,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Permission/">Permission</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Marshmallow/" rel="tag">Marshmallow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Permission/" rel="tag">Permission</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -345,126 +345,130 @@
 </blockquote>
 <h2 id="权限类型"><a href="#权限类型" class="headerlink" title="权限类型"></a>权限类型</h2><p><img src="/2016/07/22/2016-07-22-AndroidMarshmallow/m3.jpg" alt="权限类型"></p>
 <blockquote>
-<p>在图中，我们可以看到整个权限里，可以分为系统权限和特殊权限授权。<br>    系统权限中，又分为normal和dangerous类型。</p>
+<p>在图中，我们可以看到整个权限里，可以分为系统权限和特殊权限授权。<br>    系统权限中，又分为normal和dangerous类型。</p>
+</blockquote>
 <ul>
 <li>normal：这个权限类型并不直接威胁到用户的隐私，可以直接在manifest清单里注册，系统会帮我们默认授权的。</li>
 <li>dangerous：这个可以直接给app访问用户一些敏感的数据，不仅需要在manifest清单里注册，同时在使用的时候，需要向系统请求授权。</li>
-<li>值得注意一点，这里有特殊权限授权的区别，分别是<br>SYSTEM_ALERT_WINDOW 和 WRITE_SETTINGS，虽然这两个权限也是属于dangerous权限类型，但是这两个授权请求方式和其他dangerous权限是不一样的，需要特殊处理 。</li>
+<li>值得注意一点，这里有特殊权限授权的区别，分别是<br>SYSTEM_ALERT_WINDOW 和 WRITE_SETTINGS，虽然这两个权限也是属于dangerous权限类型，但是这两个授权请求方式和其他dangerous权限是不一样的，需要特殊处理 。</li>
 </ul>
-</blockquote>
 <blockquote>
 <p>normal列表：</p>
+</blockquote>
 <ul>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_LOCATION_EXTRA_COMMANDS" target="_blank" rel="noopener">ACCESS_LOCATION_EXTRA_COMMANDS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_NETWORK_STATE" target="_blank" rel="noopener">ACCESS_NETWORK_STATE</a><ul>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_NOTIFICATION_POLICY" target="_blank" rel="noopener">ACCESS_NOTIFICATION_POLICY</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_WIFI_STATE" target="_blank" rel="noopener">ACCESS_WIFI_STATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH" target="_blank" rel="noopener">BLUETOOTH</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH_ADMIN" target="_blank" rel="noopener">BLUETOOTH_ADMIN</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BROADCAST_STICKY" target="_blank" rel="noopener">BROADCAST_STICKY</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_NETWORK_STATE" target="_blank" rel="noopener">CHANGE_NETWORK_STATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_WIFI_MULTICAST_STATE" target="_blank" rel="noopener">CHANGE_WIFI_MULTICAST_STATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_WIFI_STATE" target="_blank" rel="noopener">CHANGE_WIFI_STATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#DISABLE_KEYGUARD" target="_blank" rel="noopener">DISABLE_KEYGUARD</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#EXPAND_STATUS_BAR" target="_blank" rel="noopener">EXPAND_STATUS_BAR</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#GET_PACKAGE_SIZE" target="_blank" rel="noopener">GET_PACKAGE_SIZE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#INTERNET" target="_blank" rel="noopener">INTERNET</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#KILL_BACKGROUND_PROCESSES" target="_blank" rel="noopener">KILL_BACKGROUND_PROCESSES</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#MODIFY_AUDIO_SETTINGS" target="_blank" rel="noopener">MODIFY_AUDIO_SETTINGS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#NFC" target="_blank" rel="noopener">NFC</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SYNC_SETTINGS" target="_blank" rel="noopener">READ_SYNC_SETTINGS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SYNC_STATS" target="_blank" rel="noopener">READ_SYNC_STATS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_BOOT_COMPLETED" target="_blank" rel="noopener">RECEIVE_BOOT_COMPLETED</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#REORDER_TASKS" target="_blank" rel="noopener">REORDER_TASKS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#REQUEST_INSTALL_PACKAGES" target="_blank" rel="noopener">REQUEST_INSTALL_PACKAGES</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_TIME_ZONE" target="_blank" rel="noopener">SET_TIME_ZONE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_WALLPAPER" target="_blank" rel="noopener">SET_WALLPAPER</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_WALLPAPER_HINTS" target="_blank" rel="noopener">SET_WALLPAPER_HINTS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#TRANSMIT_IR" target="_blank" rel="noopener">TRANSMIT_IR</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#USE_FINGERPRINT" target="_blank" rel="noopener">USE_FINGERPRINT</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#VIBRATE" target="_blank" rel="noopener">VIBRATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WAKE_LOCK" target="_blank" rel="noopener">WAKE_LOCK</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_SYNC_SETTINGS" target="_blank" rel="noopener">WRITE_SYNC_SETTINGS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_ALARM" target="_blank" rel="noopener">SET_ALARM</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#INSTALL_SHORTCUT" target="_blank" rel="noopener">INSTALL_SHORTCUT</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#UNINSTALL_SHORTCUT" target="_blank" rel="noopener">UNINSTALL_SHORTCUT</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_LOCATION_EXTRA_COMMANDS">ACCESS_LOCATION_EXTRA_COMMANDS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_NETWORK_STATE">ACCESS_NETWORK_STATE</a><ul>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_NOTIFICATION_POLICY">ACCESS_NOTIFICATION_POLICY</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_WIFI_STATE">ACCESS_WIFI_STATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH">BLUETOOTH</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BLUETOOTH_ADMIN">BLUETOOTH_ADMIN</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BROADCAST_STICKY">BROADCAST_STICKY</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_NETWORK_STATE">CHANGE_NETWORK_STATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_WIFI_MULTICAST_STATE">CHANGE_WIFI_MULTICAST_STATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CHANGE_WIFI_STATE">CHANGE_WIFI_STATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#DISABLE_KEYGUARD">DISABLE_KEYGUARD</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#EXPAND_STATUS_BAR">EXPAND_STATUS_BAR</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#GET_PACKAGE_SIZE">GET_PACKAGE_SIZE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#INTERNET">INTERNET</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#KILL_BACKGROUND_PROCESSES">KILL_BACKGROUND_PROCESSES</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#MODIFY_AUDIO_SETTINGS">MODIFY_AUDIO_SETTINGS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#NFC">NFC</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SYNC_SETTINGS">READ_SYNC_SETTINGS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SYNC_STATS">READ_SYNC_STATS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_BOOT_COMPLETED">RECEIVE_BOOT_COMPLETED</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#REORDER_TASKS">REORDER_TASKS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#REQUEST_INSTALL_PACKAGES">REQUEST_INSTALL_PACKAGES</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_TIME_ZONE">SET_TIME_ZONE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_WALLPAPER">SET_WALLPAPER</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_WALLPAPER_HINTS">SET_WALLPAPER_HINTS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#TRANSMIT_IR">TRANSMIT_IR</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#USE_FINGERPRINT">USE_FINGERPRINT</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#VIBRATE">VIBRATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WAKE_LOCK">WAKE_LOCK</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_SYNC_SETTINGS">WRITE_SYNC_SETTINGS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SET_ALARM">SET_ALARM</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#INSTALL_SHORTCUT">INSTALL_SHORTCUT</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#UNINSTALL_SHORTCUT">UNINSTALL_SHORTCUT</a></li>
 </ul>
 </li>
 </ul>
-</blockquote>
 <hr>
 <blockquote>
 <p>dangerous列表：</p>
+</blockquote>
 <ul>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CALENDAR" target="_blank" rel="noopener">READ_CALENDAR</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CALENDAR" target="_blank" rel="noopener">WRITE_CALENDAR</a><ul>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CAMERA" target="_blank" rel="noopener">CAMERA</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission_group.html#CONTACTS" target="_blank" rel="noopener">CONTACTS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CONTACTS" target="_blank" rel="noopener">READ_CONTACTS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CONTACTS" target="_blank" rel="noopener">WRITE_CONTACTS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#GET_ACCOUNTS" target="_blank" rel="noopener">GET_ACCOUNTS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECORD_AUDIO" target="_blank" rel="noopener">RECORD_AUDIO</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_PHONE_STATE" target="_blank" rel="noopener">READ_PHONE_STATE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CALL_PHONE" target="_blank" rel="noopener">CALL_PHONE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CALL_LOG" target="_blank" rel="noopener">READ_CALL_LOG</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CALL_LOG" target="_blank" rel="noopener">WRITE_CALL_LOG</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ADD_VOICEMAIL" target="_blank" rel="noopener">ADD_VOICEMAIL</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#USE_SIP" target="_blank" rel="noopener">USE_SIP</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#PROCESS_OUTGOING_CALLS" target="_blank" rel="noopener">PROCESS_OUTGOING_CALLS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BODY_SENSORS" target="_blank" rel="noopener">BODY_SENSORS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SEND_SMS" target="_blank" rel="noopener">SEND_SMS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_SMS" target="_blank" rel="noopener">RECEIVE_SMS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SMS" target="_blank" rel="noopener">READ_SMS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_WAP_PUSH" target="_blank" rel="noopener">RECEIVE_WAP_PUSH</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_MMS" target="_blank" rel="noopener">RECEIVE_MMS</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_EXTERNAL_STORAGE" target="_blank" rel="noopener">READ_EXTERNAL_STORAGE</a></li>
-<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_EXTERNAL_STORAGE" target="_blank" rel="noopener">WRITE_EXTERNAL_STORAGE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CALENDAR">READ_CALENDAR</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CALENDAR">WRITE_CALENDAR</a><ul>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CAMERA">CAMERA</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission_group.html#CONTACTS">CONTACTS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CONTACTS">READ_CONTACTS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CONTACTS">WRITE_CONTACTS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#GET_ACCOUNTS">GET_ACCOUNTS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION">ACCESS_FINE_LOCATION</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION">ACCESS_COARSE_LOCATION</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECORD_AUDIO">RECORD_AUDIO</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_PHONE_STATE">READ_PHONE_STATE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#CALL_PHONE">CALL_PHONE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_CALL_LOG">READ_CALL_LOG</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_CALL_LOG">WRITE_CALL_LOG</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#ADD_VOICEMAIL">ADD_VOICEMAIL</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#USE_SIP">USE_SIP</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#PROCESS_OUTGOING_CALLS">PROCESS_OUTGOING_CALLS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#BODY_SENSORS">BODY_SENSORS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#SEND_SMS">SEND_SMS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_SMS">RECEIVE_SMS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_SMS">READ_SMS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_WAP_PUSH">RECEIVE_WAP_PUSH</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#RECEIVE_MMS">RECEIVE_MMS</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE</a></li>
+<li><a href="http://developer.android.com/reference/android/Manifest.permission.html#WRITE_EXTERNAL_STORAGE">WRITE_EXTERNAL_STORAGE</a></li>
 </ul>
 </li>
 </ul>
-</blockquote>
 <h2 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h2><blockquote>
 <ul>
 <li>当然，谷歌也是考虑到如果是以API 23之前的版本编译的APP，在6.0的系统上运行，还是能兼容的。如果是23之前的版本编译的APP，则权限模型走的是老的模式，也就是在一条龙的模式，在manifest清单注册，系统会帮我们默认授权，并且也能运行。</li>
-<li>但如果是以API 23的版本编译的APP，那走的的必须是新的权限模型，在遇到dangerous权限的时候，必须进行授权的，如果没有进行授权话，系统则会提示崩溃信息。所以，基于6.0系统的开发的程序， 在打开页面的时候，必须要考虑这个页面是否用到需要授权的权限，页面检测是否已经授权过了没。</li>
 </ul>
 </blockquote>
+<ul>
+<li>但如果是以API 23的版本编译的APP，那走的的必须是新的权限模型，在遇到dangerous权限的时候，必须进行授权的，如果没有进行授权话，系统则会提示崩溃信息。所以，基于6.0系统的开发的程序， 在打开页面的时候，必须要考虑这个页面是否用到需要授权的权限，页面检测是否已经授权过了没。</li>
+</ul>
 <h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><blockquote>
-<h6 id="第一步：检测权限"><a href="#第一步：检测权限" class="headerlink" title="第一步：检测权限"></a>第一步：检测权限</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assume thisActivity is the current activity</span></span><br><span class="line"><span class="keyword">int</span> permissionCheck = ContextCompat.checkSelfPermission(<span class="keyword">this</span> Activity, Manifest.permission.WRITE_CALENDAR);</span><br></pre></td></tr></table></figure>
-</blockquote>
-<h6 id="第二步：请求权限"><a href="#第二步：请求权限" class="headerlink" title="第二步：请求权限"></a>第二步：请求权限</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here, thisActivity is the current activity</span></span><br><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span> Activity, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;  </span><br><span class="line">  <span class="comment">// Should we show an explanation? </span></span><br><span class="line"><span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span> Activity, Manifest.permission.READ_CONTACTS)) &#123;      </span><br><span class="line">  <span class="comment">// Show an expanation to the user *asynchronously* -- don't block       </span></span><br><span class="line">  <span class="comment">// this thread waiting for the user's response! After the user   </span></span><br><span class="line">  <span class="comment">// sees the explanation, try again to request the permission.   </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span> &#123;       </span><br><span class="line">  <span class="comment">// No explanation needed, we can request the permission.   </span></span><br><span class="line">  ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> String[]&#123;Manifest.permission.READ_CONTACTS&#125;, MY_PERMISSIONS_REQUEST_READ_CONTACTS);</span><br><span class="line">  <span class="comment">//MY_PERMISSIONS_REQUEST_READ_CONTACTS is an        </span></span><br><span class="line">  <span class="comment">// app-defined int constant. The callback method gets the       </span></span><br><span class="line">  <span class="comment">// result of the request.  </span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="第一步：检测权限"><a href="#第一步：检测权限" class="headerlink" title="第一步：检测权限"></a>第一步：检测权限</h6></blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Assume thisActivity is the current activity</span></span><br><span class="line"><span class="type">int</span> <span class="variable">permissionCheck</span> <span class="operator">=</span> ContextCompat.checkSelfPermission(<span class="built_in">this</span> Activity, Manifest.permission.WRITE_CALENDAR); </span><br></pre></td></tr></table></figure>
+<h6 id="第二步：请求权限"><a href="#第二步：请求权限" class="headerlink" title="第二步：请求权限"></a>第二步：请求权限</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Here, thisActivity is the current activity</span></span><br><span class="line"><span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="built_in">this</span> Activity, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) &#123;  </span><br><span class="line">  <span class="comment">// Should we show an explanation? </span></span><br><span class="line"><span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="built_in">this</span> Activity, Manifest.permission.READ_CONTACTS)) &#123;      </span><br><span class="line">  <span class="comment">// Show an expanation to the user *asynchronously* -- don&#x27;t block       </span></span><br><span class="line">  <span class="comment">// this thread waiting for the user&#x27;s response! After the user   </span></span><br><span class="line">  <span class="comment">// sees the explanation, try again to request the permission.   </span></span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">else</span> &#123;       </span><br><span class="line">  <span class="comment">// No explanation needed, we can request the permission.   </span></span><br><span class="line">  ActivityCompat.requestPermissions(thisActivity, <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;Manifest.permission.READ_CONTACTS&#125;, MY_PERMISSIONS_REQUEST_READ_CONTACTS);</span><br><span class="line">  <span class="comment">//MY_PERMISSIONS_REQUEST_READ_CONTACTS is an        </span></span><br><span class="line">  <span class="comment">// app-defined int constant. The callback method gets the       </span></span><br><span class="line">  <span class="comment">// result of the request.  </span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<h6 id="第三步：处理权限请求结果"><a href="#第三步：处理权限请求结果" class="headerlink" title="第三步：处理权限请求结果"></a>第三步：处理权限请求结果</h6><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRequestPermissionsResult</span><span class="params">(<span class="keyword">int</span> requestCode,String permissions[], <span class="keyword">int</span>[] grantResults)</span> </span>&#123;    </span><br><span class="line"><span class="keyword">switch</span> (requestCode) &#123;        </span><br><span class="line">  <span class="keyword">case</span> MY_PERMISSIONS_REQUEST_READ_CONTACTS: &#123;            </span><br><span class="line">      <span class="comment">// If request is cancelled, the result arrays are empty.            </span></span><br><span class="line">      <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span> &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;                </span><br><span class="line">      <span class="comment">// permission was granted, yay! Do the                </span></span><br><span class="line">      <span class="comment">// contacts-related task you need to do.            </span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;                </span><br><span class="line">      <span class="comment">// permission denied, boo! Disable the                </span></span><br><span class="line">      <span class="comment">// functionality that depends on this permission.            </span></span><br><span class="line">      &#125;            </span><br><span class="line">      <span class="keyword">return</span>;        </span><br><span class="line">    &#125;        </span><br><span class="line">   <span class="comment">// other 'case' lines to check for other        </span></span><br><span class="line">   <span class="comment">// permissions this app might request    </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</blockquote>
+<h6 id="第三步：处理权限请求结果"><a href="#第三步：处理权限请求结果" class="headerlink" title="第三步：处理权限请求结果"></a>第三步：处理权限请求结果</h6></blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onRequestPermissionsResult</span><span class="params">(<span class="type">int</span> requestCode,String permissions[], <span class="type">int</span>[] grantResults)</span> &#123;    </span><br><span class="line"><span class="keyword">switch</span> (requestCode) &#123;        </span><br><span class="line">  <span class="keyword">case</span> MY_PERMISSIONS_REQUEST_READ_CONTACTS: &#123;            </span><br><span class="line">      <span class="comment">// If request is cancelled, the result arrays are empty.            </span></span><br><span class="line">      <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span> &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;                </span><br><span class="line">      <span class="comment">// permission was granted, yay! Do the                </span></span><br><span class="line">      <span class="comment">// contacts-related task you need to do.            </span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;                </span><br><span class="line">      <span class="comment">// permission denied, boo! Disable the                </span></span><br><span class="line">      <span class="comment">// functionality that depends on this permission.            </span></span><br><span class="line">      &#125;            </span><br><span class="line">      <span class="keyword">return</span>;        </span><br><span class="line">    &#125;        </span><br><span class="line">   <span class="comment">// other &#x27;case&#x27; lines to check for other        </span></span><br><span class="line">   <span class="comment">// permissions this app might request    </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>其中要特别注意的是，如果是针对android.permission.SYSTEM_ALERT_WINDOW<br>android.permission.WRITE_SETTINGS,这两个权限，实现方式跟上面三步骤是不一样的，需要另外特殊处理。</p>
 </blockquote>
 <blockquote>
 <ul>
-<li>针对SYSTEM_ALERT_WINDOW权限，需要向系统发送一个<a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_OVERLAY_PERMISSION" target="_blank" rel="noopener">ACTION_MANAGE_OVERLAY_PERMISSION</a>这样一个动作，同时可以用<a href="http://developer.android.com/reference/android/provider/Settings.html#canDrawOverlays(android.content.Context" target="_blank" rel="noopener">Settings.canDrawOverlays()</a>) 方法进行判断之前是否已经授权过了。</li>
+<li>针对SYSTEM_ALERT_WINDOW权限，需要向系统发送一个<a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_OVERLAY_PERMISSION">ACTION_MANAGE_OVERLAY_PERMISSION</a>这样一个动作，同时可以用<a href="http://developer.android.com/reference/android/provider/Settings.html#canDrawOverlays(android.content.Context)">Settings.canDrawOverlays()</a> 方法进行判断之前是否已经授权过了。</li>
 </ul>
 </blockquote>
 <blockquote>
 <ul>
-<li>针对WRITE_SETTINGS权限，需要向系统发送一个<a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_OVERLAY_PERMISSION" target="_blank" rel="noopener"></a><br><a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_WRITE_SETTINGS" target="_blank" rel="noopener">ACTION_MANAGE_WRITE_SETTINGS</a>这样一个动作，同时可以用<a href="http://developer.android.com/reference/android/provider/Settings.html#canDrawOverlays(android.content.Context" target="_blank" rel="noopener"></a>)<a href="http://developer.android.com/reference/android/provider/Settings.System.html#canWrite(android.content.Context" target="_blank" rel="noopener">Settings.System.canWrite()</a>)方法进行判断之前是否已经授权过了。</li>
+<li>针对WRITE_SETTINGS权限，需要向系统发送一个<a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_OVERLAY_PERMISSION"></a><br><a href="http://developer.android.com/reference/android/provider/Settings.html#ACTION_MANAGE_WRITE_SETTINGS">ACTION_MANAGE_WRITE_SETTINGS</a>这样一个动作，同时可以用<a href="http://developer.android.com/reference/android/provider/Settings.html#canDrawOverlays(android.content.Context)"></a><a href="http://developer.android.com/reference/android/provider/Settings.System.html#canWrite(android.content.Context)">Settings.System.canWrite()</a>方法进行判断之前是否已经授权过了。</li>
 </ul>
 </blockquote>
 <blockquote>
-<p>具体代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Intent intent = <span class="keyword">new</span> Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">"package:"</span> + getPackageName()));</span><br><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure></p>
+<p>具体代码：</p>
 </blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);</span><br><span class="line">intent.setData(Uri.parse(<span class="string">&quot;package:&quot;</span> + getPackageName()));</span><br><span class="line">intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);</span><br><span class="line">startActivity(intent);</span><br></pre></td></tr></table></figure>
+
 <h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><blockquote>
-<p>之前在工作中，碰到一种情况，如果是运行在6.0的版本上是需要走新的权限模型，如果是运行在老的版本上，则需要进行一个判断，此时碰到一个问题是，在谷歌官方推荐中，在判断app运行的系统是否在Android M上时，它的判断是如下：  Build.VERSION.CODENAME.equals(“MNC”); 可是在我实际适配中，发现这句却无效的，就改用Build.VERSION.SDK_INT &gt;= 23。<br><img src="/2016/07/22/2016-07-22-AndroidMarshmallow/m4.png" alt="img"></p>
+<p>之前在工作中，碰到一种情况，如果是运行在6.0的版本上是需要走新的权限模型，如果是运行在老的版本上，则需要进行一个判断，此时碰到一个问题是，在谷歌官方推荐中，在判断app运行的系统是否在Android M上时，它的判断是如下：  Build.VERSION.CODENAME.equals(“MNC”); 可是在我实际适配中，发现这句却无效的，就改用Build.VERSION.SDK_INT &gt;&#x3D; 23。<br><img src="/2016/07/22/2016-07-22-AndroidMarshmallow/m4.png" alt="img"></p>
 </blockquote>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li>首先要知道6.0版本权限模型跟原来版本是不同的，不再是统一在manifest中默认系统授权，而是有需要的时候，向系统请求授权，提高用户体验。</li>
 <li>了解权限检测流程，一点注意点是如果系统权限弹窗提示框被不再提醒了，需要我们自定义提示弹窗，引导用户去授权。</li>
-<li>明白权限类型，分为normal和dangerous类型，同时，在dangerous中还需要注意一点，SYSTEM_ALERT_WINDOW 和 WRITE_SETTINGS这两个特殊授权请求方式，跟一般授权请求方式不同。</li>
+<li>明白权限类型，分为normal和dangerous类型，同时，在dangerous中还需要注意一点，SYSTEM_ALERT_WINDOW 和 WRITE_SETTINGS这两个特殊授权请求方式，跟一般授权请求方式不同。</li>
 <li>在判断APP是否运行在Android M上，可以用版本号来判断，可以准确点。</li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><blockquote>
-<p>有个具体demo：<a href="https://github.com/SpikeKing/wcl-permission-demo" target="_blank" rel="noopener">https://github.com/SpikeKing/wcl-permission-demo</a><br>流程图：<a href="http://blog.csdn.net/caroline_wendy/article/details/50587230" target="_blank" rel="noopener">http://blog.csdn.net/caroline_wendy/article/details/50587230</a></p>
+<p>有个具体demo：<a href="https://github.com/SpikeKing/wcl-permission-demo">https://github.com/SpikeKing/wcl-permission-demo</a><br>流程图：<a href="http://blog.csdn.net/caroline_wendy/article/details/50587230">http://blog.csdn.net/caroline_wendy&#x2F;article&#x2F;details&#x2F;50587230</a></p>
 </blockquote>
 
       
@@ -475,12 +479,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
         <p><span>发布时间:</span>2016-07-22, 12:47:33</p>
-        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
+        <p><span>最后更新:</span>2023-04-05, 10:08:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/22/2016-07-22-AndroidMarshmallow/" title="对于Android 6.0运行时权限理解">http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/22/2016-07-22-AndroidMarshmallow/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
@@ -579,7 +583,7 @@
         
     </div>
 
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/03/2022-01-03-2021review/">2021，组建家庭的突破</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/10/18/2021-10-18-wanlearning/">WanLearning-Kotlin 实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/29/2021-09-29-Clearance-Android-02/">「通关Android」我们熟悉的陌生人-进程和线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/03/2021-09-03-Clearance-Android-01/">「通关Android」那些年我们认识的操作系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/07/21/2021-07-21-asr/">当下语音识别技术发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/27/2021-03-27-2021plan/">2021年度规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/01/02/2024-01-02-2023review/">2023，陪伴点滴的幸福</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/03/2022-01-03-2021review/">2021，组建家庭的突破</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/10/18/2021-10-18-wanlearning/">WanLearning-Kotlin 实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/29/2021-09-29-Clearance-Android-02/">「通关Android」我们熟悉的陌生人-进程和线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/03/2021-09-03-Clearance-Android-01/">「通关Android」那些年我们认识的操作系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/07/21/2021-07-21-asr/">当下语音识别技术发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/27/2021-03-27-2021plan/">2021年度规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
 
 
 
@@ -593,7 +597,7 @@
         <div id="footer-info">
             <div class="footer-left">
                 <i class="fa fa-copyright"></i> 
-                2016-2022 Allen
+                2016-2024 Allen
             </div>
         </div>
         
