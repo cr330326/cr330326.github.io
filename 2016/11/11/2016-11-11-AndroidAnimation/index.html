@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<head>
 
     <!--[if lt IE 9]>
         <style>body {display: none; background: none !important} </style>
@@ -8,27 +8,28 @@
     <![endif]-->
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Allen">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Allen" />
 
 
 
 <meta name="description" content="现在Andorid中动画做的效果是越来越炫丽了，难道就不想知道这些炫丽效果的背后是什么基础完成的吗，总体来说，在Android中有分为三类动画类型，1，Drawable Animation；2，View Animation;3，Property Animation，了解基本的基础知识，才能更好在开发中去应用。">
-<meta name="keywords" content="Android,Animation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android动画的理解">
 <meta property="og:url" content="http://cryallen.com/2016/11/11/2016-11-11-AndroidAnimation/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="现在Andorid中动画做的效果是越来越炫丽了，难道就不想知道这些炫丽效果的背后是什么基础完成的吗，总体来说，在Android中有分为三类动画类型，1，Drawable Animation；2，View Animation;3，Property Animation，了解基本的基础知识，才能更好在开发中去应用。">
-<meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
+<meta property="og:locale">
+<meta property="article:published_time" content="2016-11-11T03:03:44.000Z">
+<meta property="article:modified_time" content="2023-04-05T02:08:05.231Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Animation">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android动画的理解">
-<meta name="twitter:description" content="现在Andorid中动画做的效果是越来越炫丽了，难道就不想知道这些炫丽效果的背后是什么基础完成的吗，总体来说，在Android中有分为三类动画类型，1，Drawable Animation；2，View Animation;3，Property Animation，了解基本的基础知识，才能更好在开发中去应用。">
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
 
 
     <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
@@ -51,7 +52,9 @@
     <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
 
 
+
 <link rel="stylesheet" href="/css/style.css">
+
 
 
 
@@ -74,7 +77,7 @@
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
+        search: 
     }
 </script>
 
@@ -102,7 +105,7 @@
     </script>
 
 <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-</head></html>
+<meta name="generator" content="Hexo 7.0.0-rc1"></head>
 <body>
   <div id="container">
     <div class="left-col">
@@ -113,11 +116,9 @@
             <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/">Allen</a></h1>
+          <h1 class="header-author"><a href="/"></a></h1>
         </hgroup>
 
-        
-        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
         
 
         
@@ -200,7 +201,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
+                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/" rel="tag">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/" rel="tag">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/" rel="tag">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/" rel="tag">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/" rel="tag">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/" rel="tag">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/" rel="tag">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/" rel="tag">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/" rel="tag">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/" rel="tag">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/" rel="tag">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/" rel="tag">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/" rel="tag">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/" rel="tag">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/" rel="tag">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/" rel="tag">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/" rel="tag">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B/" rel="tag">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%82%E6%95%B0/" rel="tag">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" rel="tag">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" rel="tag">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82/" rel="tag">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="tag">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E6%92%AD/" rel="tag">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" rel="tag">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3/" rel="tag">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B9%E6%B3%95/" rel="tag">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%89%E6%95%88%E6%80%A7/" rel="tag">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1/" rel="tag">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%99%A8/" rel="tag">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CAndroid/" rel="tag">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0/" rel="tag">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85/" rel="tag">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="tag">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E7%94%A8/" rel="tag">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E8%BD%BD/" rel="tag">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82/" rel="tag">静态工厂</a></li></ul>
                     </div>
                 </section>
                 
@@ -229,7 +230,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -237,10 +238,8 @@
                 <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
             </hgroup>
-            
-            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
             
             <nav class="header-menu">
                 <ul>
@@ -315,7 +314,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Animation/">Animation</a></li></ul>
+        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Animation/" rel="tag">Animation</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -338,41 +337,41 @@
 <blockquote>
 <ul>
 <li><strong>solid</strong>: 设置形状填充的颜色，只有android:color一个属性<ul>
-<li><em>android:color</em> 填充的颜色</li>
+<li><em>android:color</em> 填充的颜色</li>
 </ul>
 </li>
 <li><strong>padding</strong>: 设置内容与形状边界的内间距，可分别设置左右上下的距离<ul>
-<li><em>android:left</em> 左内间距</li>
-<li><em>android:right</em> 右内间距</li>
-<li><em>android:top</em> 上内间距</li>
-<li><em>android:bottom</em> 下内间距</li>
+<li><em>android:left</em> 左内间距</li>
+<li><em>android:right</em> 右内间距</li>
+<li><em>android:top</em> 上内间距</li>
+<li><em>android:bottom</em> 下内间距</li>
 </ul>
 </li>
 <li><strong>gradient</strong>: 设置形状的渐变颜色，可以是线性渐变、辐射渐变、扫描性渐变<ul>
-<li><em>android:type</em> 渐变的类型<em>linear</em> 线性渐变，默认的渐变类型<em>radial</em> 放射渐变，设置该项时，android:gradientRadius也必须设置<em>sweep</em> 扫描性渐变</li>
-<li><em>android:startColor</em> 渐变开始的颜色</li>
-<li><em>android:endColor</em> 渐变结束的颜色</li>
-<li><em>android:centerColor</em> 渐变中间的颜色</li>
-<li><em>android:angle</em> 渐变的角度，线性渐变时才有效，必须是45的倍数，0表示从左到右，90表示从下到上</li>
-<li><em>android:centerX</em> 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间</li>
-<li><em>android:centerY</em> 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间</li>
-<li><em>android:gradientRadius</em> 渐变的半径，只有渐变类型为radial时才使用</li>
-<li><em>android:useLevel</em> 如果为true，则可在LevelListDrawable中使用</li>
+<li><em>android:type</em> 渐变的类型<em>linear</em> 线性渐变，默认的渐变类型<em>radial</em> 放射渐变，设置该项时，android:gradientRadius也必须设置<em>sweep</em> 扫描性渐变</li>
+<li><em>android:startColor</em> 渐变开始的颜色</li>
+<li><em>android:endColor</em> 渐变结束的颜色</li>
+<li><em>android:centerColor</em> 渐变中间的颜色</li>
+<li><em>android:angle</em> 渐变的角度，线性渐变时才有效，必须是45的倍数，0表示从左到右，90表示从下到上</li>
+<li><em>android:centerX</em> 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间</li>
+<li><em>android:centerY</em> 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间</li>
+<li><em>android:gradientRadius</em> 渐变的半径，只有渐变类型为radial时才使用</li>
+<li><em>android:useLevel</em> 如果为true，则可在LevelListDrawable中使用</li>
 </ul>
 </li>
 <li><strong>corners</strong>: 设置圆角，只适用于rectangle类型，可分别设置四个角不同半径的圆角，当设置的圆角半径很大时，比如200dp，就可变成弧形边了<ul>
-<li><em>android:radius</em> 圆角半径，会被下面每个特定的圆角属性重写</li>
-<li><em>android:topLeftRadius</em> 左上角的半径</li>
-<li><em>android:topRightRadius</em> 右上角的半径</li>
-<li><em>android:bottomLeftRadius</em> 左下角的半径</li>
-<li><em>android:bottomRightRadius</em> 右下角的半径</li>
+<li><em>android:radius</em> 圆角半径，会被下面每个特定的圆角属性重写</li>
+<li><em>android:topLeftRadius</em> 左上角的半径</li>
+<li><em>android:topRightRadius</em> 右上角的半径</li>
+<li><em>android:bottomLeftRadius</em> 左下角的半径</li>
+<li><em>android:bottomRightRadius</em> 右下角的半径</li>
 </ul>
 </li>
 <li><strong>stroke</strong>: 设置描边，可描成实线或虚线。<ul>
-<li><em>android:color</em> 描边的颜色</li>
-<li><em>android:width</em> 描边的宽度</li>
-<li><em>android:dashWidth</em> 设置虚线时的横线长度</li>
-<li><em>android:dashGap</em> 设置虚线时的横线之间的距离</li>
+<li><em>android:color</em> 描边的颜色</li>
+<li><em>android:width</em> 描边的宽度</li>
+<li><em>android:dashWidth</em> 设置虚线时的横线长度</li>
+<li><em>android:dashGap</em> 设置虚线时的横线之间的距离</li>
 </ul>
 </li>
 </ul>
@@ -381,8 +380,8 @@
 <blockquote>
 <p>它也有solid、padding、stroke、gradient、size几个特性，size是用来设置形状大小的，如下：</p>
 <p><strong>size</strong>: 设置形状默认的大小，可设置宽度和高度</p>
-<p><em>android:width</em> 宽度</p>
-<p><em>android:height</em> 高度</p>
+<p><em>android:width</em> 宽度</p>
+<p><em>android:height</em> 高度</p>
 </blockquote>
 <p><strong>line</strong></p>
 <blockquote>
@@ -401,11 +400,11 @@
 <blockquote>
 <p>首先，shape根元素有些属性只适用于ring类型，先过目下这些属性吧：</p>
 <ul>
-<li>android:innerRadius 内环的半径</li>
-<li>android:innerRadiusRatio 浮点型，以环的宽度比率来表示内环的半径，默认为3，表示内环半径为环的宽度除以3，该值会被android:innerRadius覆盖</li>
-<li>android:thickness 环的厚度</li>
-<li>android:thicknessRatio 浮点型，以环的宽度比率来表示环的厚度，默认为9，表示环的厚度为环的宽度除以9，该值会被android:thickness覆盖</li>
-<li>android:useLevel 一般为false，否则可能环形无法显示，只有作为LevelListDrawable使用时才设为true</li>
+<li>android:innerRadius 内环的半径</li>
+<li>android:innerRadiusRatio 浮点型，以环的宽度比率来表示内环的半径，默认为3，表示内环半径为环的宽度除以3，该值会被android:innerRadius覆盖</li>
+<li>android:thickness 环的厚度</li>
+<li>android:thicknessRatio 浮点型，以环的宽度比率来表示环的厚度，默认为9，表示环的厚度为环的宽度除以9，该值会被android:thickness覆盖</li>
+<li>android:useLevel 一般为false，否则可能环形无法显示，只有作为LevelListDrawable使用时才设为true</li>
 </ul>
 </blockquote>
 <h5 id="Selector篇"><a href="#Selector篇" class="headerlink" title="Selector篇"></a>Selector篇</h5><p>shape只能定义单一的形状，而实际应用中，很多地方比如按钮、Tab、ListItem等都是不同状态有不同的展示形状。举个例子，一个按钮的背景，默认时是一个形状，按下时是一个形状，不可操作时又是另一个形状。有时候，不同状态下改变的不只是背景、图片等，文字颜色也会相应改变。而要处理这些不同状态下展示什么的问题，就要用selector来实现了。</p>
@@ -425,7 +424,8 @@
 </blockquote>
 <h5 id="Layer-List篇"><a href="#Layer-List篇" class="headerlink" title="Layer-List篇"></a>Layer-List篇</h5><p>使用layer-list可以将多个drawable按照顺序层叠在一起显示。</p>
 <p>带阴影的圆角矩形</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&lt;layer-list xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span><br><span class="line">    &lt;!-- 灰色阴影 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:left=<span class="string">"2dp"</span></span><br><span class="line">        android:top=<span class="string">"4dp"</span>&gt;</span><br><span class="line">        &lt;shape&gt;</span><br><span class="line">            &lt;solid android:color=<span class="string">"@android:color/darker_gray"</span> /&gt;</span><br><span class="line">            &lt;corners android:radius=<span class="string">"10dp"</span> /&gt;</span><br><span class="line">        &lt;/shape&gt;</span><br><span class="line">    &lt;/item&gt;</span><br><span class="line">    &lt;!-- 白色前景 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:bottom=<span class="string">"4dp"</span></span><br><span class="line">        android:right=<span class="string">"2dp"</span>&gt;</span><br><span class="line">        &lt;shape&gt;</span><br><span class="line">            &lt;solid android:color=<span class="string">"#FFFFFF"</span> /&gt;</span><br><span class="line">            &lt;corners android:radius=<span class="string">"10dp"</span> /&gt;</span><br><span class="line">        &lt;/shape&gt;</span><br><span class="line">    &lt;/item&gt;</span><br><span class="line">&lt;/layer-list&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;layer-list xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span><br><span class="line">    &lt;!-- 灰色阴影 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:left=<span class="string">&quot;2dp&quot;</span></span><br><span class="line">        android:top=<span class="string">&quot;4dp&quot;</span>&gt;</span><br><span class="line">        &lt;shape&gt;</span><br><span class="line">            &lt;solid android:color=<span class="string">&quot;@android:color/darker_gray&quot;</span> /&gt;</span><br><span class="line">            &lt;corners android:radius=<span class="string">&quot;10dp&quot;</span> /&gt;</span><br><span class="line">        &lt;/shape&gt;</span><br><span class="line">    &lt;/item&gt;</span><br><span class="line">    &lt;!-- 白色前景 --&gt;</span><br><span class="line">    &lt;item</span><br><span class="line">        android:bottom=<span class="string">&quot;4dp&quot;</span></span><br><span class="line">        android:right=<span class="string">&quot;2dp&quot;</span>&gt;</span><br><span class="line">        &lt;shape&gt;</span><br><span class="line">            &lt;solid android:color=<span class="string">&quot;#FFFFFF&quot;</span> /&gt;</span><br><span class="line">            &lt;corners android:radius=<span class="string">&quot;10dp&quot;</span> /&gt;</span><br><span class="line">        &lt;/shape&gt;</span><br><span class="line">    &lt;/item&gt;</span><br><span class="line">&lt;/layer-list&gt;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>从上面的示例代码可以看到，layer-list可以作为根节点，也可以作为selector中item的子节点。layer-list可以添加多个item子节点，每个item子节点对应一个drawable资源，按照item从上到下的顺序叠加在一起，再通过设置每个item的偏移量就可以看到阴影等效果了。layer-list的item可以通过下面四个属性设置偏移量：</p>
 <ul>
@@ -446,30 +446,30 @@
 <p>nine-patch标签</p>
 <p>使用nine-patch标签可以对点九图片做一些设置处理，不过可设置的属性并不多：</p>
 <ul>
-<li>android:src 必填项，必须指定点九类型的图片</li>
-<li>android:dither 设置是否抖动，图片与屏幕的像素配置不同时会用到，比如图片是ARGB 8888的，而屏幕是RGB565</li>
-<li>android:tint 给图片着色，比如图片本来是黑色的，着色后可以变成白色</li>
-<li>android:tintMode 着色模式，API Level 21(Android 5.0)才添加的属性</li>
-<li>android:alpha 设置图片的透明度，取值范围为0.0~1.0之间，0.0为全透明，1.0为全不透明，API Level最低要求是11</li>
-<li>android:autoMirrored 设置图片是否需要镜像反转，当布局方向是RTL，即从右到左布局时才有用，API Level 19(Android 4.4)才添加的属性</li>
+<li>android:src 必填项，必须指定点九类型的图片</li>
+<li>android:dither 设置是否抖动，图片与屏幕的像素配置不同时会用到，比如图片是ARGB 8888的，而屏幕是RGB565</li>
+<li>android:tint 给图片着色，比如图片本来是黑色的，着色后可以变成白色</li>
+<li>android:tintMode 着色模式，API Level 21(Android 5.0)才添加的属性</li>
+<li>android:alpha 设置图片的透明度，取值范围为0.0~1.0之间，0.0为全透明，1.0为全不透明，API Level最低要求是11</li>
+<li>android:autoMirrored 设置图片是否需要镜像反转，当布局方向是RTL，即从右到左布局时才有用，API Level 19(Android 4.4)才添加的属性</li>
 </ul>
 <p>scale标签</p>
 <p>使用scale标签可以对drawable进行缩放操作，和clip一样是通过设置level来控制缩放的比例。scale标签可以设置的属性如下：</p>
 <ul>
-<li>android:drawable 指定drawable资源，如果不设置该属性，也可以定义drawable类型的子标签</li>
-<li>android:scaleHeight 设置可缩放的高度，用百分比表示，格式为XX%，0%表示不做任何缩放，50%表示只能缩放一半</li>
-<li>android:scaleWidth 设置可缩放的宽度，用百分比表示，格式为XX%，0%表示不做任何缩放，50%表示只能缩放一半</li>
-<li>android:scaleGravity 设置drawable缩放后的位置，取值和bitmap标签的一样，就不一一列举说明了，不过默认值是left</li>
-<li>android:useIntrinsicSizeAsMinimum 设置drawable原有尺寸作为最小尺寸，设为true时，缩放基本无效，API Level最低要求为11</li>
+<li>android:drawable 指定drawable资源，如果不设置该属性，也可以定义drawable类型的子标签</li>
+<li>android:scaleHeight 设置可缩放的高度，用百分比表示，格式为XX%，0%表示不做任何缩放，50%表示只能缩放一半</li>
+<li>android:scaleWidth 设置可缩放的宽度，用百分比表示，格式为XX%，0%表示不做任何缩放，50%表示只能缩放一半</li>
+<li>android:scaleGravity 设置drawable缩放后的位置，取值和bitmap标签的一样，就不一一列举说明了，不过默认值是left</li>
+<li>android:useIntrinsicSizeAsMinimum 设置drawable原有尺寸作为最小尺寸，设为true时，缩放基本无效，API Level最低要求为11</li>
 </ul>
 <p>rotate标签</p>
-<p>使用rotate标签可以对一个drawable进行旋转操作，在<a href="http://keeganlee.me/post/android/20150830" target="_blank" rel="noopener">shape篇</a>讲环形时最后举了个进度条时就用到了rotate标签。另外，比如你有一张箭头向上的图片，但你还需要一个箭头向下的图片，这时就可以使用rotate将向上的箭头旋转变成一张箭头向下的drawable。</p>
+<p>使用rotate标签可以对一个drawable进行旋转操作，在<a href="http://keeganlee.me/post/android/20150830">shape篇</a>讲环形时最后举了个进度条时就用到了rotate标签。另外，比如你有一张箭头向上的图片，但你还需要一个箭头向下的图片，这时就可以使用rotate将向上的箭头旋转变成一张箭头向下的drawable。</p>
 <p>先看看rotate标签的一些属性吧：</p>
 <ul>
-<li>android:drawable 指定drawable资源，如果不设置该属性，也可以定义drawable类型的子标签</li>
-<li>android:fromDegrees 起始的角度度数</li>
-<li>android:toDegrees 结束的角度度数，正数表示顺时针，负数表示逆时针</li>
-<li>android:pivotX 旋转中心的X坐标，浮点数或是百分比。浮点数表示相对于drawable的左边缘距离</li>
+<li>android:drawable 指定drawable资源，如果不设置该属性，也可以定义drawable类型的子标签</li>
+<li>android:fromDegrees 起始的角度度数</li>
+<li>android:toDegrees 结束的角度度数，正数表示顺时针，负数表示逆时针</li>
+<li>android:pivotX 旋转中心的X坐标，浮点数或是百分比。浮点数表示相对于drawable的左边缘距离</li>
 </ul>
 </blockquote>
 <h3 id="Drawable-Animation"><a href="#Drawable-Animation" class="headerlink" title="Drawable Animation"></a>Drawable Animation</h3><p>引用官方文档的话</p>
@@ -478,10 +478,12 @@
 </blockquote>
 <p>其实说明动画的Drawable的资源按照一定顺序执行，最终出来的效果类似电影中一帧一帧的，它允许你实现像播放幻灯片一样的效果。</p>
 <p><animation-list>是它的根元素，做为根节点，下面就是一个例子</animation-list></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;animation-list xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">    android:oneshot=<span class="string">"true"</span>&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">"@drawable/rocket_thrust1"</span> android:duration=<span class="string">"200"</span> /&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">"@drawable/rocket_thrust2"</span> android:duration=<span class="string">"200"</span> /&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">"@drawable/rocket_thrust3"</span> android:duration=<span class="string">"200"</span> /&gt;</span><br><span class="line">&lt;/animation-list&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;animation-list xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:oneshot=<span class="string">&quot;true&quot;</span>&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">&quot;@drawable/rocket_thrust1&quot;</span> android:duration=<span class="string">&quot;200&quot;</span> /&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">&quot;@drawable/rocket_thrust2&quot;</span> android:duration=<span class="string">&quot;200&quot;</span> /&gt;</span><br><span class="line">    &lt;item android:drawable=<span class="string">&quot;@drawable/rocket_thrust3&quot;</span> android:duration=<span class="string">&quot;200&quot;</span> /&gt;</span><br><span class="line">&lt;/animation-list&gt;</span><br></pre></td></tr></table></figure>
+
 <p>这里定义了三个drawable资源文件，每次执行时间为200ms，顺序是从上到下，这种动画最常见应用场景是在想表达电池充电的过程，从0%，25%，50%，100%表达连续充电的过程，就可以做四个不同的资源图片，然后按照一定的顺序，进而执行相应的运行时间。</p>
 <p>有了动画文件之后，具体怎么用呢，如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">AnimationDrawable rocketAnimation;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">  setContentView(R.layout.main);</span><br><span class="line"> </span><br><span class="line">  ImageView rocketImage = (ImageView) findViewById(R.id.rocket_image);</span><br><span class="line">  rocketImage.setBackgroundResource(R.drawable.rocket_thrust);</span><br><span class="line">  rocketAnimation = (AnimationDrawable) rocketImage.getBackground();</span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent event)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">    rocketAnimation.start();</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>; </span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">AnimationDrawable rocketAnimation;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">  <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">  setContentView(R.layout.main);</span><br><span class="line"> </span><br><span class="line">  <span class="type">ImageView</span> <span class="variable">rocketImage</span> <span class="operator">=</span> (ImageView) findViewById(R.id.rocket_image);</span><br><span class="line">  rocketImage.setBackgroundResource(R.drawable.rocket_thrust);</span><br><span class="line">  rocketAnimation = (AnimationDrawable) rocketImage.getBackground();</span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onTouchEvent</span><span class="params">(MotionEvent event)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">    rocketAnimation.start();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>; </span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">super</span>.onTouchEvent(event);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>特别注意，AnimationDrawable的start()方法不能在Activity的onCreate方法中调运，因为AnimationDrawable还未完全附着到window上，所以最好的调运时机是onWindowFocusChanged()方法中。</p>
 </blockquote>
@@ -505,86 +507,80 @@
 <blockquote>
 <p>可以实现透明度渐变的动画效果，也就是淡入淡出的效果，可通过设置下面三个属性来设置淡入或淡出效果：</p>
 <ul>
-<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
-<li><strong>android:fromAlpha</strong> 动画开始时的透明度，0.0为全透明，1.0为不透明，默认为1.0</li>
-<li><strong>android:toAlpha</strong> 动画结束时的透明度，0.0为全透明，1.0为不透明，默认为1.0</li>
+<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
+<li><strong>android:fromAlpha</strong> 动画开始时的透明度，0.0为全透明，1.0为不透明，默认为1.0</li>
+<li><strong>android:toAlpha</strong> 动画结束时的透明度，0.0为全透明，1.0为不透明，默认为1.0</li>
 </ul>
 <p>当设置开始时透明度为0.0，结束时为1.0，就能实现淡入效果；相反，当设置开始时透明度为1.0，结束时为0.0，那就能实现淡出效果。示例代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/anim/fade_in.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;alpha xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"1000"</span></span><br><span class="line">&gt;     android:fromAlpha=<span class="string">"0.0"</span></span><br><span class="line">&gt;     android:toAlpha=<span class="string">"1.0"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/anim/fade_in.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;alpha xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;1000&quot;</span></span><br><span class="line">    android:fromAlpha=<span class="string">&quot;0.0&quot;</span></span><br><span class="line">    android:toAlpha=<span class="string">&quot;1.0&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>将这动画效果添加到View上也只需要一行代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; view.startAnimation(AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.fade_in));</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view.startAnimation(AnimationUtils.loadAnimation(<span class="built_in">this</span>, R.anim.fade_in));</span><br></pre></td></tr></table></figure>
+
 <p>将这动画效果添加到View上也只需要一行代码：</p>
 </blockquote>
 <p>#####Rotate Animation</p>
 <blockquote>
 <p>可以实现旋转的动画效果，主要的属性如下：</p>
 <ul>
-<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
-<li><strong>android:fromDegrees</strong> 旋转开始的角度</li>
-<li><strong>android:toDegrees</strong> 旋转结束的角度</li>
-<li><strong>android:pivotX</strong> 旋转中心点的X坐标，纯数字表示相对于View本身左边缘的像素偏移量；带”%”后缀时表示相对于View本身左边缘的百分比偏移量；带”%p”后缀时表示相对于父View左边缘的百分比偏移量</li>
-<li><strong>android:pivotY</strong> 旋转中心点的Y坐标，纯数字表示相对于View本身顶部边缘的像素偏移量；带”%”后缀时表示相对于View本身顶部边缘的百分比偏移量；带”%p”后缀时表示相对于父View顶部边缘的百分比偏移量</li>
+<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
+<li><strong>android:fromDegrees</strong> 旋转开始的角度</li>
+<li><strong>android:toDegrees</strong> 旋转结束的角度</li>
+<li><strong>android:pivotX</strong> 旋转中心点的X坐标，纯数字表示相对于View本身左边缘的像素偏移量；带”%”后缀时表示相对于View本身左边缘的百分比偏移量；带”%p”后缀时表示相对于父View左边缘的百分比偏移量</li>
+<li><strong>android:pivotY</strong> 旋转中心点的Y坐标，纯数字表示相对于View本身顶部边缘的像素偏移量；带”%”后缀时表示相对于View本身顶部边缘的百分比偏移量；带”%p”后缀时表示相对于父View顶部边缘的百分比偏移量</li>
 </ul>
 <p>以下示例代码旋转角度从0到360，即旋转了一圈，旋转的中心点都设为了50%，即是View本身中点的位置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/anim/rotate_one.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;rotate xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"2000"</span></span><br><span class="line">&gt;     android:fromDegrees=<span class="string">"0"</span></span><br><span class="line">&gt;     android:toDegrees=<span class="string">"360"</span></span><br><span class="line">&gt;     android:pivotX=<span class="string">"50%"</span></span><br><span class="line">&gt;     android:pivotY=<span class="string">"50%"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/anim/rotate_one.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;rotate xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;2000&quot;</span></span><br><span class="line">    android:fromDegrees=<span class="string">&quot;0&quot;</span></span><br><span class="line">    android:toDegrees=<span class="string">&quot;360&quot;</span></span><br><span class="line">    android:pivotX=<span class="string">&quot;50%&quot;</span></span><br><span class="line">    android:pivotY=<span class="string">&quot;50%&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>标签对应的类为RotateAnimation，父类也是Animation，添加到View上的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; RotateAnimation rotateAnimation = (RotateAnimation) AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.rotate_one);</span><br><span class="line">&gt; view.startAnimation(rotateAnimation);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">RotateAnimation</span> <span class="variable">rotateAnimation</span> <span class="operator">=</span> (RotateAnimation) AnimationUtils.loadAnimation(<span class="built_in">this</span>, R.anim.rotate_one);</span><br><span class="line">view.startAnimation(rotateAnimation);</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>#####Translate Animation</p>
 <blockquote>
 <p>可以实现位置移动的动画效果，可以是垂直方向的移动，也可以是水平方向的移动。坐标的值可以有三种格式：从-100到100，以”%”结束，表示相对于View本身的百分比位置；如果以”%p”结束，表示相对于View的父View的百分比位置；如果没有任何后缀，表示相对于View本身具体的像素值。主要的属性如下：</p>
 <ul>
-<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
-<li><strong>android:fromXDelta</strong> 起始位置的X坐标的偏移量</li>
-<li><strong>android:toXDelta</strong> 结束位置的X坐标的偏移量</li>
-<li><strong>android:fromYDelta</strong> 起始位置的Y坐标的偏移量</li>
-<li><strong>android:toYDelta</strong> 结束位置的Y坐标的偏移量</li>
+<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
+<li><strong>android:fromXDelta</strong> 起始位置的X坐标的偏移量</li>
+<li><strong>android:toXDelta</strong> 结束位置的X坐标的偏移量</li>
+<li><strong>android:fromYDelta</strong> 起始位置的Y坐标的偏移量</li>
+<li><strong>android:toYDelta</strong> 结束位置的Y坐标的偏移量</li>
 </ul>
 <p>看示例吧，以下代码实现的是从左到右的移动效果，起始位置为相对于控件本身-100%的位置，即在控件左边，与控件本身宽度一致的位置；结束位置为相对于父控件100%的位置，即会移出父控件右边缘的位置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/anim/move_left_to_right.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;translate xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"2000"</span></span><br><span class="line">&gt;     android:fromXDelta=<span class="string">"-100%"</span></span><br><span class="line">&gt;     android:fromYDelta=<span class="string">"0"</span></span><br><span class="line">&gt;     android:toXDelta=<span class="string">"100%p"</span></span><br><span class="line">&gt;     android:toYDelta=<span class="string">"0"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/anim/move_left_to_right.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;translate xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;2000&quot;</span></span><br><span class="line">    android:fromXDelta=<span class="string">&quot;-100%&quot;</span></span><br><span class="line">    android:fromYDelta=<span class="string">&quot;0&quot;</span></span><br><span class="line">    android:toXDelta=<span class="string">&quot;100%p&quot;</span></span><br><span class="line">    android:toYDelta=<span class="string">&quot;0&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>标签对应的类为TranslateAnimation，父类也是Animation，添加到View上的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; TranslateAnimation moveAnimation = (TranslateAnimation) AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.move_left_to_right);</span><br><span class="line">&gt; view.startAnimation(moveAnimation);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TranslateAnimation</span> <span class="variable">moveAnimation</span> <span class="operator">=</span> (TranslateAnimation) AnimationUtils.loadAnimation(<span class="built_in">this</span>, R.anim.move_left_to_right);</span><br><span class="line">view.startAnimation(moveAnimation);</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p>#####Scale Animation</p>
 <blockquote>
 <p>可以实现缩放的动画效果，主要的属性如下：</p>
 <ul>
-<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
-<li><strong>android:fromXScale</strong> 动画开始时X坐标上的缩放尺寸</li>
-<li><strong>android:toXScale</strong> 动画结束时X坐标上的缩放尺寸</li>
-<li><strong>android:fromYScale</strong> 动画开始时Y坐标上的缩放尺寸</li>
-<li><strong>android:toYScale</strong> 动画结束时Y坐标上的缩放尺寸<br><strong>PS</strong>：<em>以上四个属性，0.0表示缩放到没有，1.0表示正常无缩放，小于1.0表示收缩，大于1.0表示放大</em></li>
-<li><strong>android:pivotX</strong> 缩放时的固定不变的X坐标，一般用百分比表示，0%表示左边缘，100%表示右边缘</li>
-<li><strong>android:pivotY</strong> 缩放时的固定不变的Y坐标，一般用百分比表示，0%表示顶部边缘，100%表示底部边缘</li>
+<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
+<li><strong>android:fromXScale</strong> 动画开始时X坐标上的缩放尺寸</li>
+<li><strong>android:toXScale</strong> 动画结束时X坐标上的缩放尺寸</li>
+<li><strong>android:fromYScale</strong> 动画开始时Y坐标上的缩放尺寸</li>
+<li><strong>android:toYScale</strong> 动画结束时Y坐标上的缩放尺寸<br><strong>PS</strong>：<em>以上四个属性，0.0表示缩放到没有，1.0表示正常无缩放，小于1.0表示收缩，大于1.0表示放大</em></li>
+<li><strong>android:pivotX</strong> 缩放时的固定不变的X坐标，一般用百分比表示，0%表示左边缘，100%表示右边缘</li>
+<li><strong>android:pivotY</strong> 缩放时的固定不变的Y坐标，一般用百分比表示，0%表示顶部边缘，100%表示底部边缘</li>
 </ul>
 <p>具体示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/anim/zoom_out.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;scale xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"1000"</span></span><br><span class="line">&gt;     android:fromXScale=<span class="string">"1.0"</span></span><br><span class="line">&gt;     android:fromYScale=<span class="string">"1.0"</span></span><br><span class="line">&gt;     android:pivotX=<span class="string">"0%"</span></span><br><span class="line">&gt;     android:pivotY=<span class="string">"100%"</span></span><br><span class="line">&gt;     android:toXScale=<span class="string">"1.5"</span></span><br><span class="line">&gt;     android:toYScale=<span class="string">"1.5"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/anim/zoom_out.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;scale xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;1000&quot;</span></span><br><span class="line">    android:fromXScale=<span class="string">&quot;1.0&quot;</span></span><br><span class="line">    android:fromYScale=<span class="string">&quot;1.0&quot;</span></span><br><span class="line">    android:pivotX=<span class="string">&quot;0%&quot;</span></span><br><span class="line">    android:pivotY=<span class="string">&quot;100%&quot;</span></span><br><span class="line">    android:toXScale=<span class="string">&quot;1.5&quot;</span></span><br><span class="line">    android:toYScale=<span class="string">&quot;1.5&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>对应的类为ScaleAnimation，父类也是Animation，添加到View上的用法和AlphaAnimation一样，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; ScaleAnimation zoomOutAnimation = (ScaleAnimation) AnimationUtils.loadAnimation(<span class="keyword">this</span>, R.anim.zoom_out);</span><br><span class="line">&gt; view.startAnimation(zoomOutAnimation);</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScaleAnimation</span> <span class="variable">zoomOutAnimation</span> <span class="operator">=</span> (ScaleAnimation) AnimationUtils.loadAnimation(<span class="built_in">this</span>, R.anim.zoom_out);</span><br><span class="line">view.startAnimation(zoomOutAnimation);</span><br></pre></td></tr></table></figure>
 </blockquote>
 <h5 id="Set-Animation"><a href="#Set-Animation" class="headerlink" title="Set Animation"></a>Set Animation</h5><blockquote>
 <p>标签可以将多个动画组合起来，变成一个动画集。比如想将一张图片缩放的同时也做移动，这时候就要用set标签组合缩放动画和移动动画了。示例代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/anim/move_and_scale.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;set xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"2000"</span>&gt;</span><br><span class="line">&gt;     &lt;translate</span><br><span class="line">&gt;         android:fromXDelta=<span class="string">"0"</span></span><br><span class="line">&gt;         android:fromYDelta=<span class="string">"0"</span></span><br><span class="line">&gt;         android:toXDelta=<span class="string">"200%"</span></span><br><span class="line">&gt;         android:toYDelta=<span class="string">"0"</span> /&gt;</span><br><span class="line">&gt;     &lt;scale</span><br><span class="line">&gt;         android:fromXScale=<span class="string">"1.0"</span></span><br><span class="line">&gt;         android:fromYScale=<span class="string">"1.0"</span></span><br><span class="line">&gt;         android:pivotX=<span class="string">"0%"</span></span><br><span class="line">&gt;         android:pivotY=<span class="string">"100%"</span></span><br><span class="line">&gt;         android:toXScale=<span class="string">"1.5"</span></span><br><span class="line">&gt;         android:toYScale=<span class="string">"1.5"</span> /&gt;</span><br><span class="line">&gt; &lt;/set&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
-<p>以上代码实现的动画效果为向右移动的同时也同步放大。Set标签在视图动画中除了可以组合Alpha ,Rotate , Scale , Scale 这四种标签，也可以嵌套其他Set标签。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/anim/move_and_scale.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;set xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;2000&quot;</span>&gt;</span><br><span class="line">    &lt;translate</span><br><span class="line">        android:fromXDelta=<span class="string">&quot;0&quot;</span></span><br><span class="line">        android:fromYDelta=<span class="string">&quot;0&quot;</span></span><br><span class="line">        android:toXDelta=<span class="string">&quot;200%&quot;</span></span><br><span class="line">        android:toYDelta=<span class="string">&quot;0&quot;</span> /&gt;</span><br><span class="line">    &lt;scale</span><br><span class="line">        android:fromXScale=<span class="string">&quot;1.0&quot;</span></span><br><span class="line">        android:fromYScale=<span class="string">&quot;1.0&quot;</span></span><br><span class="line">        android:pivotX=<span class="string">&quot;0%&quot;</span></span><br><span class="line">        android:pivotY=<span class="string">&quot;100%&quot;</span></span><br><span class="line">        android:toXScale=<span class="string">&quot;1.5&quot;</span></span><br><span class="line">        android:toYScale=<span class="string">&quot;1.5&quot;</span> /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+
+<p>以上代码实现的动画效果为向右移动的同时也同步放大。Set标签在视图动画中除了可以组合Alpha ,Rotate , Scale , Scale 这四种标签，也可以嵌套其他Set标签。</p>
 </blockquote>
 <h3 id="Property-Animation"><a href="#Property-Animation" class="headerlink" title="Property Animation"></a>Property Animation</h3><p>引用官方文档</p>
 <blockquote>
 <p>The property animation system is a robust framework that allows you to animate almost anything. You can define an animation to change any object property over time, regardless of whether it draws to the screen or not. A property animation changes a property’s (a field in an object) value over a specified length of time. To animate something, you specify the object property that you want to animate, such as an object’s position on the screen, how long you want to animate it for, and what values you want to animate between</p>
 </blockquote>
 <p>视图动画只能作用于View，而且视图动画改变的只是View的绘制效果，View真正的属性并没有改变。比如，一个按钮做平移的动画，虽然按钮的确做了平移，但按钮可点击的区域并没随着平移而改变，还是在原来的位置。而属性动画则可以改变真正的属性，从而实现按钮平移时点击区域也跟着平移。通俗点说，属性动画其实就是在一定时间内，按照一定规律来改变对象的属性，从而使对象展现出动画效果。</p>
-<p>属性动画是在android 3.0引入的动画体系，如果还想适配基本已经灭绝的2.x版本，只好绕道了。<br>属性动画和视图动画一样，可以通过xml文件定义，不同的是，视图动画的xml文件放于<strong>res/anim/</strong>目录下，而属性动画的xml文件则放于<strong>res/animator/</strong>目录下。一个是<strong>anim</strong>，一个是<strong>animator</strong>，别搞错了。同样的，在Java代码里引用属性动画的xml文件时，则用<strong>R.animator.filename</strong>，不同于视图动画，引用时为<strong>R.anim.filename</strong>。</p>
+<p>属性动画是在android 3.0引入的动画体系，如果还想适配基本已经灭绝的2.x版本，只好绕道了。<br>属性动画和视图动画一样，可以通过xml文件定义，不同的是，视图动画的xml文件放于<strong>res&#x2F;anim&#x2F;<strong>目录下，而属性动画的xml文件则放于</strong>res&#x2F;animator&#x2F;<strong>目录下。一个是</strong>anim</strong>，一个是<strong>animator</strong>，别搞错了。同样的，在Java代码里引用属性动画的xml文件时，则用<strong>R.animator.filename</strong>，不同于视图动画，引用时为<strong>R.anim.filename</strong>。</p>
 <p>属性动画主要有三个元素：<strong>animator</strong>,<strong>objectAnimator</strong>,<strong>set</strong> </p>
 <p>相对应的有三个类：<strong>ValueAnimator</strong>、<strong>ObjectAnimator</strong>、<strong>AnimatorSet</strong>。<br><strong>ValueAnimator</strong>是基本的动画类，处理值动画，通过监听某一值的变化，进行相应的操作。<strong>ObjectAnimator</strong>是<strong>ValueAnimator</strong>的子类，处理对象动画。<strong>AnimatorSet</strong>则为动画集，可以组合另外两种动画或动画集。相应的三个标签元素的关系也一样。<br>样式开发主要还是用xml的形式，所以这里先主要还是讲标签的用法。</p>
 <h5 id="animator"><a href="#animator" class="headerlink" title="animator"></a>animator</h5><blockquote>
@@ -595,86 +591,80 @@
 </ol>
 <p><strong>ValuAnimiator</strong>只完成第一步，即只计算值，要实现第二步则需要在值变化的监听器里自行更新对象属性。<br>通过animator标签可以很方便的对<strong>ValuAnimiator</strong>进行设置，可设置的属性如下：</p>
 <ul>
-<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
-<li><strong>android:startOffset</strong> 设置动画执行之前的等待时长，单位为毫秒</li>
-<li><strong>android:repeatCount</strong> 设置动画重复执行的次数，默认为0，即不重复；可设为-1或infinite，表示无限重复</li>
-<li><strong>android:repeatMode</strong> 设置动画重复执行的模式，可设为以下两个值其中之一：<ul>
-<li><em>restart</em> 动画重复执行时从起点开始，默认为该值</li>
-<li><em>reverse</em> 动画会反方向执行</li>
+<li><strong>android:duration</strong> 动画从开始到结束持续的时长，单位为毫秒</li>
+<li><strong>android:startOffset</strong> 设置动画执行之前的等待时长，单位为毫秒</li>
+<li><strong>android:repeatCount</strong> 设置动画重复执行的次数，默认为0，即不重复；可设为-1或infinite，表示无限重复</li>
+<li><strong>android:repeatMode</strong> 设置动画重复执行的模式，可设为以下两个值其中之一：<ul>
+<li><em>restart</em> 动画重复执行时从起点开始，默认为该值</li>
+<li><em>reverse</em> 动画会反方向执行</li>
 </ul>
 </li>
-<li><strong>android:valueFrom</strong> 动画开始的值，可以为int值、float值或color值</li>
-<li><strong>android:valueTo</strong> 动画结束的值，可以为int值、float值或color值</li>
-<li><strong>android:valueType</strong> 动画值类型，若为color值，则无需设置该属性<ul>
-<li><em>intType</em> 指定动画值，即以上两个value属性的值为整型</li>
-<li><em>floatType</em> 指定动画值，即以上两个value属性的值为浮点型，默认值</li>
+<li><strong>android:valueFrom</strong> 动画开始的值，可以为int值、float值或color值</li>
+<li><strong>android:valueTo</strong> 动画结束的值，可以为int值、float值或color值</li>
+<li><strong>android:valueType</strong> 动画值类型，若为color值，则无需设置该属性<ul>
+<li><em>intType</em> 指定动画值，即以上两个value属性的值为整型</li>
+<li><em>floatType</em> 指定动画值，即以上两个value属性的值为浮点型，默认值</li>
 </ul>
 </li>
-<li><strong>android:interpolator</strong> 设置动画速率的变化，比如加速、减速、匀速等，需要指定Interpolator资源。</li>
+<li><strong>android:interpolator</strong> 设置动画速率的变化，比如加速、减速、匀速等，需要指定Interpolator资源。</li>
 </ul>
 <p>接着，用一个实例讲解具体的用法吧。在这个例子里，将一个按钮的宽度进行缩放，从100%缩放到20%。<br>xml文件的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/animator/value_animator.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;animator xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"3000"</span></span><br><span class="line">&gt;     android:valueFrom=<span class="string">"100"</span></span><br><span class="line">&gt;     android:valueTo=<span class="string">"20"</span></span><br><span class="line">&gt;     android:valueType=<span class="string">"intType"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/animator/value_animator.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;animator xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;3000&quot;</span></span><br><span class="line">    android:valueFrom=<span class="string">&quot;100&quot;</span></span><br><span class="line">    android:valueTo=<span class="string">&quot;20&quot;</span></span><br><span class="line">    android:valueType=<span class="string">&quot;intType&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>可看到，值的变化从100到20，动画时长3000毫秒，以下则是目标按钮的xml代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;Button</span><br><span class="line">&gt;     android:layout_width=<span class="string">"match_parent"</span></span><br><span class="line">&gt;     android:layout_height=<span class="string">"wrap_content"</span></span><br><span class="line">&gt;     android:background=<span class="string">"@drawable/bg_btn_normal"</span></span><br><span class="line">&gt;     android:onClick=<span class="string">"onScaleWidth"</span></span><br><span class="line">&gt;     android:text=<span class="string">"点我"</span></span><br><span class="line">&gt;     android:textColor=<span class="string">"@android:color/white"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">    android:layout_width=<span class="string">&quot;match_parent&quot;</span></span><br><span class="line">    android:layout_height=<span class="string">&quot;wrap_content&quot;</span></span><br><span class="line">    android:background=<span class="string">&quot;@drawable/bg_btn_normal&quot;</span></span><br><span class="line">    android:onClick=<span class="string">&quot;onScaleWidth&quot;</span></span><br><span class="line">    android:text=<span class="string">&quot;点我&quot;</span></span><br><span class="line">    android:textColor=<span class="string">&quot;@android:color/white&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>按钮默认是填充屏幕宽度的，点击时的执行方法为onScaleWidth，以下则是onScaleWidth方法的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScaleWidth</span><span class="params">(<span class="keyword">final</span> View view)</span> </span>&#123;</span><br><span class="line">&gt;     <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">&gt;     <span class="keyword">final</span> <span class="keyword">int</span> maxWidth = getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">&gt;     ValueAnimator valueAnimator = (ValueAnimator) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.value_animator);</span><br><span class="line">&gt;     valueAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">&gt;         <span class="meta">@Override</span></span><br><span class="line">&gt;         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animator)</span> </span>&#123;</span><br><span class="line">&gt;             <span class="comment">// 当前动画值，即为当前宽度比例值</span></span><br><span class="line">&gt;             <span class="keyword">int</span> currentValue = (Integer) animator.getAnimatedValue();</span><br><span class="line">&gt;             <span class="comment">// 根据比例更改目标view的宽度</span></span><br><span class="line">&gt;             view.getLayoutParams().width = maxWidth * currentValue / <span class="number">100</span>;</span><br><span class="line">&gt;             view.requestLayout();</span><br><span class="line">&gt;         &#125;</span><br><span class="line">&gt;     &#125;);</span><br><span class="line">&gt;     valueAnimator.start();</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
-<p>从中，我们可以看到属性动画则是通过<strong>AnimatorInflater</strong>类的<strong>loadAnimation()</strong>方法获取相应的<strong>Animator</strong>类实例。另外，<strong>ValueAnimator</strong>通过添加AnimatorUpdateListener监听器监听值的变化，从而再手动更新目标对象的属性。最后，通过调用<strong>valueAnimator.start()</strong>方法启动动画。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onScaleWidth</span><span class="params">(<span class="keyword">final</span> View view)</span> &#123;</span><br><span class="line">    <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">    <span class="type">ValueAnimator</span> <span class="variable">valueAnimator</span> <span class="operator">=</span> (ValueAnimator) AnimatorInflater.loadAnimator(<span class="built_in">this</span>, R.animator.value_animator);</span><br><span class="line">    valueAnimator.addUpdateListener(<span class="keyword">new</span> <span class="title class_">ValueAnimator</span>.AnimatorUpdateListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onAnimationUpdate</span><span class="params">(ValueAnimator animator)</span> &#123;</span><br><span class="line">            <span class="comment">// 当前动画值，即为当前宽度比例值</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">currentValue</span> <span class="operator">=</span> (Integer) animator.getAnimatedValue();</span><br><span class="line">            <span class="comment">// 根据比例更改目标view的宽度</span></span><br><span class="line">            view.getLayoutParams().width = maxWidth * currentValue / <span class="number">100</span>;</span><br><span class="line">            view.requestLayout();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    valueAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从中，我们可以看到属性动画则是通过<strong>AnimatorInflater</strong>类的<strong>loadAnimation()<strong>方法获取相应的</strong>Animator</strong>类实例。另外，<strong>ValueAnimator</strong>通过添加AnimatorUpdateListener监听器监听值的变化，从而再手动更新目标对象的属性。最后，通过调用**valueAnimator.start()**方法启动动画。</p>
 </blockquote>
 <h5 id="objectAnimator"><a href="#objectAnimator" class="headerlink" title="objectAnimator"></a>objectAnimator</h5><blockquote>
 <p>objectAnimator标签对应的类为ObjectAnimator，为<strong>ValueAnimator</strong>的子类。objectAnimator标签与标签animator不同的是，可以直接指定动画的目标对象的属性。标签可设置的属性除了和一样的那些，另外多了一个：</p>
 <ul>
-<li><strong>android:propertyName</strong> 目标对象的属性名，要求目标对象必须提供该属性的setter方法，如果动画的时候没有初始值，还需要提供getter方法</li>
+<li><strong>android:propertyName</strong> 目标对象的属性名，要求目标对象必须提供该属性的setter方法，如果动画的时候没有初始值，还需要提供getter方法</li>
 </ul>
 <p>还是用实例说明具体用法，还是用上面的例子，将一个按钮的宽度进行缩放，从100%缩放到20%，但这次改用objectAnimator实现。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/animator/object_animator.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;objectAnimator xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:duration=<span class="string">"3000"</span></span><br><span class="line">&gt;     android:propertyName=<span class="string">"width"</span></span><br><span class="line">&gt;     android:valueFrom=<span class="string">"100"</span></span><br><span class="line">&gt;     android:valueTo=<span class="string">"20"</span></span><br><span class="line">&gt;     android:valueType=<span class="string">"intType"</span> /&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/animator/object_animator.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;objectAnimator xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:duration=<span class="string">&quot;3000&quot;</span></span><br><span class="line">    android:propertyName=<span class="string">&quot;width&quot;</span></span><br><span class="line">    android:valueFrom=<span class="string">&quot;100&quot;</span></span><br><span class="line">    android:valueTo=<span class="string">&quot;20&quot;</span></span><br><span class="line">    android:valueType=<span class="string">&quot;intType&quot;</span> /&gt;</span><br></pre></td></tr></table></figure>
+
 <p>与上面animator标签方式做对比，就只是多了一个<strong>android:propertyName</strong>的属性，设置值为width。也就是说，动画改变的属性为width，值将从100逐渐减到20。另外，值是从setWidth()传递过去的，再从getWidth()获取。而且，这里设置的值代表的是比例值，因此，还需要进行计算转化为实际的宽度值。最后，对象实际的宽度值为<strong>view.getLayoutParams().width</strong>。因此，需要用一个包装类来包装原始的view对象，对其提供setWidth()和getWidth()方法，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewWrapper</span> </span>&#123;</span><br><span class="line">&gt;     <span class="keyword">private</span> View target; <span class="comment">//目标对象</span></span><br><span class="line">&gt;     <span class="keyword">private</span> <span class="keyword">int</span> maxWidth; <span class="comment">//最长宽度值</span></span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="title">ViewWrapper</span><span class="params">(View target, <span class="keyword">int</span> maxWidth)</span> </span>&#123;</span><br><span class="line">&gt;         <span class="keyword">this</span>.target = target;</span><br><span class="line">&gt;         <span class="keyword">this</span>.maxWidth = maxWidth;</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt;         <span class="keyword">return</span> target.getLayoutParams().width;</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">int</span> widthValue)</span> </span>&#123;</span><br><span class="line">&gt;         <span class="comment">//widthValue的值从100到20变化</span></span><br><span class="line">&gt;         target.getLayoutParams().width = maxWidth * widthValue / <span class="number">100</span>;</span><br><span class="line">&gt;         target.requestLayout();</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ViewWrapper</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> View target; <span class="comment">//目标对象</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> maxWidth; <span class="comment">//最长宽度值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ViewWrapper</span><span class="params">(View target, <span class="type">int</span> maxWidth)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">        <span class="built_in">this</span>.maxWidth = maxWidth;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getWidth</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> target.getLayoutParams().width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setWidth</span><span class="params">(<span class="type">int</span> widthValue)</span> &#123;</span><br><span class="line">        <span class="comment">//widthValue的值从100到20变化</span></span><br><span class="line">        target.getLayoutParams().width = maxWidth * widthValue / <span class="number">100</span>;</span><br><span class="line">        target.requestLayout();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>上面setWidth()的代码里，根据比例值转化为了实际的宽度值。最后，动画处理的代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScaleWidth</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">&gt;     <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">&gt;     <span class="keyword">int</span> maxWidth = getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">&gt;     <span class="comment">// 将目标view进行包装</span></span><br><span class="line">&gt;     ViewWrapper wrapper = <span class="keyword">new</span> ViewWrapper(view, maxWidth);</span><br><span class="line">&gt;     <span class="comment">// 将xml转化为ObjectAnimator对象</span></span><br><span class="line">&gt;     ObjectAnimator objectAnimator = (ObjectAnimator) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.object_animator);</span><br><span class="line">&gt;     <span class="comment">// 设置动画的目标对象为包装后的view</span></span><br><span class="line">&gt;     objectAnimator.setTarget(wrapper);</span><br><span class="line">&gt;     <span class="comment">// 启动动画</span></span><br><span class="line">&gt;     objectAnimator.start();</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onScaleWidth</span><span class="params">(View view)</span> &#123;</span><br><span class="line">    <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">    <span class="comment">// 将目标view进行包装</span></span><br><span class="line">    <span class="type">ViewWrapper</span> <span class="variable">wrapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ViewWrapper</span>(view, maxWidth);</span><br><span class="line">    <span class="comment">// 将xml转化为ObjectAnimator对象</span></span><br><span class="line">    <span class="type">ObjectAnimator</span> <span class="variable">objectAnimator</span> <span class="operator">=</span> (ObjectAnimator) AnimatorInflater.loadAnimator(<span class="built_in">this</span>, R.animator.object_animator);</span><br><span class="line">    <span class="comment">// 设置动画的目标对象为包装后的view</span></span><br><span class="line">    objectAnimator.setTarget(wrapper);</span><br><span class="line">    <span class="comment">// 启动动画</span></span><br><span class="line">    objectAnimator.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>ObjectAnimator</strong>提供了属性的设置，但相应的需要有该属性的setter和getter方法。而<strong>ValueAnimator</strong>则只是定义了值的变化，并不指定目标属性，所以也不需要提供setter和getter方法，但只能在AnimatorUpdateListener监听器里手动更新属性。不过，也因为没有指定属性，所以其实更具灵活性了，你可以在监听器里根据值的变化做任何事情，比如更新多个属性，比如在缩放宽度的同时做垂直移动。</p>
 <p>为了对View更方便的设置属性动画，Android系统也提供了View的一些属性和相应的setter和getter方法：</p>
 <ul>
 <li><strong>alpha</strong>：透明度，默认为1，表示不透明，0表示完全透明</li>
-<li><strong>pivotX</strong> 和 <strong>pivotY</strong>：旋转的轴点和缩放的基准点，默认是View的中心点</li>
-<li><strong>scaleX</strong> 和 <strong>scaleY</strong>：基于pivotX和pivotY的缩放，1表示无缩放，小于1表示收缩，大于1则放大</li>
-<li><strong>rotation</strong>、<strong>rotationX</strong> 和 <strong>rotationY</strong>：基于轴点(pivotX和pivotY)的旋转，rotation为平面的旋转，rotationX和rotationY为立体的旋转</li>
-<li><strong>translationX</strong> 和 <strong>translationY</strong>：View的屏幕位置坐标变化量，以layout容器的左上角为坐标原点</li>
-<li><strong>x</strong> 和 <strong>y</strong>：View在父容器内的最终位置，是左上角坐标和偏移量（translationX，translationY）的和</li>
+<li><strong>pivotX</strong> 和 <strong>pivotY</strong>：旋转的轴点和缩放的基准点，默认是View的中心点</li>
+<li><strong>scaleX</strong> 和 <strong>scaleY</strong>：基于pivotX和pivotY的缩放，1表示无缩放，小于1表示收缩，大于1则放大</li>
+<li><strong>rotation</strong>、<strong>rotationX</strong> 和 <strong>rotationY</strong>：基于轴点(pivotX和pivotY)的旋转，rotation为平面的旋转，rotationX和rotationY为立体的旋转</li>
+<li><strong>translationX</strong> 和 <strong>translationY</strong>：View的屏幕位置坐标变化量，以layout容器的左上角为坐标原点</li>
+<li><strong>x</strong> 和 <strong>y</strong>：View在父容器内的最终位置，是左上角坐标和偏移量（translationX，translationY）的和</li>
 </ul>
 </blockquote>
 <h5 id="set"><a href="#set" class="headerlink" title="set"></a>set</h5><blockquote>
 <p>set标签对应于<strong>AnimatorSet</strong>类，可以将多个动画组合成一个动画集，如上面提到的在缩放宽度的同时做垂直移动，可以将一个缩放宽度的动画和一个垂直移动的动画组合在一起。<br>set标签有一个属性可以设置动画的时序关系：</p>
 <ul>
-<li><strong>android:ordering</strong> 设置动画的时序关系，取值可为以下两个值之一：<em>together</em> 动画同时执行，默认值<em>sequentially</em> 动画按顺序执行</li>
+<li><strong>android:ordering</strong> 设置动画的时序关系，取值可为以下两个值之一：<em>together</em> 动画同时执行，默认值<em>sequentially</em> 动画按顺序执行</li>
 </ul>
 <p>那如果想有些动画同时执行，有些按顺序执行，该怎么办呢？因为set标签是可以嵌套其他set标签的，也就是说可以将同时执行的组合在一个set标签，再嵌在按顺序执行的set标签内。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt; &lt;!-- res/animator/animator_set.xml --&gt;</span><br><span class="line">&gt; &lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"utf-8"</span>?&gt;</span><br><span class="line">&gt; &lt;set xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span></span><br><span class="line">&gt;     android:ordering=<span class="string">"together"</span>&gt;</span><br><span class="line">&gt;     &lt;objectAnimator</span><br><span class="line">&gt;         android:duration=<span class="string">"3000"</span></span><br><span class="line">&gt;         android:propertyName=<span class="string">"width"</span></span><br><span class="line">&gt;         android:valueFrom=<span class="string">"100"</span></span><br><span class="line">&gt;         android:valueTo=<span class="string">"20"</span></span><br><span class="line">&gt;         android:valueType=<span class="string">"intType"</span> /&gt;</span><br><span class="line">&gt;     &lt;objectAnimator</span><br><span class="line">&gt;         android:duration=<span class="string">"3000"</span></span><br><span class="line">&gt;         android:propertyName=<span class="string">"marginTop"</span></span><br><span class="line">&gt;         android:valueFrom=<span class="string">"0"</span></span><br><span class="line">&gt;         android:valueTo=<span class="string">"100"</span></span><br><span class="line">&gt;         android:valueType=<span class="string">"intType"</span> /&gt;</span><br><span class="line">&gt; &lt;/set&gt;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- res/animator/animator_set.xml --&gt;</span><br><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="line">&lt;set xmlns:android=<span class="string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="line">    android:ordering=<span class="string">&quot;together&quot;</span>&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:duration=<span class="string">&quot;3000&quot;</span></span><br><span class="line">        android:propertyName=<span class="string">&quot;width&quot;</span></span><br><span class="line">        android:valueFrom=<span class="string">&quot;100&quot;</span></span><br><span class="line">        android:valueTo=<span class="string">&quot;20&quot;</span></span><br><span class="line">        android:valueType=<span class="string">&quot;intType&quot;</span> /&gt;</span><br><span class="line">    &lt;objectAnimator</span><br><span class="line">        android:duration=<span class="string">&quot;3000&quot;</span></span><br><span class="line">        android:propertyName=<span class="string">&quot;marginTop&quot;</span></span><br><span class="line">        android:valueFrom=<span class="string">&quot;0&quot;</span></span><br><span class="line">        android:valueTo=<span class="string">&quot;100&quot;</span></span><br><span class="line">        android:valueType=<span class="string">&quot;intType&quot;</span> /&gt;</span><br><span class="line">&lt;/set&gt;</span><br></pre></td></tr></table></figure>
+
 <p>以上代码可实现两个同时执行的动画，一个将width从100缩放到20，一个将marginTop从0增加到100。多了一个marginTop属性，那么，在ViewWrapper添加setMarginTop()方法，添加后的ViewWrapper类代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewWrapper</span> </span>&#123;</span><br><span class="line">&gt;     <span class="keyword">private</span> View target;</span><br><span class="line">&gt;     <span class="keyword">private</span> <span class="keyword">int</span> maxWidth;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="title">ViewWrapper</span><span class="params">(View target, <span class="keyword">int</span> maxWidth)</span> </span>&#123;</span><br><span class="line">&gt;         <span class="keyword">this</span>.target = target;</span><br><span class="line">&gt;         <span class="keyword">this</span>.maxWidth = maxWidth;</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">&gt;         <span class="keyword">return</span> target.getLayoutParams().width;</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWidth</span><span class="params">(<span class="keyword">int</span> widthValue)</span> </span>&#123;</span><br><span class="line">&gt;         target.getLayoutParams().width = maxWidth * widthValue / <span class="number">100</span>;</span><br><span class="line">&gt;         target.requestLayout();</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt;</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMarginTop</span><span class="params">(<span class="keyword">int</span> margin)</span> </span>&#123;</span><br><span class="line">&gt;         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) target.getLayoutParams();</span><br><span class="line">&gt;         layoutParams.setMargins(<span class="number">0</span>, margin, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">&gt;         target.setLayoutParams(layoutParams);</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">ViewWrapper</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> View target;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> maxWidth;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ViewWrapper</span><span class="params">(View target, <span class="type">int</span> maxWidth)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.target = target;</span><br><span class="line">        <span class="built_in">this</span>.maxWidth = maxWidth;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getWidth</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> target.getLayoutParams().width;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setWidth</span><span class="params">(<span class="type">int</span> widthValue)</span> &#123;</span><br><span class="line">        target.getLayoutParams().width = maxWidth * widthValue / <span class="number">100</span>;</span><br><span class="line">        target.requestLayout();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setMarginTop</span><span class="params">(<span class="type">int</span> margin)</span> &#123;</span><br><span class="line">        LinearLayout.<span class="type">LayoutParams</span> <span class="variable">layoutParams</span> <span class="operator">=</span> (LinearLayout.LayoutParams) target.getLayoutParams();</span><br><span class="line">        layoutParams.setMargins(<span class="number">0</span>, margin, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">        target.setLayoutParams(layoutParams);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>最后，动画处理的代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScaleWidth</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">&gt;     <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">&gt;     <span class="keyword">int</span> maxWidth = getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">&gt;     <span class="comment">// 将目标view进行包装</span></span><br><span class="line">&gt;     ViewWrapper wrapper = <span class="keyword">new</span> ViewWrapper(view, maxWidth);</span><br><span class="line">&gt;     <span class="comment">// 将xml转化为ObjectAnimator对象</span></span><br><span class="line">&gt;     AnimatorSet animatorSet = (AnimatorSet) AnimatorInflater.loadAnimator(<span class="keyword">this</span>, R.animator.animator_set);</span><br><span class="line">&gt;     <span class="comment">// 设置动画的目标对象为包装后的view</span></span><br><span class="line">&gt;     animatorSet.setTarget(wrapper);</span><br><span class="line">&gt;     <span class="comment">// 启动动画</span></span><br><span class="line">&gt;     animatorSet.start();</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
-</blockquote>
-<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onScaleWidth</span><span class="params">(View view)</span> &#123;</span><br><span class="line">    <span class="comment">// 获取屏幕宽度</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">maxWidth</span> <span class="operator">=</span> getWindowManager().getDefaultDisplay().getWidth();</span><br><span class="line">    <span class="comment">// 将目标view进行包装</span></span><br><span class="line">    <span class="type">ViewWrapper</span> <span class="variable">wrapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ViewWrapper</span>(view, maxWidth);</span><br><span class="line">    <span class="comment">// 将xml转化为ObjectAnimator对象</span></span><br><span class="line">    <span class="type">AnimatorSet</span> <span class="variable">animatorSet</span> <span class="operator">=</span> (AnimatorSet) AnimatorInflater.loadAnimator(<span class="built_in">this</span>, R.animator.animator_set);</span><br><span class="line">    <span class="comment">// 设置动画的目标对象为包装后的view</span></span><br><span class="line">    animatorSet.setTarget(wrapper);</span><br><span class="line">    <span class="comment">// 启动动画</span></span><br><span class="line">    animatorSet.start();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这样就实现了宽度缩放和垂直移动的效果。</p>
 </blockquote>
 <p>当然，在Android3.0之后，Google给View增加了animate方法来直接驱动属性动画，代码如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view.animate().x(<span class="number">50f</span>).y(<span class="number">100f</span>);</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>目前到此为止，我们了解到在Android中有三种不同的动画类型，在Android3.0版本其实是一个区分点，在3.0之前用的居多都是View Animation，而在3.0之后用的居多是Property Animation，本次介绍的是这三者之间的区别和不同用法，下篇介绍具体实例和自定义动画方面的知识点，敬请期待。</p>
 
       
@@ -685,12 +675,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
         <p><span>发布时间:</span>2016-11-11, 11:03:44</p>
-        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
+        <p><span>最后更新:</span>2023-04-05, 10:08:05</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/11/11/2016-11-11-AndroidAnimation/" title="Android动画的理解">http://cryallen.com/2016/11/11/2016-11-11-AndroidAnimation/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/11/11/2016-11-11-AndroidAnimation/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/11/11/2016-11-11-AndroidAnimation/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
