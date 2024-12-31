@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
 
     <!--[if lt IE 9]>
         <style>body {display: none; background: none !important} </style>
@@ -8,35 +8,34 @@
     <![endif]-->
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no" />
-<meta name="author" content="Allen" />
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Allen">
 
 
 
 <meta name="description" content="平时工作，因为懒于动笔的原因，也没注重技术和经验的积累，导致之前曾经研究过的问题现在又忘记了，所以要慢慢注重积累，那么就从写作开始，谈谈对工作中碰到的问题进行整理和归纳。我们都知道，在Android中，想处理事件传递，可以用Handler+MessageQueue+Message+Looper循环，固然是有解决方法，但是这个使用起来不方便，代码写起来也不简洁，同时还必须要理解好Handler+Me">
+<meta name="keywords" content="Android,EventBus">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EventBus初理解">
 <meta property="og:url" content="http://cryallen.com/2016/07/22/2016-07-22-AndroidEventBus/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="平时工作，因为懒于动笔的原因，也没注重技术和经验的积累，导致之前曾经研究过的问题现在又忘记了，所以要慢慢注重积累，那么就从写作开始，谈谈对工作中碰到的问题进行整理和归纳。我们都知道，在Android中，想处理事件传递，可以用Handler+MessageQueue+Message+Looper循环，固然是有解决方法，但是这个使用起来不方便，代码写起来也不简洁，同时还必须要理解好Handler+Me">
-<meta property="og:locale">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-4d25878ac1dbb3ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-73a57c03fdf87d45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-f196560cb182ab01.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-67b979228efa3a56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-08298f7a1e569978.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/788498-1aa71d9999e55456.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="article:published_time" content="2016-07-22T04:44:38.000Z">
-<meta property="article:modified_time" content="2023-04-05T02:08:05.217Z">
-<meta property="article:author" content="Allen">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="EventBus">
+<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EventBus初理解">
+<meta name="twitter:description" content="平时工作，因为懒于动笔的原因，也没注重技术和经验的积累，导致之前曾经研究过的问题现在又忘记了，所以要慢慢注重积累，那么就从写作开始，谈谈对工作中碰到的问题进行整理和归纳。我们都知道，在Android中，想处理事件传递，可以用Handler+MessageQueue+Message+Looper循环，固然是有解决方法，但是这个使用起来不方便，代码写起来也不简洁，同时还必须要理解好Handler+Me">
 <meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/788498-4d25878ac1dbb3ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
-<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 
     <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
@@ -59,9 +58,7 @@
     <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
 
 
-
 <link rel="stylesheet" href="/css/style.css">
-
 
 
 
@@ -84,7 +81,7 @@
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: 
+        search: undefined
     }
 </script>
 
@@ -112,7 +109,7 @@
     </script>
 
 <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-<meta name="generator" content="Hexo 7.0.0-rc1"></head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -123,9 +120,11 @@
             <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">Allen</a></h1>
         </hgroup>
 
+        
+        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
         
 
         
@@ -208,7 +207,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/" rel="tag">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/" rel="tag">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/" rel="tag">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/" rel="tag">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/" rel="tag">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/" rel="tag">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/" rel="tag">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/" rel="tag">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/" rel="tag">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/" rel="tag">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/" rel="tag">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/" rel="tag">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/" rel="tag">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/" rel="tag">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/" rel="tag">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/" rel="tag">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/" rel="tag">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B/" rel="tag">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%82%E6%95%B0/" rel="tag">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" rel="tag">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" rel="tag">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82/" rel="tag">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="tag">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E6%92%AD/" rel="tag">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" rel="tag">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3/" rel="tag">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B9%E6%B3%95/" rel="tag">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%89%E6%95%88%E6%80%A7/" rel="tag">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1/" rel="tag">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%99%A8/" rel="tag">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CAndroid/" rel="tag">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0/" rel="tag">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85/" rel="tag">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="tag">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E7%94%A8/" rel="tag">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E8%BD%BD/" rel="tag">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82/" rel="tag">静态工厂</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
                     </div>
                 </section>
                 
@@ -237,7 +236,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -245,8 +244,10 @@
                 <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
             </hgroup>
+            
+            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
             
             <nav class="header-menu">
                 <ul>
@@ -321,7 +322,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EventBus/" rel="tag">EventBus</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/EventBus/">EventBus</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -336,27 +337,28 @@
 </blockquote>
 <p>比如这样的图：<br><img src="http://upload-images.jianshu.io/upload_images/788498-4d25878ac1dbb3ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="示意图"></p>
 <h2 id="初认识"><a href="#初认识" class="headerlink" title="初认识"></a>初认识</h2><blockquote>
-<p>因为在工作大量用到Fragment和Activity之间的耦合，需要获取对方某某的实例，自然而然就去寻找事件之间是否有解耦合的库，EventBus就涌现出来了，这个是greenrobot大神写的，多么经典已经无需多说了，github地址：<a href="https://github.com/greenrobot/EventBus">https://github.com/greenrobot/EventBus</a>，虽然我们会使用，但是也需要了解里面的原理，这样使用的起来也放心，毕竟对于陌生的东西不明白内部情况，就去用，什么时候被坑也会不知道的。</p>
+<p>因为在工作大量用到Fragment和Activity之间的耦合，需要获取对方某某的实例，自然而然就去寻找事件之间是否有解耦合的库，EventBus就涌现出来了，这个是greenrobot大神写的，多么经典已经无需多说了，github地址：<a href="https://github.com/greenrobot/EventBus" target="_blank" rel="noopener">https://github.com/greenrobot/EventBus</a>，虽然我们会使用，但是也需要了解里面的原理，这样使用的起来也放心，毕竟对于陌生的东西不明白内部情况，就去用，什么时候被坑也会不知道的。</p>
 </blockquote>
 <h2 id="脑补下"><a href="#脑补下" class="headerlink" title="脑补下"></a>脑补下</h2><p><strong>介绍这个库之前，需要认识以下几个名词。</strong></p>
 <blockquote>
-<p>事件(Event)：又可称为消息，本文中统一用事件表示。其实就是一个对象，可以是网络请求返回的字符串，也可以是某个开关状态等等。事件类型(EventType)指事件所属的 Class。事件分为一般事件和 Sticky 事件，相对于一般事件，Sticky 事件不同之处在于，当事件发布后，再有订阅者开始订阅该类型事件，依然能收到该类型事件最近一个 Sticky 事件。<br>    订阅者(Subscriber)：订阅某种事件类型的对象。当有发布者发布这类事件后，EventBus 会执行订阅者的 onEvent 函数，这个函数叫事件响应函数。订阅者通过 register 接口订阅某个事件类型，unregister 接口退订。订阅者存在优先级，优先级高的订阅者可以取消事件继续向优先级低的订阅者分发，默认所有订阅者优先级都为 0。<br>    发布者(Publisher)：发布某事件的对象，通过 post 接口发布事件。</p>
+<p>事件(Event)：又可称为消息，本文中统一用事件表示。其实就是一个对象，可以是网络请求返回的字符串，也可以是某个开关状态等等。事件类型(EventType)指事件所属的 Class。事件分为一般事件和 Sticky 事件，相对于一般事件，Sticky 事件不同之处在于，当事件发布后，再有订阅者开始订阅该类型事件，依然能收到该类型事件最近一个 Sticky 事件。<br>   订阅者(Subscriber)：订阅某种事件类型的对象。当有发布者发布这类事件后，EventBus 会执行订阅者的 onEvent 函数，这个函数叫事件响应函数。订阅者通过 register 接口订阅某个事件类型，unregister 接口退订。订阅者存在优先级，优先级高的订阅者可以取消事件继续向优先级低的订阅者分发，默认所有订阅者优先级都为 0。<br>   发布者(Publisher)：发布某事件的对象，通过 post 接口发布事件。</p>
 </blockquote>
-<p>  ## 结构图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/788498-73a57c03fdf87d45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结构图"></p>
+<h2 id="结构图"><a href="#结构图" class="headerlink" title="结构图"></a>结构图</h2><p><img src="http://upload-images.jianshu.io/upload_images/788498-73a57c03fdf87d45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结构图"></p>
 <blockquote>
-<p>   从中，我们可以看到这个库整体结构是基于生产者&#x2F;消费者模式，也可以称呼为发布者&#x2F;订阅者，显得更亲切。所谓的发布者&#x2F;订阅者，比如我们日常生活中，小区的通告栏，生产者类似小区居委会，订阅者就是小区里的住户，当你需要小区居委会帮忙的时候，比如你外出了，可以叫居委会里某个大妈帮你拿下快递，那么你需要在居委会那里登记，也可以叫做注册，只有登记了，居委会里的大妈才知道你是我们同一个小区的，也可以认识你了。同时，每当有事情发生，需要通知的时候，需要在通告栏里发布一个通告，现在信息发达了，通告栏可以通过微信公众号来发布，但是也需要每个人去扫一扫，关注下小区的公众号，一发通知，有关注的业主自然就知道通知事情是什么。那么这个EventBus库的实现原理，跟我们日常生活中的微信公众号很类型，首先在使用的时候，我们需要向公众平台注册，注册完之后， 当生产者需要发布信息的时候，平台会帮我们把这些消息推送给订阅者，订阅者根据消息内容，进行不同处理操作。</p>
+<p>  从中，我们可以看到这个库整体结构是基于生产者/消费者模式，也可以称呼为发布者/订阅者，显得更亲切。所谓的发布者/订阅者，比如我们日常生活中，小区的通告栏，生产者类似小区居委会，订阅者就是小区里的住户，当你需要小区居委会帮忙的时候，比如你外出了，可以叫居委会里某个大妈帮你拿下快递，那么你需要在居委会那里登记，也可以叫做注册，只有登记了，居委会里的大妈才知道你是我们同一个小区的，也可以认识你了。同时，每当有事情发生，需要通知的时候，需要在通告栏里发布一个通告，现在信息发达了，通告栏可以通过微信公众号来发布，但是也需要每个人去扫一扫，关注下小区的公众号，一发通知，有关注的业主自然就知道通知事情是什么。那么这个EventBus库的实现原理，跟我们日常生活中的微信公众号很类型，首先在使用的时候，我们需要向公众平台注册，注册完之后， 当生产者需要发布信息的时候，平台会帮我们把这些消息推送给订阅者，订阅者根据消息内容，进行不同处理操作。</p>
 </blockquote>
 <p><strong>具体使用流程</strong><br><img src="http://upload-images.jianshu.io/upload_images/788498-f196560cb182ab01.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用流程"></p>
-<p>  ## 类图</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/788498-67b979228efa3a56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="EventBus类图"></p>
+<h2 id="类图"><a href="#类图" class="headerlink" title="类图"></a>类图</h2><p><img src="http://upload-images.jianshu.io/upload_images/788498-67b979228efa3a56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="EventBus类图"></p>
 <blockquote>
 <p>根据类来分析，从中，我们可以看到EventBus依赖有五个类，分别如下。</p>
-</blockquote>
 <ul>
 <li>SubscriberMethod:这是一个订阅方法类的封装，包含了方法反射的名称，线程模型和事件类型，比如当你向主干注册的时候，这时候就会实例化SubscriberMethod类实例，来存放以onEvent开头的方法，运行的线程模型和自定义的传递事件类型。</li>
-<li>SubscriberMethodFinder:在这个类中，我们可以看到为何在定义方法消息接受回调时，会以“onEvent”开头的方法，因为这里有个<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">ON_EVENT_METHOD_NAME</span> <span class="operator">=</span> <span class="string">&quot;onEvent&quot;</span>;</span><br></pre></td></tr></table></figure>
-ON_EVENT_METHOD_NAME的常量。里面关键方法是findSubscriberMethods(),具体实现可以去看代码，通过反射的方法，找出订阅者上的以onEvent开头的方法，最终返回的时SubscriberMethod类的集合，也就是所有事件响应函数。</li>
+<li>SubscriberMethodFinder:在这个类中，我们可以看到为何在定义方法消息接受回调时，会以“onEvent”开头的方法，因为这里有个<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ON_EVENT_METHOD_NAME = <span class="string">"onEvent"</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>ON_EVENT_METHOD_NAME的常量。里面关键方法是findSubscriberMethods(),具体实现可以去看代码，通过反射的方法，找出订阅者上的以onEvent开头的方法，最终返回的时SubscriberMethod类的集合，也就是所有事件响应函数。</p>
+<ul>
 <li>HandlerPoster:这是继承Handler的请求类，封装了请求队列，整个过程是在队列不断发送请求，直到所有的请求都出队列，也就是全部发送完毕。事件主线程处理，对应ThreadMode.MainThread。enqueue 函数将事件放到队列中，并利用 handler 发送 message，handleMessage 函数从队列中取事件，invoke 事件响应函数处理。</li>
 <li>AsyncPoster:这个其实一个Runnable实现类，封装执行的过程，在异步时调用。是一个事件异步线程处理，对应ThreadMode.Async。enqueue 函数将事件放到队列中，并调用线程池执行当前任务，在 run 函数从队列中取事件，invoke 事件响应函数处理。</li>
 <li>BackgroundPoster:**这个其实一个Runnable实现类，事件 Background 处理，对应ThreadMode.BackgroundThread。enqueue 函数将事件放到队列中，并调用线程池执行当前任务，在 run 函数从队列中取事件，invoke 事件响应函数处理。与 AsyncPoster.java 不同的是BackgroundPoster 中的任务只在同一个线程中依次执行，而不是并发执行。</li>
@@ -365,17 +367,17 @@ ON_EVENT_METHOD_NAME的常量。里面关键方法是findSubscriberMethods(),具
 <blockquote>
 <ul>
 <li>PostThread，默认的ThreadMode，表示在执行Post操作的线程直接调用订阅者的事件响应方法不论该线程是否为主线程(UI线程)。当该线程为主线程时，响应方法不能有耗时操作，否则有卡主线程风险。适用场景：对于是否在主线程执行无要求，但若 Post 线程为主线程，不能耗时的操作。</li>
-</ul>
-</blockquote>
-<ul>
 <li>MainThread，在主线程中执行响应方法。如果发布线程就是主线程，则直接调用订阅者的事件响应方法，否则通过主线程的 Handler 发送消息在主线程中处理——调用订阅者的事件响应函数。显然，MainThread类的方法也不能有耗时操作，以避免卡主线程。适用场景：必须在主线程执行的操作；</li>
 <li>BackgroundThread，在后台线程中执行响应方法。如果发布线程不是主线程，则直接调用订阅者的事件响应函数，否则启动唯一的后台线程去处理。由于后台线程是唯一的，当事件超过一个的时候，它们会被放在队列中依次执行，因此该类响应方法虽然没有PostThread类和MainThread类方法对性能敏感，但最好不要有重度耗时的操作或太频繁的轻度耗时操作，以造成其他操作等待。适用场景：操作轻微耗时且不会过于频繁，即一般的耗时操作都可以放在这里；</li>
 <li>Async，不论发布线程是否为主线程，都使用一个空闲线程来处理。和BackgroundThread不同的是，Async类的所有线程是相互独立的，因此不会出现卡线程的问题。适用场景：长耗时操作，例如网络访问。</li>
 </ul>
-<h2 id="EventBus类介绍"><a href="#EventBus类介绍" class="headerlink" title="EventBus类介绍"></a>EventBus类介绍</h2><blockquote>
-<p>EventBus类是对外暴露的API，包括register()，post()，unregister()方法，配合自定义的EventType事件响应，即可完成使用过程。EventBus类有个默认getDefault单例，当然也可以通过EventBusBuilder 或构造函数新建一个EventBus，每个新建的EventBus发布和订阅事件都是相互隔离的，即在一个EventBus对象中发布事件，如果有另外一个EventBus对象，则另外一个EventBus对象的订阅者不会收到该订阅。</p>
 </blockquote>
-<h4 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h4><p> &gt;register和unregister，分别表示订阅事件和取消订阅，register 最底层函数有三个参数，分别为订阅者对象、是否是 Sticky 事件、优先级。</p>
+<h2 id="EventBus类介绍"><a href="#EventBus类介绍" class="headerlink" title="EventBus类介绍"></a>EventBus类介绍</h2><blockquote>
+<p>EventBus类是对外暴露的API，包括register()，post()，unregister()方法，配合自定义的EventType事件响应，即可完成使用过程。EventBus类有个默认getDefault单例，当然也可以通过EventBusBuilder 或构造函数新建一个EventBus，每个新建的EventBus发布和订阅事件都是相互隔离的，即在一个EventBus对象中发布事件，如果有另外一个EventBus对象，则另外一个EventBus对象的订阅者不会收到该订阅。</p>
+</blockquote>
+<h4 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h4><blockquote>
+<p>register和unregister，分别表示订阅事件和取消订阅，register 最底层函数有三个参数，分别为订阅者对象、是否是 Sticky 事件、优先级。</p>
+</blockquote>
 <h4 id="注册流程"><a href="#注册流程" class="headerlink" title="注册流程"></a>注册流程</h4><p><img src="http://upload-images.jianshu.io/upload_images/788498-08298f7a1e569978.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="注册流程图"></p>
 <blockquote>
 <p>第一，register 函数中会先根据订阅者类名去subscriberMethodFinder中查找当前订阅者所有事件响应函数，然后循环每一个事件响应函数，依次执行下面的 subscribe 函数：第一，通过subscriptionsByEventType得到该事件类型的所有订阅者信息队列，根据优先级把当前订阅者信息插入到订阅者队列subscriptionsByEventType中。<br>第二，在typesBySubscriber中得到当前订阅者的所有事件队列，将此事件保存到队列typesBySubscriber中，用于后续取消订阅。第三，检查这个事件是否是 Sticky 事件，如果是则从stickyEvents事件保存队列中取出该事件类型最后一个事件发送给当前订阅者。</p>
@@ -392,7 +394,7 @@ ON_EVENT_METHOD_NAME的常量。里面关键方法是findSubscriberMethods(),具
 <li>subscriberMethodFinder：订阅者响应函数信息存储和查找类。</li>
 <li>executorService异步和 BackGround 处理方式的线程池。</li>
 </ul>
-<p>参考地址<br><a href="http://www.codekk.com/open-source-project-analysis/detail/Android/Trinea/EventBus%20">http://www.codekk.com/open-source-project-analysis/detail/Android/Trinea/EventBus%20</a>源码解析</p>
+<p>参考地址<br><a href="http://www.codekk.com/open-source-project-analysis/detail/Android/Trinea/EventBus%20" target="_blank" rel="noopener">http://www.codekk.com/open-source-project-analysis/detail/Android/Trinea/EventBus%20</a>源码解析</p>
 
       
     </div>
@@ -402,12 +404,12 @@ ON_EVENT_METHOD_NAME的常量。里面关键方法是findSubscriberMethods(),具
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
         <p><span>发布时间:</span>2016-07-22, 12:44:38</p>
-        <p><span>最后更新:</span>2023-04-05, 10:08:05</p>
+        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2016/07/22/2016-07-22-AndroidEventBus/" title="EventBus初理解">http://cryallen.com/2016/07/22/2016-07-22-AndroidEventBus/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/22/2016-07-22-AndroidEventBus/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/22/2016-07-22-AndroidEventBus/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>

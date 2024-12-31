@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
 
     <!--[if lt IE 9]>
         <style>body {display: none; background: none !important} </style>
@@ -8,34 +8,33 @@
     <![endif]-->
 
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no" />
-<meta name="author" content="Allen" />
+<meta name="format-detection" content="telephone=no">
+<meta name="author" content="Allen">
 
 
 
 <meta name="description" content="介绍了Android APP 优化的几个方面，总结起来就是四个字快、稳、省、小。">
+<meta name="keywords" content="Android,知识点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android APP 性能优化的一些思考">
 <meta property="og:url" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="介绍了Android APP 优化的几个方面，总结起来就是四个字快、稳、省、小。">
-<meta property="og:locale">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/01.png">
 <meta property="og:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/02.png">
 <meta property="og:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/03.png">
 <meta property="og:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/04.jpeg">
 <meta property="og:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/05.png">
-<meta property="article:published_time" content="2017-12-22T13:38:29.000Z">
-<meta property="article:modified_time" content="2023-04-05T02:08:05.257Z">
-<meta property="article:author" content="Allen">
-<meta property="article:tag" content="Android">
-<meta property="article:tag" content="知识点">
+<meta property="og:updated_time" content="2021-03-27T15:16:10.475Z">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android APP 性能优化的一些思考">
+<meta name="twitter:description" content="介绍了Android APP 优化的几个方面，总结起来就是四个字快、稳、省、小。">
 <meta name="twitter:image" content="http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/01.png">
 
-<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 
     <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
@@ -58,9 +57,7 @@
     <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
 
 
-
 <link rel="stylesheet" href="/css/style.css">
-
 
 
 
@@ -83,7 +80,7 @@
         isCategory: false,
         fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
         scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: 
+        search: undefined
     }
 </script>
 
@@ -111,7 +108,7 @@
     </script>
 
 <script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-<meta name="generator" content="Hexo 7.0.0-rc1"></head>
+</head></html>
 <body>
   <div id="container">
     <div class="left-col">
@@ -122,9 +119,11 @@
             <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
         </a>
         <hgroup>
-          <h1 class="header-author"><a href="/"></a></h1>
+          <h1 class="header-author"><a href="/">Allen</a></h1>
         </hgroup>
 
+        
+        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
         
 
         
@@ -207,7 +206,7 @@
                 
                 <section class="switch-part switch-part2">
                     <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/" rel="tag">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/" rel="tag">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/" rel="tag">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/" rel="tag">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/" rel="tag">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/" rel="tag">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/" rel="tag">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/" rel="tag">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/" rel="tag">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/" rel="tag">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/" rel="tag">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/" rel="tag">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/" rel="tag">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/" rel="tag">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/" rel="tag">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/" rel="tag">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/" rel="tag">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/" rel="tag">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/" rel="tag">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/" rel="tag">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%B8%AA%E4%BA%BA%E6%88%90%E9%95%BF/" rel="tag">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%90%86/" rel="tag">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E6%B7%B7%E6%B7%86/" rel="tag">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8D%95%E4%BE%8B/" rel="tag">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%82%E6%95%B0/" rel="tag">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%8F%8D%E5%B0%84/" rel="tag">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" rel="tag">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E4%BD%9C%E6%80%BB%E7%BB%93/" rel="tag">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B7%A5%E5%8E%82/" rel="tag">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/" rel="tag">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%BF%E6%92%AD/" rel="tag">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE/" rel="tag">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%8E%A5%E5%8F%A3/" rel="tag">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%B9%E6%B3%95/" rel="tag">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%89%E6%95%88%E6%80%A7/" rel="tag">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%8D%E5%8A%A1/" rel="tag">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E9%80%A0%E5%99%A8/" rel="tag">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%9A%E4%B8%BE/" rel="tag">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%9B%E5%9E%8B/" rel="tag">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B3%A8%E8%A7%A3/" rel="tag">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9%EF%BC%8CAndroid/" rel="tag">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/" rel="tag">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%B1%BB/" rel="tag">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A3%85%E9%A5%B0/" rel="tag">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%A7%82%E5%AF%9F%E8%80%85/" rel="tag">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/" rel="tag">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%80%9A%E7%94%A8/" rel="tag">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%87%8D%E8%BD%BD/" rel="tag">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%9D%99%E6%80%81%E5%B7%A5%E5%8E%82/" rel="tag">静态工厂</a></li></ul>
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
                     </div>
                 </section>
                 
@@ -236,7 +235,7 @@
       <nav id="mobile-nav">
       <div class="overlay">
           <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页"></a></h1>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
       </div>
     <div class="intrude-less">
         <header id="header" class="inner">
@@ -244,8 +243,10 @@
                 <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
             </a>
             <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页"></a></h1>
+              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
             </hgroup>
+            
+            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
             
             <nav class="header-menu">
                 <ul>
@@ -320,7 +321,7 @@
 
         
     <div class="article-tag tagcloud">
-        <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/" rel="tag">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag">知识点</a></li></ul>
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/知识点/">知识点</a></li></ul>
     </div>
 
         <div class="clearfix"></div>
@@ -334,14 +335,14 @@
 <ul>
 <li><p>其实近年来，随着 Android 版本不断迭代，Google 提供的Android 系统已经越来越流畅，目前最新发布的版本是 <strong>Android 8.0 Oreo</strong> 。但是在国内大部分用户用的 Android 手机系是各大厂商定制过的版本，往往不是最新的原生系统内核，可能绝大多数还停留在 Android 5.0 系统上，甚至 Android 6.0 以上所占比例还偏小，更新存在延迟性。</p>
 </li>
-<li><p>由于 Android 系统源码是开放的，每个人只要遵从相应的协议，就可以对源码进行修改，那么国内各个厂商就把基于 Android  源码改造成自己对外发布的系统，比如我们熟悉的小米手机 Miui 系统、华为手机 EMUI 系统、Oppo 手机 ColorOS 系统等。由于每个厂商都修改过 Android 原生系统源码，这里面就会引发一个问题，那就是著名的<strong>Android 碎片化</strong>问题，本质就是不同 Android 系统的应用兼容性不同，达不到一致性。</p>
+<li><p>由于 Android 系统源码是开放的，每个人只要遵从相应的协议，就可以对源码进行修改，那么国内各个厂商就把基于 Android  源码改造成自己对外发布的系统，比如我们熟悉的小米手机 Miui 系统、华为手机 EMUI 系统、Oppo 手机 ColorOS 系统等。由于每个厂商都修改过 Android 原生系统源码，这里面就会引发一个问题，那就是著名的<strong>Android 碎片化</strong>问题，本质就是不同 Android 系统的应用兼容性不同，达不到一致性。</p>
 </li>
 <li><p>由于存在着各种 <strong>Android 碎片化和兼容性</strong>问题，导致 Android 开发者在开发应用时需要对不同系统进行适配，同时每个 Android 开发者的开发水平参差不齐，写出来的应用性能也都存在不同类型的问题，导致用户在使用过程中用户体验感受不同，那么有些问题用户就会转化为 Android 系统问题，进而影响对Android 手机的评价。</p>
 </li>
 </ul>
 <h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><p>今天想说的重点是<strong>Android APP</strong> 性能优化，也就是在开发应用程序时应该注意的点有哪些，如何更好地提高用户体验。一个好的应用，除了要有吸引人的功能和交互之外，在性能上也应该有高的要求，即使应用非常具有特色，在产品前期可能吸引了部分用户，但是用户体验不好的话，也会给产品带来不好的口碑。那么一个好的应用应该如何定义呢？主要有以下三方面：</p>
 <ul>
-<li><p>业务&#x2F;功能</p>
+<li><p>业务/功能</p>
 </li>
 <li><p>符合逻辑的交互</p>
 </li>
@@ -387,7 +388,7 @@
 </li>
 <li><p>接收客户端数据及属性，修改 Layer 属性，如尺寸、颜色、透明度等。</p>
 </li>
-<li><p>将创建的 Layer  内容刷新到屏幕上。</p>
+<li><p>将创建的 Layer  内容刷新到屏幕上。</p>
 </li>
 <li><p>维持 Layer 的序列，并对 Layer 最终输出做出裁剪计算。</p>
 </li>
@@ -436,7 +437,7 @@
 <p>2，TraceView</p>
 <p>TraceView 是 Android SDK 自带的工具，用来分析函数调用过程，可以对 Android 的应用程序以及 Framework 层的代码进行性能分析。它是一个图形化的工具，最终会产生一个图表，用于对性能分析进行说明，可以分析到每一个方法的执行时间，其中可以统计出该方法调用次数和递归次数，实际时长等参数维度，使用非常直观，分析性能非常方便。</p>
 <p>3，Systrace UI 性能分析</p>
-<p>Systrace  是 Android 4.1及以上版本提供的性能数据采样和分析工具，它是通过系统的角度来返回一些信息。它可以帮助开发者收集 Android  关键子系统，如 surfaceflinger、WindowManagerService 等 Framework 部分关键模块、服务、View系统等运行信息，从而帮助开发者更直观地分析系统瓶颈，改进性能。Systrace  的功能包括跟踪系统的 I&#x2F;O 操作、内核工作队列、CPU 负载等，在 UI 显示性能分析上提供很好的数据，特别是在动画播放不流畅、渲染卡等问题上。</p>
+<p>Systrace  是 Android 4.1及以上版本提供的性能数据采样和分析工具，它是通过系统的角度来返回一些信息。它可以帮助开发者收集 Android  关键子系统，如 surfaceflinger、WindowManagerService 等 Framework 部分关键模块、服务、View系统等运行信息，从而帮助开发者更直观地分析系统瓶颈，改进性能。Systrace  的功能包括跟踪系统的 I/O 操作、内核工作队列、CPU 负载等，在 UI 显示性能分析上提供很好的数据，特别是在动画播放不流畅、渲染卡等问题上。</p>
 <h5 id="优化建议"><a href="#优化建议" class="headerlink" title="优化建议"></a>优化建议</h5><p>1，布局优化</p>
 <p>布局是否合理主要影响的是页面测量时间的多少，我们知道一个页面的显示测量和绘制过程都是通过递归来完成的，多叉树遍历的时间与树的高度h有关，其时间复杂度 O(h)，如果层级太深，每增加一层则会增加更多的页面显示时间，所以布局的合理性就显得很重要。</p>
 <p>那布局优化有哪些方法呢，主要通过减少层级、减少测量和绘制时间、提高复用性三个方面入手。总结如下：</p>
@@ -445,7 +446,7 @@
 </li>
 <li><p>提高显示速度。使用 ViewStub，它是一个看不见的、不占布局位置、占用资源非常小的视图对象。</p>
 </li>
-<li><p>布局复用。可以通过**<include>** 标签来提高复用。</include></p>
+<li><p>布局复用。可以通过<strong><include></include></strong> 标签来提高复用。</p>
 </li>
 <li><p>尽可能少用wrap_content。wrap_content 会增加布局 measure 时计算成本，在已知宽高为固定值时，不用wrap_content 。</p>
 </li>
@@ -484,7 +485,7 @@
 <p>5，其他</p>
 <p>在实现动画效果时，需要根据不同场景选择合适的动画框架来实现。有些情况下，可以用硬件加速方式来提供流畅度。</p>
 <h3 id="内存优化"><a href="#内存优化" class="headerlink" title="内存优化"></a>内存优化</h3><p>在 Android 系统中有个垃圾内存回收机制，在虚拟机层自动分配和释放内存，因此不需要在代码中分配和释放某一块内存，从应用层面上不容易出现内存泄漏和内存溢出等问题，但是需要内存管理。Android 系统在内存管理上有一个 Generational Heap Memory 模型，内存回收的大部分压力不需要应用层关心， Generational Heap Memory 有自己一套管理机制，当内存达到一个阈值时，系统会根据不同的规则自动释放系统认为可以释放的内存，也正是因为 Android 程序把内存控制的权力交给了 Generational Heap Memory，一旦出现内存泄漏和溢出方面的问题，排查错误将会成为一项异常艰难的工作。除此之外，部分 Android 应用开发人员在开发过程中并没有特别关注内存的合理使用，也没有在内存方面做太多的优化，当应用程序同时运行越来越多的任务，加上越来越复杂的业务需求时，完全依赖 Android 的内存管理机制就会导致一系列性能问题逐渐呈现，对应用的稳定性和性能带来不可忽视的影响，因此，解决内存问题和合理优化内存是非常有必要的。</p>
-<h5 id="Android内存管理机制"><a href="#Android内存管理机制" class="headerlink" title="Android内存管理机制"></a>Android内存管理机制</h5><p>Android 应用都是在 Android  的虚拟机上运行，应用 程序的内存分配与垃圾回收都是由虚拟机完成的。在 Android 系统，虚拟机有两种运行模式：Dalvik 和 ART。</p>
+<h5 id="Android内存管理机制"><a href="#Android内存管理机制" class="headerlink" title="Android内存管理机制"></a>Android内存管理机制</h5><p>Android 应用都是在 Android  的虚拟机上运行，应用 程序的内存分配与垃圾回收都是由虚拟机完成的。在 Android 系统，虚拟机有两种运行模式：Dalvik 和 ART。</p>
 <p>1，Java对象生命周期</p>
 <p><img src="/2017/12/22/2017-12-22-AndroidAPP/04.jpeg" alt="Java对象生命周期"></p>
 <p>一般Java对象在虚拟机上有7个运行阶段：</p>
@@ -575,7 +576,7 @@
 </li>
 <li><p>AndroidManifest.xml。这个文件用来描述 Android 应用的配置信息，一些组件的注册信息、可使用权限等。</p>
 </li>
-<li><p>classes.dex。Dalvik 字节码程序，让 Dalvik 虚拟机可执行，一般情况下，Android 应用在打包时通过 Android  SDK 中的 dx 工具将 Java 字节码转换为 Dalvik 字节码。</p>
+<li><p>classes.dex。Dalvik 字节码程序，让 Dalvik 虚拟机可执行，一般情况下，Android 应用在打包时通过 Android  SDK 中的 dx 工具将 Java 字节码转换为 Dalvik 字节码。</p>
 </li>
 <li><p>resources.arsc。记录着资源文件和资源 ID 之间的映射关系，用来根据资源 ID 寻找资源。</p>
 </li>
@@ -604,12 +605,12 @@
     
     <div class="copyright">
         <p><span>本文标题:</span><a href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页"></a></p>
+        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
         <p><span>发布时间:</span>2017-12-22, 21:38:29</p>
-        <p><span>最后更新:</span>2023-04-05, 10:08:05</p>
+        <p><span>最后更新:</span>2021-03-27, 23:16:10</p>
         <p>
             <span>原始链接:</span><a class="post-url" href="/2017/12/22/2017-12-22-AndroidAPP/" title="Android APP 性能优化的一些思考">http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/　　作者: " title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
+            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2017/12/22/2017-12-22-AndroidAPP/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
             <script> var clipboard = new Clipboard('.copy-path'); </script>
         </p>
         <p>
