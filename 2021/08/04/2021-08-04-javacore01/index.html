@@ -1,334 +1,238 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Allen">
-
+<link rel="stylesheet" href="/css/main.css">
 
 
-<meta name="description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
-<meta name="keywords" content="Java">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cryallen.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="我所理解的Java平台">
 <meta property="og:url" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore01.png">
 <meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore02.png">
 <meta property="og:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore03.png">
-<meta property="og:updated_time" content="2021-08-04T14:30:02.817Z">
+<meta property="article:published_time" content="2021-08-04T13:27:14.000Z">
+<meta property="article:modified_time" content="2021-08-04T14:30:02.000Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我所理解的Java平台">
-<meta name="twitter:description" content="由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解">
 <meta name="twitter:image" content="http://cryallen.com/2021/08/04/2021-08-04-javacore01/JavaCore01.png">
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="http://cryallen.com/2021/08/04/2021-08-04-javacore01/">
 
 
-    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
-
-
-
-    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>我所理解的Java平台 | 斜杠Allen</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: false,
-        isPost: true,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
+  <title>我所理解的Java平台 | 斜杠Allen</title>
+  
 
 
 
 
 
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 
-<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-</head></html>
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Allen</a></h1>
-        </hgroup>
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
-        
-        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-        
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-        
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                    </div>
-                    
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-        
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
-                    
-                    </div>
-                </section>
-                
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 
-                
-            </div>
-        </div>
-    </header>                
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">斜杠Allen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
-            </hgroup>
-            
-            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-            
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                    <li><a href="/about/">关于我</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
-    </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
-      <div class="body-wrap"><article id="post-2021-08-04-javacore01" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2021/08/04/2021-08-04-javacore01/" class="article-date">
-      <time datetime="2021-08-04T13:27:14.000Z" itemprop="datePublished">2021-08-04</time>
-</a>
 
 
-    </div>
-  
-  <div class="article-inner">
+
+
+</div>
+    </header>
+
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      我所理解的Java平台
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Java面试/">Java面试</a>
-    </div>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
           
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://cryallen.com/2021/08/04/2021-08-04-javacore01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/allen.jpg">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="致力于做一个终生学习布道者。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="斜杠Allen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我所理解的Java平台
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-04 21:27:14 / 修改时间：22:30:02" itemprop="dateCreated datePublished" datetime="2021-08-04T21:27:14+08:00">2021-08-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Java面试</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+            <div class="post-description">由一道面试题引入Java技术平台，结合这么多年下来的工作经历，谈谈个人对于Java平台的理解</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
         <p>对于Java技术体系，相信每个Java程序员都会惊叹于整个技术栈的庞大，很多时候会有入门到放弃的心态，因为技术在不断更新，作为Java程序员也时刻保持进步学习状态，这样才能跟上技术的发展。对于我自己来说，同样也是使用Java技术栈工作多年，无论是面试还是日常工作中同事技术交流，会有很多Java相关知识点总感觉没有掌握到位，经常是似懂非懂。</p>
 <p>因此希望能通过写作文章来对Java的知识点进行巩固，一方面是希望自己能对Java平台理解更深刻点，另一方面也是希望能通过这样以抛出问题，后续解答的方式进一步加强学习，以便达到巩固和掌握知识点。</p>
 <p>那么今天我想谈论的话题是这么一道面试题：「<strong>谈谈你对 Java 平台的理解？“Java 是解释执行”，这句话正确吗？</strong>」</p>
@@ -346,7 +250,7 @@
 <p>至于反射，也是Java平台的一大利器，可以满足动态加载功能和并行开发模式，比如很多Java框架都是利用反射机制达到开发的便利性，提高程序员开发效率，让程序员可以更专注在自身业务开发上。</p>
 <p>最后一点，泛型机制，主要是为了提高开发稳定性，也就是说类型安全，极大提高了程序健壮性，并且泛型机制还借鉴模板机制，对于同一种行为规范，可以套用在不同的数据类型上。</p>
 <h3 id="Java类库"><a href="#Java类库" class="headerlink" title="Java类库"></a>Java类库</h3><p>除了基本特性之外，Java平台还有一个很大特色是丰富的类库。</p>
-<p>比如基础类库：集合、IO/NIO、网络、并发、安全等。我们日常工作常用的容器类库，ArrayList、Map，都有着共同父类，看张图，你就清楚了，这些系统自带的容器类：</p>
+<p>比如基础类库：集合、IO&#x2F;NIO、网络、并发、安全等。我们日常工作常用的容器类库，ArrayList、Map，都有着共同父类，看张图，你就清楚了，这些系统自带的容器类：</p>
 <p><img src="/2021/08/04/2021-08-04-javacore01/JavaCore02.png" alt="JavaCore02"></p>
 <p>除此之外，还有线程安全类和丰富的第三方类库。</p>
 <h3 id="Java虚拟机"><a href="#Java虚拟机" class="headerlink" title="Java虚拟机"></a>Java虚拟机</h3><p>Java为何能受广大开发者喜爱，很重要的一点就是跨平台，其中跨平台最大的特色就是 Write once，run anywhere （写一次，到处运行）。那么跨平台的关键因素就是Java虚拟机。看下Java虚拟机的结构图：</p>
@@ -357,184 +261,226 @@
 <p>至于Java编译过程，有这四步：源码-字节码-虚拟机解释-机器码，hotspot 提供了JIT编译器，Java类加载机制，常用版本 JDK（如 JDK 8）内嵌的 Class-Loader，例如 Bootstrap、 Application 和 Extension Class-loader；类加载大致过程：加载、验证、链接、初始化</p>
 <h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><p>我们日常会接触到 JRE（Java Runtime Environment）或者 JDK（Java Development Kit）。 JRE，也就是 Java 运行环境，包含了 JVM 和 Java 类库，以及一些模块等。而 JDK 可以看作是 JRE 的一个超集，提供了更多工具，比如编译器、各种诊断工具等。</p>
 <p>我们需要善于利用这些工具，了解各种工具用法，以便在面对实际问题时，可以通过不同工具进一步排查，很多时候面对问题时候，往往不是解决问题有多困难，而是分析定位问题原因有多耗时。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>总的来说，我是从以上四个方面来理解所谓的Java平台，除此之外，还想补充一点，那就是「<strong>静态编译与动态解释</strong>」这点。 静态编译的程序在执行前全部被翻译为机器码，通常将这种类型称为AOT （Ahead of time）即 “提前编译”； 而解释执行的则是一句一句边翻译边运行，通常将这种类型称为JIT（Just-in-time）即“即时编译”。 AOT程序的典型代表是用C/C++开发的应用，它们必须在执行前编译成机器码，而JIT的代表则非常多，如JavaScript、python等。 事实上，所有脚本语言都支持JIT模式。但需要注意的是JIT和AOT指的是程序运行方式，和编程语言并非强关联的，有些语言既可以以JIT方式运行也可以以AOT方式运行，如Java、Python，它们可以在第一次执行时编译成中间字节码、然后在之后执行时可以直接执行字节码。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>总的来说，我是从以上四个方面来理解所谓的Java平台，除此之外，还想补充一点，那就是「<strong>静态编译与动态解释</strong>」这点。 静态编译的程序在执行前全部被翻译为机器码，通常将这种类型称为AOT （Ahead of time）即 “提前编译”； 而解释执行的则是一句一句边翻译边运行，通常将这种类型称为JIT（Just-in-time）即“即时编译”。 AOT程序的典型代表是用C&#x2F;C++开发的应用，它们必须在执行前编译成机器码，而JIT的代表则非常多，如JavaScript、python等。 事实上，所有脚本语言都支持JIT模式。但需要注意的是JIT和AOT指的是程序运行方式，和编程语言并非强关联的，有些语言既可以以JIT方式运行也可以以AOT方式运行，如Java、Python，它们可以在第一次执行时编译成中间字节码、然后在之后执行时可以直接执行字节码。</p>
 <p>至于Java语言是否是解释执行，因为Java平台有AOT也有JIT，因此Java语言是可以进行解释执行的，可以直接将字节码编译成机器代码，这样就避免了 JIT 预热等各方面的开销，比如 Oracle JDK 9 就引入了实验性的 AOT 特性，并且增加了新的 jaotc 工具。</p>
 
-      
     </div>
+
     
-  </div>
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/21/2021-07-21-asr/" rel="prev" title="当下语音识别技术发展">
+      <i class="fa fa-chevron-left"></i> 当下语音识别技术发展
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/09/03/2021-09-03-Clearance-Android-01/" rel="next" title="「通关Android」那些年我们认识的操作系统">
+      「通关Android」那些年我们认识的操作系统 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
-        <p><span>发布时间:</span>2021-08-04, 21:27:14</p>
-        <p><span>最后更新:</span>2021-08-04, 22:30:02</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2021/08/04/2021-08-04-javacore01/" title="我所理解的Java平台">http://cryallen.com/2021/08/04/2021-08-04-javacore01/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2021/08/04/2021-08-04-javacore01/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2021/09/03/2021-09-03-Clearance-Android-01/">
-                    「通关Android」那些年我们认识的操作系统
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2021/07/21/2021-07-21-asr/">
-                    当下语音识别技术发展
-                </a>
-            </div>
-        
-    </nav>
-
   
-</article>
+  
 
 
 
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
-        </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"我所理解的Java平台　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
+          </div>
+          
 
-    
-</div>
-
-
-
-
-
-
-
-    
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2021/08/04/2021-08-04-javacore01/" data-title="我所理解的Java平台" data-url="http://cryallen.com/2021/08/04/2021-08-04-javacore01/"></div>
-    <script>
-        var duoshuoQuery = {short_name:"zuoyejun"};
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
-            (d.head || d.body).appendChild(s);
-        }
-
-        
-    </script>
-    
-    <script> loadComment(); </script>
-
-</div>
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2021/09/03/2021-09-03-Clearance-Android-01/" title="上一篇: 「通关Android」那些年我们认识的操作系统">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2021/07/21/2021-07-21-asr/" title="下一篇: 当下语音识别技术发展">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/12/31/2024-12-31-2024review/">2024，自我提升的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/01/02/2024-01-02-2023review/">2023，陪伴点滴的幸福</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/03/2022-01-03-2021review/">2021，组建家庭的突破</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/10/18/2021-10-18-wanlearning/">WanLearning-Kotlin 实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/29/2021-09-29-Clearance-Android-02/">「通关Android」我们熟悉的陌生人-进程和线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/03/2021-09-03-Clearance-Android-01/">「通关Android」那些年我们认识的操作系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/07/21/2021-07-21-asr/">当下语音识别技术发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/27/2021-03-27-2021plan/">2021年度规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2016-2024 Allen
-            </div>
-        </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >本站到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
-    </div>
-</footer>
-    </div>
-    
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
-</div>
 <script>
-    // Open in New Window
-    
-        $("a").attr("target", "_blank");
-        $("#scroll a, #toc a").removeAttr("target");
-    
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">思维导图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">基本特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E7%B1%BB%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">Java类库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">Java虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">小结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Allen"
+      src="/images/allen.jpg">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">致力于做一个终生学习布道者。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cr330326" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cr330326" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cr330326@gmail.com" title="E-Mail → mailto:cr330326@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">528k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14:39</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>

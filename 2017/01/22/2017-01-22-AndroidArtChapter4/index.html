@@ -1,332 +1,243 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Allen">
-
+<link rel="stylesheet" href="/css/main.css">
 
 
-<meta name="description" content="关于《Android开发艺术》这本书第四章的读书笔记小结，讲的主要是Android中View的工作原理相关知识，然后简单总结下自定义View的流程。">
-<meta name="keywords" content="Android,读书笔记">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cryallen.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于《Android开发艺术》这本书第四章的读书笔记小结，讲的主要是Android中View的工作原理相关知识，然后简单总结下自定义View的流程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="View的工作原理">
 <meta property="og:url" content="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="关于《Android开发艺术》这本书第四章的读书笔记小结，讲的主要是Android中View的工作原理相关知识，然后简单总结下自定义View的流程。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/performTraversals.png">
-<meta property="og:updated_time" content="2017-07-21T18:21:18.000Z">
+<meta property="article:published_time" content="2017-01-22T09:21:35.000Z">
+<meta property="article:modified_time" content="2017-07-21T18:21:18.000Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="读书笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="View的工作原理">
-<meta name="twitter:description" content="关于《Android开发艺术》这本书第四章的读书笔记小结，讲的主要是Android中View的工作原理相关知识，然后简单总结下自定义View的流程。">
 <meta name="twitter:image" content="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/performTraversals.png">
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/">
 
 
-    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
-
-
-
-    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>View的工作原理 | 斜杠Allen</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: false,
-        isPost: true,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
+  <title>View的工作原理 | 斜杠Allen</title>
+  
 
 
 
 
 
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 
-<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-</head></html>
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Allen</a></h1>
-        </hgroup>
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
-        
-        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-        
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-        
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                    </div>
-                    
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-        
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
-                    
-                    </div>
-                </section>
-                
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 
-                
-            </div>
-        </div>
-    </header>                
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">斜杠Allen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
-            </hgroup>
-            
-            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-            
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                    <li><a href="/about/">关于我</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
-    </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
-      <div class="body-wrap"><article id="post-2017-01-22-AndroidArtChapter4" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/01/22/2017-01-22-AndroidArtChapter4/" class="article-date">
-      <time datetime="2017-01-22T09:21:35.000Z" itemprop="datePublished">2017-01-22</time>
-</a>
 
 
-    </div>
-  
-  <div class="article-inner">
+
+
+</div>
+    </header>
+
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      View的工作原理
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Andorid/">Android</a>
-    </div>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/读书笔记/">读书笔记</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
           
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/allen.jpg">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="致力于做一个终生学习布道者。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="斜杠Allen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          View的工作原理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-01-22 17:21:35" itemprop="dateCreated datePublished" datetime="2017-01-22T17:21:35+08:00">2017-01-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2017-07-22 02:21:18" itemprop="dateModified" datetime="2017-07-22T02:21:18+08:00">2017-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Andorid/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>22 分钟</span>
+            </span>
+            <div class="post-description">关于《Android开发艺术》这本书第四章的读书笔记小结，讲的主要是Android中View的工作原理相关知识，然后简单总结下自定义View的流程。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
         <p>在Android的知识体系中，View扮演着很重要的角色，简单来理解，View是Android在视觉上的呈现。在界面上Android提供了一套GUI库，里面有很多控件，但是很多时候我们并不满足于系统提供的控件，因为这样就意味着这应用界面的同类比较严重，如何做出与众不同的效果呢，就是自定义View。</p>
 <h3 id="初始ViewRoot和DecorView"><a href="#初始ViewRoot和DecorView" class="headerlink" title="初始ViewRoot和DecorView"></a>初始ViewRoot和DecorView</h3><p>首先，要先了解下View的一些基本概念，这样才能更好理解View的measure、layout和draw过程。</p>
 <p><strong>ViewRoot</strong>对应于ViewRootImpl类，它是连接WindowManager和<strong>DecorView</strong>的纽带，View的三大流程是通过<strong>VeiwRoot</strong>来完成的。在ActivityThread中，当Activity对象被创建完毕后，会将<strong>DecorVeiw</strong>添加到Window中，同时会创建ViewRootImpl对象，并将ViewRootImpl对象和DecorView建立关联。</p>
@@ -342,29 +253,35 @@
 <li><strong>EXACTLY</strong>。父容器已经检测出View所需要的精确大小，这个时候View的最终大小就是SpecSize所指定的值。它对应于LayoutParams中的match_parent和具体的数值这两种模式。</li>
 <li><strong>AT_MOST</strong>。父容器指定了一个可用大小即SpecSize，View的大小不能大于这个值，具体是什么值要看不同的View的具体实现。它对应于LayoutParams中的wrap_content。</li>
 </ul>
-<p>简单来说，当View采用固定宽/高的时候，不管父容器的MeasureSpec是什么，View的MeasureSpec都是EXACTLY模式并且大小遵循LayoutParams中的大小，当View的宽/高是match_parent时，如果父容器的模式是EXACTLY，那么View也是精确模式并且其大小是父容器的剩余空间，如果父容器是最大模式，那么View也是最大模式并且其大小不会超过父容器的剩余空间，当View的宽/高是wrap_content时，不管父容器的模式是精确还是最大化，View的模式总是最大化并且大小不能超过父容器的剩余空间。</p>
-<h3 id="View的工作流程"><a href="#View的工作流程" class="headerlink" title="View的工作流程"></a>View的工作流程</h3><p>View的工作流程主要是指measure、layout、draw这三大流程，即测量、布局、绘制，其中measure确定View的测量宽/高，layout确定View的最终宽/高和四个顶点的位置，而draw则将View绘制到屏幕上。</p>
+<p>简单来说，当View采用固定宽&#x2F;高的时候，不管父容器的MeasureSpec是什么，View的MeasureSpec都是EXACTLY模式并且大小遵循LayoutParams中的大小，当View的宽&#x2F;高是match_parent时，如果父容器的模式是EXACTLY，那么View也是精确模式并且其大小是父容器的剩余空间，如果父容器是最大模式，那么View也是最大模式并且其大小不会超过父容器的剩余空间，当View的宽&#x2F;高是wrap_content时，不管父容器的模式是精确还是最大化，View的模式总是最大化并且大小不能超过父容器的剩余空间。</p>
+<h3 id="View的工作流程"><a href="#View的工作流程" class="headerlink" title="View的工作流程"></a>View的工作流程</h3><p>View的工作流程主要是指measure、layout、draw这三大流程，即测量、布局、绘制，其中measure确定View的测量宽&#x2F;高，layout确定View的最终宽&#x2F;高和四个顶点的位置，而draw则将View绘制到屏幕上。</p>
 <p><strong>measure过程</strong></p>
 <p>measure过程要分情况来看，如果是一个原始的View，那么通过measure方法就完成了其测量过程，如果是一个ViewGroup，除了完成自己的测量过程外，还会遍历去调用所有子元素的measure方法，各个子元素再递归去执行这个流程。</p>
 <p>1，View的measure过程</p>
 <p>measure方法是一个final类型的方法，这意味着子类不能重写此方法，在View的measure方法中会去调用View的onMeasure方法，所以只需看onMeasure方法即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>上面的代码很简洁，但是简洁并不代表简单，setMeasuredDimension方法会设置View的宽/高的测量值，因此我们只需要看getDefaultSize这个方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = size;</span><br><span class="line">        <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">        <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">        setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">                getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码很简洁，但是简洁并不代表简单，setMeasuredDimension方法会设置View的宽&#x2F;高的测量值，因此我们只需要看getDefaultSize这个方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">getDefaultSize</span><span class="params">(<span class="type">int</span> size, <span class="type">int</span> measureSpec)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> size;</span><br><span class="line">        <span class="type">int</span> <span class="variable">specMode</span> <span class="operator">=</span> MeasureSpec.getMode(measureSpec);</span><br><span class="line">        <span class="type">int</span> <span class="variable">specSize</span> <span class="operator">=</span> MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">            result = size;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">            result = specSize;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>简单理解，其实getDefaultSize方法返回的大小就是MeasureSpec中的specSize，而这个specSize就是View测量后的大小，但View的最终大小是在layout阶段确定的，所以这里必须要加以区分，但是几乎所有情况下的View的测量大小和最终大小是相等的。</p>
-<p>同时，直接继承View的自定义控件需要重写onMeasure方法并设置wrap_content时的自身大小，否则在布局中使用wrap_content就相当于使用match_parent。为什么呢，如果View在布局中使用wrap_content，那么它的specMode是AT_MOST模式，在这种模式下，它的宽/高等于specSize，也就是说，这种情况下的View的specSize是parentSize，而parentSize是父容器中目前当前剩余使用的大小，也就是父容器当前剩余的空间大小。</p>
+<p>同时，直接继承View的自定义控件需要重写onMeasure方法并设置wrap_content时的自身大小，否则在布局中使用wrap_content就相当于使用match_parent。为什么呢，如果View在布局中使用wrap_content，那么它的specMode是AT_MOST模式，在这种模式下，它的宽&#x2F;高等于specSize，也就是说，这种情况下的View的specSize是parentSize，而parentSize是父容器中目前当前剩余使用的大小，也就是父容器当前剩余的空间大小。</p>
 <p>那么该如何该解决这个问题，很简单，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> widthSpecMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> widthSpecSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> heightSpecMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">int</span> heightSpecSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">200</span>, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>给wrap_content设置一个默认值，比如都是宽/高都是200px。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onMeasure</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">widthSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">widthSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">heightSpecMode</span> <span class="operator">=</span> MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">    <span class="type">int</span> <span class="variable">heightSpecSize</span> <span class="operator">=</span> MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST &amp;&amp; heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (widthSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(<span class="number">200</span>, heightSpecSize);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (heightSpecMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">        setMeasuredDimension(widthSpecSize, <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>给wrap_content设置一个默认值，比如都是宽&#x2F;高都是200px。</p>
 <p>2，ViewGroup的measure过程</p>
 <p>对于ViewGroup来说，除了完成自己的measure过程以外，还会遍历去调用所有子元素的measure方法，各个子元素再去递归执行这个过程。和View不同的是，ViewGroup是一个抽象类，因此它没有重写View的onMeasure方法，但是它提供了一个叫measureChildren的方法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChildren</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> size = mChildrenCount;</span><br><span class="line">    <span class="keyword">final</span> View[] children = mChildren;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">final</span> View child = children[i];</span><br><span class="line">        <span class="keyword">if</span> ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) &#123;</span><br><span class="line">            measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">measureChildren</span><span class="params">(<span class="type">int</span> widthMeasureSpec, <span class="type">int</span> heightMeasureSpec)</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">int</span> <span class="variable">size</span> <span class="operator">=</span> mChildrenCount;</span><br><span class="line">    <span class="keyword">final</span> View[] children = mChildren;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">View</span> <span class="variable">child</span> <span class="operator">=</span> children[i];</span><br><span class="line">        <span class="keyword">if</span> ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) &#123;</span><br><span class="line">            measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>从上述代码来看，ViewGroup在measure时，会对每一个子元素进行measure。具体measureChild这个方法的实现也很好理解，如下所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChild</span><span class="params">(View child, <span class="keyword">int</span> parentWidthMeasureSpec,<span class="keyword">int</span> parentHeightMeasureSpec)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> LayoutParams lp = child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childWidthMeasureSpec = getChildMeasureSpec(parentWidthMeasureSpec,mPaddingLeft + mPaddingRight, lp.width);</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> childHeightMeasureSpec = getChildMeasureSpec(parentHeightMeasureSpec,mPaddingTop + mPaddingBottom, lp.height);</span><br><span class="line"></span><br><span class="line">        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">measureChild</span><span class="params">(View child, <span class="type">int</span> parentWidthMeasureSpec,<span class="type">int</span> parentHeightMeasureSpec)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">LayoutParams</span> <span class="variable">lp</span> <span class="operator">=</span> child.getLayoutParams();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childWidthMeasureSpec</span> <span class="operator">=</span> getChildMeasureSpec(parentWidthMeasureSpec,mPaddingLeft + mPaddingRight, lp.width);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">childHeightMeasureSpec</span> <span class="operator">=</span> getChildMeasureSpec(parentHeightMeasureSpec,mPaddingTop + mPaddingBottom, lp.height);</span><br><span class="line"></span><br><span class="line">        child.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>很明显，measureChild的思想就是取出子元素的LayoutParams，然后再通过getChildMeasureSpec来创建子元素的MeasureSpec，接着将MeasureSpec直接传递给View的measure方法进行测量。</p>
 <p><strong>Layout过程</strong></p>
 <p>Layout的作用是ViewGroup用来确定子元素的位置，当ViewGroup的位置被确定后，它在onLayout中会遍历所有的子元素并调用其layout方法，在layout方法中onLayout方法又会被调用。先看下View中的layout方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings</span>(&#123;<span class="string">"unchecked"</span>&#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">layout</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> ((mPrivateFlags3 &amp; PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT) != <span class="number">0</span>) &#123;</span><br><span class="line">        onMeasure(mOldWidthMeasureSpec, mOldHeightMeasureSpec);</span><br><span class="line">        mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> oldL = mLeft;</span><br><span class="line">    <span class="keyword">int</span> oldT = mTop;</span><br><span class="line">    <span class="keyword">int</span> oldB = mBottom;</span><br><span class="line">    <span class="keyword">int</span> oldR = mRight;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">boolean</span> changed = isLayoutModeOptical(mParent) ?</span><br><span class="line">            setOpticalFrame(l, t, r, b) : setFrame(l, t, r, b);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (changed || (mPrivateFlags &amp; PFLAG_LAYOUT_REQUIRED) == PFLAG_LAYOUT_REQUIRED) &#123;</span><br><span class="line">        onLayout(changed, l, t, r, b);</span><br><span class="line">        mPrivateFlags &amp;= ~PFLAG_LAYOUT_REQUIRED;</span><br><span class="line"></span><br><span class="line">        ListenerInfo li = mListenerInfo;</span><br><span class="line">        <span class="keyword">if</span> (li != <span class="keyword">null</span> &amp;&amp; li.mOnLayoutChangeListeners != <span class="keyword">null</span>) &#123;</span><br><span class="line">            ArrayList&lt;OnLayoutChangeListener&gt; listenersCopy =</span><br><span class="line">                    (ArrayList&lt;OnLayoutChangeListener&gt;)li.mOnLayoutChangeListeners.clone();</span><br><span class="line">            <span class="keyword">int</span> numListeners = listenersCopy.size();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numListeners; ++i) &#123;</span><br><span class="line">                listenersCopy.get(i).onLayoutChange(<span class="keyword">this</span>, l, t, r, b, oldL, oldT, oldR, oldB);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;</span><br><span class="line">    mPrivateFlags3 |= PFLAG3_IS_LAID_OUT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SuppressWarnings(&#123;&quot;unchecked&quot;&#125;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">layout</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> t, <span class="type">int</span> r, <span class="type">int</span> b)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> ((mPrivateFlags3 &amp; PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT) != <span class="number">0</span>) &#123;</span><br><span class="line">        onMeasure(mOldWidthMeasureSpec, mOldHeightMeasureSpec);</span><br><span class="line">        mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">oldL</span> <span class="operator">=</span> mLeft;</span><br><span class="line">    <span class="type">int</span> <span class="variable">oldT</span> <span class="operator">=</span> mTop;</span><br><span class="line">    <span class="type">int</span> <span class="variable">oldB</span> <span class="operator">=</span> mBottom;</span><br><span class="line">    <span class="type">int</span> <span class="variable">oldR</span> <span class="operator">=</span> mRight;</span><br><span class="line"></span><br><span class="line">    <span class="type">boolean</span> <span class="variable">changed</span> <span class="operator">=</span> isLayoutModeOptical(mParent) ?</span><br><span class="line">            setOpticalFrame(l, t, r, b) : setFrame(l, t, r, b);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (changed || (mPrivateFlags &amp; PFLAG_LAYOUT_REQUIRED) == PFLAG_LAYOUT_REQUIRED) &#123;</span><br><span class="line">        onLayout(changed, l, t, r, b);</span><br><span class="line">        mPrivateFlags &amp;= ~PFLAG_LAYOUT_REQUIRED;</span><br><span class="line"></span><br><span class="line">        <span class="type">ListenerInfo</span> <span class="variable">li</span> <span class="operator">=</span> mListenerInfo;</span><br><span class="line">        <span class="keyword">if</span> (li != <span class="literal">null</span> &amp;&amp; li.mOnLayoutChangeListeners != <span class="literal">null</span>) &#123;</span><br><span class="line">            ArrayList&lt;OnLayoutChangeListener&gt; listenersCopy =</span><br><span class="line">                    (ArrayList&lt;OnLayoutChangeListener&gt;)li.mOnLayoutChangeListeners.clone();</span><br><span class="line">            <span class="type">int</span> <span class="variable">numListeners</span> <span class="operator">=</span> listenersCopy.size();</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numListeners; ++i) &#123;</span><br><span class="line">                listenersCopy.get(i).onLayoutChange(<span class="built_in">this</span>, l, t, r, b, oldL, oldT, oldR, oldB);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mPrivateFlags &amp;= ~PFLAG_FORCE_LAYOUT;</span><br><span class="line">    mPrivateFlags3 |= PFLAG3_IS_LAID_OUT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>layout方法的大致流程：首先会通过setFrame方法来设定View的四个顶点的位置，即初始化mLeft、mRight、mTop和mBottom这四个值，View的四个顶点一旦确定，那么View在父容器中的位置也就确定了，接着就会调用onLayout方法，这个方法用途是父容器确定子元素的位置，和onMeasure方法类似，onLayout的具体实现同样和具体的布局有关，所以View和ViewGroup均没有真正实现onLayout方法。</p>
 <p><strong>draw过程</strong></p>
 <p>draw过程就比较简单了，它的作用是将View绘制到屏幕上面，View的绘制过程循序以下几步：</p>
@@ -377,7 +294,8 @@
 </ol>
 </blockquote>
 <p>这一点看代码，就能看出来。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">draw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mClipBounds != <span class="keyword">null</span>) &#123;</span><br><span class="line">            canvas.clipRect(mClipBounds);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> privateFlags = mPrivateFlags;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> dirtyOpaque = (privateFlags &amp; PFLAG_DIRTY_MASK) == PFLAG_DIRTY_OPAQUE &amp;&amp;</span><br><span class="line">                (mAttachInfo == <span class="keyword">null</span> || !mAttachInfo.mIgnoreDirtyState);</span><br><span class="line">        mPrivateFlags = (privateFlags &amp; ~PFLAG_DIRTY_MASK) | PFLAG_DRAWN;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Draw traversal performs several drawing steps which must be executed</span></span><br><span class="line"><span class="comment">         * in the appropriate order:</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         *      1. Draw the background</span></span><br><span class="line"><span class="comment">         *      2. If necessary, save the canvas' layers to prepare for fading</span></span><br><span class="line"><span class="comment">         *      3. Draw view's content</span></span><br><span class="line"><span class="comment">         *      4. Draw children</span></span><br><span class="line"><span class="comment">         *      5. If necessary, draw the fading edges and restore layers</span></span><br><span class="line"><span class="comment">         *      6. Draw decorations (scrollbars for instance)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 1, draw the background, if needed</span></span><br><span class="line">        <span class="keyword">int</span> saveCount;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) &#123;</span><br><span class="line">            <span class="keyword">final</span> Drawable background = mBackground;</span><br><span class="line">            <span class="keyword">if</span> (background != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> scrollX = mScrollX;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> scrollY = mScrollY;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mBackgroundSizeChanged) &#123;</span><br><span class="line">                    background.setBounds(<span class="number">0</span>, <span class="number">0</span>,  mRight - mLeft, mBottom - mTop);</span><br><span class="line">                    mBackgroundSizeChanged = <span class="keyword">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ((scrollX | scrollY) == <span class="number">0</span>) &#123;</span><br><span class="line">                    background.draw(canvas);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    canvas.translate(scrollX, scrollY);</span><br><span class="line">                    background.draw(canvas);</span><br><span class="line">                    canvas.translate(-scrollX, -scrollY);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// skip step 2 &amp; 5 if possible (common case)</span></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> viewFlags = mViewFlags;</span><br><span class="line">        <span class="keyword">boolean</span> horizontalEdges = (viewFlags &amp; FADING_EDGE_HORIZONTAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> verticalEdges = (viewFlags &amp; FADING_EDGE_VERTICAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (!verticalEdges &amp;&amp; !horizontalEdges) &#123;</span><br><span class="line">            <span class="comment">// Step 3, draw the content</span></span><br><span class="line">            <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 4, draw the children</span></span><br><span class="line">            dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 6, draw decorations (scrollbars)</span></span><br><span class="line">            onDrawScrollBars(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (mOverlay != <span class="keyword">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">                mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// we're done...</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Here we do the full fledged routine...</span></span><br><span class="line"><span class="comment">         * (this is an uncommon case where speed matters less,</span></span><br><span class="line"><span class="comment">         * this is why we repeat some of the tests that have been</span></span><br><span class="line"><span class="comment">         * done above)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">boolean</span> drawTop = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawBottom = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawLeft = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">boolean</span> drawRight = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">float</span> topFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> bottomFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> leftFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line">        <span class="keyword">float</span> rightFadeStrength = <span class="number">0.0f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 2, save the canvas' layers</span></span><br><span class="line">        <span class="keyword">int</span> paddingLeft = mPaddingLeft;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> offsetRequired = isPaddingOffsetRequired();</span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            paddingLeft += getLeftPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> left = mScrollX + paddingLeft;</span><br><span class="line">        <span class="keyword">int</span> right = left + mRight - mLeft - mPaddingRight - paddingLeft;</span><br><span class="line">        <span class="keyword">int</span> top = mScrollY + getFadeTop(offsetRequired);</span><br><span class="line">        <span class="keyword">int</span> bottom = top + getFadeHeight(offsetRequired);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            right += getRightPaddingOffset();</span><br><span class="line">            bottom += getBottomPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> ScrollabilityCache scrollabilityCache = mScrollCache;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">float</span> fadeHeight = scrollabilityCache.fadingEdgeLength;</span><br><span class="line">        <span class="keyword">int</span> length = (<span class="keyword">int</span>) fadeHeight;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// clip the fade length if top and bottom fades overlap</span></span><br><span class="line">        <span class="comment">// overlapping fades produce odd-looking artifacts</span></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges &amp;&amp; (top + length &gt; bottom - length)) &#123;</span><br><span class="line">            length = (bottom - top) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// also clip horizontal fades if necessary</span></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges &amp;&amp; (left + length &gt; right - length)) &#123;</span><br><span class="line">            length = (right - left) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges) &#123;</span><br><span class="line">            topFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getTopFadingEdgeStrength()));</span><br><span class="line">            drawTop = topFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            bottomFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getBottomFadingEdgeStrength()));</span><br><span class="line">            drawBottom = bottomFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges) &#123;</span><br><span class="line">            leftFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getLeftFadingEdgeStrength()));</span><br><span class="line">            drawLeft = leftFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            rightFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getRightFadingEdgeStrength()));</span><br><span class="line">            drawRight = rightFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        saveCount = canvas.getSaveCount();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> solidColor = getSolidColor();</span><br><span class="line">        <span class="keyword">if</span> (solidColor == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> flags = Canvas.HAS_ALPHA_LAYER_SAVE_FLAG;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, right, top + length, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">                canvas.saveLayer(left, bottom - length, right, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, left + length, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">                canvas.saveLayer(right - length, top, right, bottom, <span class="keyword">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            scrollabilityCache.setFadeColor(solidColor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 3, draw the content</span></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 4, draw the children</span></span><br><span class="line">        dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 5, draw the fade effect and restore layers</span></span><br><span class="line">        <span class="keyword">final</span> Paint p = scrollabilityCache.paint;</span><br><span class="line">        <span class="keyword">final</span> Matrix matrix = scrollabilityCache.matrix;</span><br><span class="line">        <span class="keyword">final</span> Shader fade = scrollabilityCache.shader;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * topFadeStrength);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, top, right, top + length, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * bottomFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">180</span>);</span><br><span class="line">            matrix.postTranslate(left, bottom);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, bottom - length, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * leftFadeStrength);</span><br><span class="line">            matrix.postRotate(-<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, top, left + length, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * rightFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(right, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(right - length, top, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        canvas.restoreToCount(saveCount);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 6, draw decorations (scrollbars)</span></span><br><span class="line">        onDrawScrollBars(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mOverlay != <span class="keyword">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">            mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">draw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (mClipBounds != <span class="literal">null</span>) &#123;</span><br><span class="line">            canvas.clipRect(mClipBounds);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">privateFlags</span> <span class="operator">=</span> mPrivateFlags;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">dirtyOpaque</span> <span class="operator">=</span> (privateFlags &amp; PFLAG_DIRTY_MASK) == PFLAG_DIRTY_OPAQUE &amp;&amp;</span><br><span class="line">                (mAttachInfo == <span class="literal">null</span> || !mAttachInfo.mIgnoreDirtyState);</span><br><span class="line">        mPrivateFlags = (privateFlags &amp; ~PFLAG_DIRTY_MASK) | PFLAG_DRAWN;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Draw traversal performs several drawing steps which must be executed</span></span><br><span class="line"><span class="comment">         * in the appropriate order:</span></span><br><span class="line"><span class="comment">         *</span></span><br><span class="line"><span class="comment">         *      1. Draw the background</span></span><br><span class="line"><span class="comment">         *      2. If necessary, save the canvas&#x27; layers to prepare for fading</span></span><br><span class="line"><span class="comment">         *      3. Draw view&#x27;s content</span></span><br><span class="line"><span class="comment">         *      4. Draw children</span></span><br><span class="line"><span class="comment">         *      5. If necessary, draw the fading edges and restore layers</span></span><br><span class="line"><span class="comment">         *      6. Draw decorations (scrollbars for instance)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 1, draw the background, if needed</span></span><br><span class="line">        <span class="type">int</span> saveCount;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">Drawable</span> <span class="variable">background</span> <span class="operator">=</span> mBackground;</span><br><span class="line">            <span class="keyword">if</span> (background != <span class="literal">null</span>) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="type">int</span> <span class="variable">scrollX</span> <span class="operator">=</span> mScrollX;</span><br><span class="line">                <span class="keyword">final</span> <span class="type">int</span> <span class="variable">scrollY</span> <span class="operator">=</span> mScrollY;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (mBackgroundSizeChanged) &#123;</span><br><span class="line">                    background.setBounds(<span class="number">0</span>, <span class="number">0</span>,  mRight - mLeft, mBottom - mTop);</span><br><span class="line">                    mBackgroundSizeChanged = <span class="literal">false</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> ((scrollX | scrollY) == <span class="number">0</span>) &#123;</span><br><span class="line">                    background.draw(canvas);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    canvas.translate(scrollX, scrollY);</span><br><span class="line">                    background.draw(canvas);</span><br><span class="line">                    canvas.translate(-scrollX, -scrollY);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// skip step 2 &amp; 5 if possible (common case)</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span> <span class="variable">viewFlags</span> <span class="operator">=</span> mViewFlags;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">horizontalEdges</span> <span class="operator">=</span> (viewFlags &amp; FADING_EDGE_HORIZONTAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">verticalEdges</span> <span class="operator">=</span> (viewFlags &amp; FADING_EDGE_VERTICAL) != <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (!verticalEdges &amp;&amp; !horizontalEdges) &#123;</span><br><span class="line">            <span class="comment">// Step 3, draw the content</span></span><br><span class="line">            <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 4, draw the children</span></span><br><span class="line">            dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Step 6, draw decorations (scrollbars)</span></span><br><span class="line">            onDrawScrollBars(canvas);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (mOverlay != <span class="literal">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">                mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// we&#x27;re done...</span></span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Here we do the full fledged routine...</span></span><br><span class="line"><span class="comment">         * (this is an uncommon case where speed matters less,</span></span><br><span class="line"><span class="comment">         * this is why we repeat some of the tests that have been</span></span><br><span class="line"><span class="comment">         * done above)</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="type">boolean</span> <span class="variable">drawTop</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">drawBottom</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">drawLeft</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="type">boolean</span> <span class="variable">drawRight</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">float</span> <span class="variable">topFadeStrength</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">bottomFadeStrength</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">leftFadeStrength</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line">        <span class="type">float</span> <span class="variable">rightFadeStrength</span> <span class="operator">=</span> <span class="number">0.0f</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 2, save the canvas&#x27; layers</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">paddingLeft</span> <span class="operator">=</span> mPaddingLeft;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">boolean</span> <span class="variable">offsetRequired</span> <span class="operator">=</span> isPaddingOffsetRequired();</span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            paddingLeft += getLeftPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> mScrollX + paddingLeft;</span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> left + mRight - mLeft - mPaddingRight - paddingLeft;</span><br><span class="line">        <span class="type">int</span> <span class="variable">top</span> <span class="operator">=</span> mScrollY + getFadeTop(offsetRequired);</span><br><span class="line">        <span class="type">int</span> <span class="variable">bottom</span> <span class="operator">=</span> top + getFadeHeight(offsetRequired);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (offsetRequired) &#123;</span><br><span class="line">            right += getRightPaddingOffset();</span><br><span class="line">            bottom += getBottomPaddingOffset();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> <span class="type">ScrollabilityCache</span> <span class="variable">scrollabilityCache</span> <span class="operator">=</span> mScrollCache;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">float</span> <span class="variable">fadeHeight</span> <span class="operator">=</span> scrollabilityCache.fadingEdgeLength;</span><br><span class="line">        <span class="type">int</span> <span class="variable">length</span> <span class="operator">=</span> (<span class="type">int</span>) fadeHeight;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// clip the fade length if top and bottom fades overlap</span></span><br><span class="line">        <span class="comment">// overlapping fades produce odd-looking artifacts</span></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges &amp;&amp; (top + length &gt; bottom - length)) &#123;</span><br><span class="line">            length = (bottom - top) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// also clip horizontal fades if necessary</span></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges &amp;&amp; (left + length &gt; right - length)) &#123;</span><br><span class="line">            length = (right - left) / <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (verticalEdges) &#123;</span><br><span class="line">            topFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getTopFadingEdgeStrength()));</span><br><span class="line">            drawTop = topFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            bottomFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getBottomFadingEdgeStrength()));</span><br><span class="line">            drawBottom = bottomFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (horizontalEdges) &#123;</span><br><span class="line">            leftFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getLeftFadingEdgeStrength()));</span><br><span class="line">            drawLeft = leftFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">            rightFadeStrength = Math.max(<span class="number">0.0f</span>, Math.min(<span class="number">1.0f</span>, getRightFadingEdgeStrength()));</span><br><span class="line">            drawRight = rightFadeStrength * fadeHeight &gt; <span class="number">1.0f</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        saveCount = canvas.getSaveCount();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">solidColor</span> <span class="operator">=</span> getSolidColor();</span><br><span class="line">        <span class="keyword">if</span> (solidColor == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="type">int</span> <span class="variable">flags</span> <span class="operator">=</span> Canvas.HAS_ALPHA_LAYER_SAVE_FLAG;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, right, top + length, <span class="literal">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">                canvas.saveLayer(left, bottom - length, right, bottom, <span class="literal">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">                canvas.saveLayer(left, top, left + length, bottom, <span class="literal">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">                canvas.saveLayer(right - length, top, right, bottom, <span class="literal">null</span>, flags);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            scrollabilityCache.setFadeColor(solidColor);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 3, draw the content</span></span><br><span class="line">        <span class="keyword">if</span> (!dirtyOpaque) onDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 4, draw the children</span></span><br><span class="line">        dispatchDraw(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 5, draw the fade effect and restore layers</span></span><br><span class="line">        <span class="keyword">final</span> <span class="type">Paint</span> <span class="variable">p</span> <span class="operator">=</span> scrollabilityCache.paint;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Matrix</span> <span class="variable">matrix</span> <span class="operator">=</span> scrollabilityCache.matrix;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">Shader</span> <span class="variable">fade</span> <span class="operator">=</span> scrollabilityCache.shader;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawTop) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * topFadeStrength);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, top, right, top + length, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawBottom) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * bottomFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">180</span>);</span><br><span class="line">            matrix.postTranslate(left, bottom);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, bottom - length, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawLeft) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * leftFadeStrength);</span><br><span class="line">            matrix.postRotate(-<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(left, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(left, top, left + length, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (drawRight) &#123;</span><br><span class="line">            matrix.setScale(<span class="number">1</span>, fadeHeight * rightFadeStrength);</span><br><span class="line">            matrix.postRotate(<span class="number">90</span>);</span><br><span class="line">            matrix.postTranslate(right, top);</span><br><span class="line">            fade.setLocalMatrix(matrix);</span><br><span class="line">            canvas.drawRect(right - length, top, right, bottom, p);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        canvas.restoreToCount(saveCount);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Step 6, draw decorations (scrollbars)</span></span><br><span class="line">        onDrawScrollBars(canvas);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mOverlay != <span class="literal">null</span> &amp;&amp; !mOverlay.isEmpty()) &#123;</span><br><span class="line">            mOverlay.getOverlayView().dispatchDraw(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 <p>View的绘制过程的传递是通过dispatchDraw来实现的，dispatchDraw会遍历调用所有子元素的draw方法，如此draw事件就一层层地传递下去。</p>
 <h3 id="自定义View"><a href="#自定义View" class="headerlink" title="自定义View"></a>自定义View</h3><p>自定义View是一个综合的技术体系，它涉及View的层次结构、事件分发机制和View的工作原理等技术细节。</p>
 <p><strong>自定义View的分类</strong></p>
@@ -401,181 +319,224 @@
 </ul>
 </blockquote>
 
-      
     </div>
+
     
-  </div>
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"># 读书笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/19/2017-01-19-AndroidArtChapter3/" rel="prev" title="View的事件体系">
+      <i class="fa fa-chevron-left"></i> View的事件体系
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/04/2017-02-04-AndroidArtChapter5/" rel="next" title="理解Window和WindowManager">
+      理解Window和WindowManager <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
-        <p><span>发布时间:</span>2017-01-22, 17:21:35</p>
-        <p><span>最后更新:</span>2017-07-22, 02:21:18</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2017/01/22/2017-01-22-AndroidArtChapter4/" title="View的工作原理">http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2017/02/04/2017-02-04-AndroidArtChapter5/">
-                    理解Window和WindowManager
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2017/01/19/2017-01-19-AndroidArtChapter3/">
-                    View的事件体系
-                </a>
-            </div>
-        
-    </nav>
-
   
-</article>
+  
 
 
 
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
-        </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"View的工作原理　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
+          </div>
+          
 
-    
-</div>
-
-
-
-
-
-
-
-    
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2017/01/22/2017-01-22-AndroidArtChapter4/" data-title="View的工作原理" data-url="http://cryallen.com/2017/01/22/2017-01-22-AndroidArtChapter4/"></div>
-    <script>
-        var duoshuoQuery = {short_name:"zuoyejun"};
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
-            (d.head || d.body).appendChild(s);
-        }
-
-        
-    </script>
-    
-    <script> loadComment(); </script>
-
-</div>
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2017/02/04/2017-02-04-AndroidArtChapter5/" title="上一篇: 理解Window和WindowManager">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2017/01/19/2017-01-19-AndroidArtChapter3/" title="下一篇: View的事件体系">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/12/31/2024-12-31-2024review/">2024，自我提升的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/01/02/2024-01-02-2023review/">2023，陪伴点滴的幸福</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/03/2022-01-03-2021review/">2021，组建家庭的突破</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/10/18/2021-10-18-wanlearning/">WanLearning-Kotlin 实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/29/2021-09-29-Clearance-Android-02/">「通关Android」我们熟悉的陌生人-进程和线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/03/2021-09-03-Clearance-Android-01/">「通关Android」那些年我们认识的操作系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/07/21/2021-07-21-asr/">当下语音识别技术发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/27/2021-03-27-2021plan/">2021年度规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2016-2024 Allen
-            </div>
-        </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >本站到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
-    </div>
-</footer>
-    </div>
-    
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
-</div>
 <script>
-    // Open in New Window
-    
-        $("a").attr("target", "_blank");
-        $("#scroll a, #toc a").removeAttr("target");
-    
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9D%E5%A7%8BViewRoot%E5%92%8CDecorView"><span class="nav-number">1.</span> <span class="nav-text">初始ViewRoot和DecorView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%A7%A3MeasureSpec"><span class="nav-number">2.</span> <span class="nav-text">理解MeasureSpec</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#View%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">View的工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89View"><span class="nav-number">4.</span> <span class="nav-text">自定义View</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Allen"
+      src="/images/allen.jpg">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">致力于做一个终生学习布道者。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cr330326" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cr330326" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cr330326@gmail.com" title="E-Mail → mailto:cr330326@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">528k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14:39</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>

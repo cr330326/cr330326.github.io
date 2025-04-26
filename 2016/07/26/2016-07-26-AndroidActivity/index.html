@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-    <!--[if lt IE 9]>
-        <style>body {display: none; background: none !important} </style>
-        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
-    <![endif]-->
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta name="author" content="Allen">
-
+<link rel="stylesheet" href="/css/main.css">
 
 
-<meta name="description" content="主要谈谈Activity的一些理解，包括Activity是什么，用法如何，它的生命周期如何，启动模式又有哪些，Activity又是如何统一管理的，从这几个方面入手，加深印象。">
-<meta name="keywords" content="Android,Activity,生命周期">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"cryallen.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="主要谈谈Activity的一些理解，包括Activity是什么，用法如何，它的生命周期如何，启动模式又有哪些，Activity又是如何统一管理的，从这几个方面入手，加深印象。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈Activity的生命周期和启动模式">
 <meta property="og:url" content="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/index.html">
 <meta property="og:site_name" content="斜杠Allen">
 <meta property="og:description" content="主要谈谈Activity的一些理解，包括Activity是什么，用法如何，它的生命周期如何，启动模式又有哪些，Activity又是如何统一管理的，从这几个方面入手，加深印象。">
-<meta property="og:locale" content="zh-Hans">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/image1.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/331079/201502/040957330628199.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/331079/201502/040958170939018.png">
@@ -39,309 +43,217 @@
 <meta property="og:image" content="http://images.cnitblog.com/blog/331079/201502/041016085932501.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/331079/201502/041016410625853.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/331079/201502/041017398438711.png">
-<meta property="og:updated_time" content="2020-04-17T11:01:08.589Z">
+<meta property="article:published_time" content="2016-07-26T01:54:47.000Z">
+<meta property="article:modified_time" content="2020-04-17T11:01:08.000Z">
+<meta property="article:author" content="Allen">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="Activity">
+<meta property="article:tag" content="生命周期">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈Activity的生命周期和启动模式">
-<meta name="twitter:description" content="主要谈谈Activity的一些理解，包括Activity是什么，用法如何，它的生命周期如何，启动模式又有哪些，Activity又是如何统一管理的，从这几个方面入手，加深印象。">
 <meta name="twitter:image" content="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/image1.png">
 
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="canonical" href="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/">
 
 
-    <link rel="alternate" href="/atom.xml" title="斜杠Allen" type="application/atom+xml">
-
-
-
-    <link rel="shortcut icon" href="/assets/blogImg/favicon.ico">
-
-
-
-    <link href="//cdn.bootcss.com/animate.css/3.5.1/animate.min.css" rel="stylesheet">
-
-
-
-    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
-
-
-
-    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-
-<title>浅谈Activity的生命周期和启动模式 | 斜杠Allen</title>
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-
-<script>
-    var yiliaConfig = {
-        fancybox: true,
-        animate: true,
-        isHome: false,
-        isPost: true,
-        isArchive: false,
-        isTag: false,
-        isCategory: false,
-        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
-        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
-        search: undefined
-    }
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
 </script>
 
-
-    <script>
-        yiliaConfig.jquery_ui = [true, "//cdn.bootcss.com/jqueryui/1.10.4/jquery-ui.min.js", "//cdn.bootcss.com/jqueryui/1.10.4/css/jquery-ui.min.css"];
-    </script>
-
-
-
-    <script> yiliaConfig.rootUrl = "\/";</script>
+  <title>浅谈Activity的生命周期和启动模式 | 斜杠Allen</title>
+  
 
 
 
 
 
-    <script>
-        var _hmt = _hmt || [];
-        (function() {
-            var hm = document.createElement("script");
-            hm.src = "//hm.baidu.com/hm.js?234740c2645d4ac230a5d6f513789ede";
-            var s = document.getElementsByTagName("script")[0];
-            s.parentNode.insertBefore(hm, s);
-        })();
-    </script>
 
-<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
-</head></html>
-<body>
-  <div id="container">
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-    <header id="header" class="inner">
-        <a href="/" class="profilepic">
-            <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-        </a>
-        <hgroup>
-          <h1 class="header-author"><a href="/">Allen</a></h1>
-        </hgroup>
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
 
-        
-        <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-        
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-        
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
 
+</head>
 
-        
-            <div id="switch-btn" class="switch-btn">
-                <div class="icon">
-                    <div class="icon-ctn">
-                        <div class="icon-wrap icon-house" data-idx="0">
-                            <div class="birdhouse"></div>
-                            <div class="birdhouse_holes"></div>
-                        </div>
-                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
-                            <div class="ribbon"></div>
-                        </div>
-                        
-                        <div class="icon-wrap icon-link hide" data-idx="2">
-                            <div class="loopback_l"></div>
-                            <div class="loopback_r"></div>
-                        </div>
-                        
-                        
-                    </div>
-                    
-                </div>
-                <div class="tips-box hide">
-                    <div class="tips-arrow"></div>
-                    <ul class="tips-inner">
-                        <li>菜单</li>
-                        <li>标签</li>
-                        
-                        <li>友情链接</li>
-                        
-                        
-                    </ul>
-                </div>
-            </div>
-        
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-        <div id="switch-area" class="switch-area">
-            <div class="switch-wrap">
-                <section class="switch-part switch-part1">
-                    <nav class="header-menu">
-                        <ul>
-                        
-                            <li><a href="/">主页</a></li>
-                        
-                            <li><a href="/archives/">所有文章</a></li>
-                        
-                            <li><a href="/tags/">标签云</a></li>
-                        
-                            <li><a href="/about/">关于我</a></li>
-                        
-                        </ul>
-                    </nav>
-                    <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-                    </nav>
-                </section>
-                
-                
-                <section class="switch-part switch-part2">
-                    <div class="widget tagcloud" id="js-tagcloud">
-                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Activity/">Activity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Adapter/">Adapter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Animation/">Animation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Annotations/">Annotations</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Broadcast/">Broadcast</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Builder/">Builder</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ContentProvider/">ContentProvider</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/EventBus/">EventBus</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Fragment/">Fragment</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Handler/">Handler</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Looper/">Looper</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Marshmallow/">Marshmallow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Permission/">Permission</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ProGuard/">ProGuard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Reflection/">Reflection</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Service/">Service</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Singleton/">Singleton</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Touch/">Touch</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/个人成长/">个人成长</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代理/">代理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码混淆/">代码混淆</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/单例/">单例</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/参数/">参数</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/反射/">反射</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/基础/">基础</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/学习总结/">学习总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作总结/">工作总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工厂/">工厂</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/年终总结/">年终总结</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/并发/">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/广播/">广播</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开源项目/">开源项目</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/接口/">接口</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方法/">方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/有效性/">有效性</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/服务/">服务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/构造器/">构造器</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/枚举/">枚举</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/泛型/">泛型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注解/">注解</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/生命周期/">生命周期</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点/">知识点</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/知识点，Android/">知识点，Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/程序设计/">程序设计</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/类/">类</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/线程/">线程</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装饰/">装饰</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/观察者/">观察者</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/语音识别/">语音识别</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书笔记/">读书笔记</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/通用/">通用</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/重载/">重载</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/静态工厂/">静态工厂</a></li></ul>
-                    </div>
-                </section>
-                
-                
-                
-                <section class="switch-part switch-part3">
-                    <div id="js-friends">
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="https://pages.github.com/">GitHub</a>
-                    
-                      <a class="main-nav-link switch-friends-link" href="http://www.cnbeta.com/">Cnbeta</a>
-                    
-                    </div>
-                </section>
-                
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
 
-                
-            </div>
-        </div>
-    </header>                
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">斜杠Allen</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-      <div class="overlay">
-          <div class="slider-trigger"></div>
-          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Allen</a></h1>
-      </div>
-    <div class="intrude-less">
-        <header id="header" class="inner">
-            <a href="/" class="profilepic">
-                <img src="/assets/blogImg/allen.jpg" class="animated zoomIn">
-            </a>
-            <hgroup>
-              <h1 class="header-author"><a href="/" title="回到主页">Allen</a></h1>
-            </hgroup>
-            
-            <p class="header-subtitle">一位喜欢写作的Coding，目前在践行GTD、演讲、阅读、跑步</p>
-            
-            <nav class="header-menu">
-                <ul>
-                
-                    <li><a href="/">主页</a></li>
-                
-                    <li><a href="/archives/">所有文章</a></li>
-                
-                    <li><a href="/tags/">标签云</a></li>
-                
-                    <li><a href="/about/">关于我</a></li>
-                
-                <div class="clearfix"></div>
-                </ul>
-            </nav>
-            <nav class="header-nav">
-                        <ul class="social">
-                            
-                                <a class="fa Email" target="_blank" href="mailto:cr330326@126.com" title="Email"></a>
-                            
-                                <a class="fa 新浪微博" target="_blank" href="http://weibo.com/cr330326" title="新浪微博"></a>
-                            
-                                <a class="fa GitHub" target="_blank" href="https://github.com/cr330326" title="GitHub"></a>
-                            
-                                <a class="fa 博客园" target="_blank" href="http://www.cnblogs.com/cr330326/" title="博客园"></a>
-                            
-                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/cryAllen" title="知乎"></a>
-                            
-                                <a class="fa 简书" target="_blank" href="http://www.jianshu.com/users/6f6f18ef43e5/latest_articles" title="简书"></a>
-                            
-                                <a class="fa 豆瓣" target="_blank" href="https://www.douban.com/people/cr330326/" title="豆瓣"></a>
-                            
-                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
-                            
-                        </ul>
-            </nav>
-        </header>                
-    </div>
-    <link class="menu-list" tags="标签" friends="友情链接" about="关于我"/>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
 </nav>
-      <div class="body-wrap"><article id="post-2016-07-26-AndroidActivity" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/07/26/2016-07-26-AndroidActivity/" class="article-date">
-      <time datetime="2016-07-26T01:54:47.000Z" itemprop="datePublished">2016-07-26</time>
-</a>
 
 
-    </div>
-  
-  <div class="article-inner">
+
+
+</div>
+    </header>
+
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      浅谈Activity的生命周期和启动模式
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-    <div class="article-category tagcloud">
-    <a class="article-category-link" href="/categories/Andorid/">Android</a>
-    </div>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-        
-    <div class="article-tag tagcloud">
-        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Activity/">Activity</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/生命周期/">生命周期</a></li></ul>
-    </div>
-
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
           
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/allen.jpg">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="致力于做一个终生学习布道者。">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="斜杠Allen">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          浅谈Activity的生命周期和启动模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2016-07-26 09:54:47" itemprop="dateCreated datePublished" datetime="2016-07-26T09:54:47+08:00">2016-07-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-17 19:01:08" itemprop="dateModified" datetime="2020-04-17T19:01:08+08:00">2020-04-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Andorid/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.8k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>16 分钟</span>
+            </span>
+            <div class="post-description">主要谈谈Activity的一些理解，包括Activity是什么，用法如何，它的生命周期如何，启动模式又有哪些，Activity又是如何统一管理的，从这几个方面入手，加深印象。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>距离上一篇文章，过去有半个多月了，在此期间忙于工作，疏于整理和总结，特此写下这篇博文，来谈谈自己对Activity的理解。总所周知，Activity组件在Android中的重要性不言而喻，我们所能看到的交互动作离不开活动，我们能看到的界面也离不开活动，那么我想从以下几个方面来谈谈：</p>
 <ul>
 <li><p>什么是活动(Activity)</p>
@@ -355,23 +267,23 @@
 <li><p>活动(Activity)管理</p>
 </li>
 </ul>
-<h3 id="什么是活动-Activity"><a href="#什么是活动-Activity" class="headerlink" title="什么是活动(Activity)"></a>什么是活动(Activity)</h3><p>　活动(Activity)是最容易吸引用户的地方了，它是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。这是我对活动的理解，那我们再看看官方文档是怎么定义的：“An <code>Activity</code> is an application component that provides a screen with which users can interact in order to do something, such as dial the phone, take a photo, send an email, or view a map.”大概意思是说，Activity是一个可以让屏幕提供用户交互动作的组件，比如打电话、照相、发送邮件和查看地图等。简单来说，我们在应用程序中能看到的内容，绝大多数都是Activity组件提供的。</p>
-<h3 id="活动-Activity-用法"><a href="#活动-Activity-用法" class="headerlink" title="活动(Activity)用法"></a>活动(Activity)用法</h3><pre><code>在一个应用程序中，有多个Activity组成，其中，有一个特殊的Activity，那就是“main”Activity，代表了应用程序启动，看到的首个界面。每个Activity启动其他的Activity可以通过不同动作。接下来我们来创建一个Activity。
-</code></pre><p><strong>创建一个Activity</strong></p>
+<h3 id="什么是活动-Activity"><a href="#什么是活动-Activity" class="headerlink" title="什么是活动(Activity)"></a>什么是活动(Activity)</h3><p>　活动(Activity)是最容易吸引用户的地方了，它是一种可以包含用户界面的组件，主要用于和用户进行交互，一个应用程序可以包含零个或者多个活动。这是我对活动的理解，那我们再看看官方文档是怎么定义的：“An <code>Activity</code> is an application component that provides a screen with which users can interact in order to do something, such as dial the phone, take a photo, send an email, or view a map.”大概意思是说，Activity是一个可以让屏幕提供用户交互动作的组件，比如打电话、照相、发送邮件和查看地图等。简单来说，我们在应用程序中能看到的内容，绝大多数都是Activity组件提供的。</p>
+<h3 id="活动-Activity-用法"><a href="#活动-Activity-用法" class="headerlink" title="活动(Activity)用法"></a>活动(Activity)用法</h3><p>    在一个应用程序中，有多个Activity组成，其中，有一个特殊的Activity，那就是“main”Activity，代表了应用程序启动，看到的首个界面。每个Activity启动其他的Activity可以通过不同动作。接下来我们来创建一个Activity。</p>
+<p><strong>创建一个Activity</strong></p>
 <p>为了创建一个Activity，我们必须要继承Activity的子类，比如：public class MainActivity extends Activity。同时我们也要重载两个方法onCreate()、onPause(),代码如下：</p>
-<p>　 <img src="/2016/07/26/2016-07-26-AndroidActivity/image1.png" alt="img"></p>
-<p> 其中onCreate()方法在你的activity创建的时候就调用了，你可以在这个方法中初始化一些常量、资源的连接，其中最重要的是setContentView()方法去加载活动界面的布局。onPause()方法往往是当你活动交互暂停时，一些在界面上填过的交互数据可以在这里保存，以免造成丢失，用户体验不好。</p>
+<p>　 <img src="/2016/07/26/2016-07-26-AndroidActivity/image1.png" alt="img"></p>
+<p> 其中onCreate()方法在你的activity创建的时候就调用了，你可以在这个方法中初始化一些常量、资源的连接，其中最重要的是setContentView()方法去加载活动界面的布局。onPause()方法往往是当你活动交互暂停时，一些在界面上填过的交互数据可以在这里保存，以免造成丢失，用户体验不好。</p>
 <p><strong>声明活动</strong></p>
 <p>Activity在manifest注册，除了要定义和继承Activity之外，我们还需要在manifest中进行注册，表示声明，如果不声明的话，这个Activity在运行时候，会报ANR错误，就是应用程序没有响应。那么怎么声明呢，我们每新建一个项目时候，都会有一个AndroidManifest.xml文件，我们需要在AndroidManifest.xml文件中对我们的Activity进行注册。如图</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/040957330628199.png" alt="img"></p>
 <p>可以看到每一个应用程序，都必须有一个AndroidManifest.xml。</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/040958170939018.png" alt="img"><br>可以看到，活动的注册在<application>标签中，这里通过<activity>标签来对活动进行注册的，首先我们使用了android:name属性来具体注册哪一个活动，在这里我们对我们刚才定义的MainActivity类进行注册，由于在最外层的<manifest>标签中已经通过package属性指定了包名是com.example.helloworld，因此在注册活动时这一部分就可以省略了，当然你可以定义为com.example.helloworld.MainActivity，不过直接使用.MainActivity也就足够了，然后我们使用了android:label指定活动中的标题栏的内容，标题栏是显示在活动的最顶部的，需要注意的是，给主活动指定的label不仅会成为标题栏的内容，还会成为启动器(Launcher)中应用程序显示的名称。之后在<activity>标签的内容我们加入了<intent-filter>标签，并在这个标签里添加了<action android:name="android.intent.action.MAIN">和<category android:name="android.intent.category.LAUNCHER">这两句声明。表示在手机上点击应用图标时，首先启动的就是这个活动，如果你的应用程序中没有声明任何一个活动作为主活动，这个程序仍然是可以正常安装的，只是你无法在启动中看到或者打开这个程序。这种没有主活动的应用程序，基本都是用为第三方服务居多，比如支付宝快捷支付服务。</category></action></intent-filter></activity></manifest></activity></application></p>
 <p>基本上以上两个步骤的结合，这个活动就能在应用程序中运行了。</p>
-<h3 id="活动-Activity-生命周期"><a href="#活动-Activity-生命周期" class="headerlink" title="活动(Activity)生命周期"></a>活动(Activity)生命周期</h3><p> 在说说Activity生命周期之前，我们先来理解”Activity返回栈”的概念。在Android中，多个Activity定义在一个Task中，也就是说一个Task是一组Activity的集合，然后Activity又被安排在back stack,即返回栈，是按照后进先出的规则进出栈的。如图：</p>
+<h3 id="活动-Activity-生命周期"><a href="#活动-Activity-生命周期" class="headerlink" title="活动(Activity)生命周期"></a>活动(Activity)生命周期</h3><p> 在说说Activity生命周期之前，我们先来理解”Activity返回栈”的概念。在Android中，多个Activity定义在一个Task中，也就是说一个Task是一组Activity的集合，然后Activity又被安排在back stack,即返回栈，是按照后进先出的规则进出栈的。如图：</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/041001332036265.png" alt="img"></p>
 <p>当从手机中启动一个应用程序图标时，应用程序的Task随之也变成前台进程，如果首次启用时，发现不存在Task实例，那么系统会创建一个Task实例，然后把”main”Activity放入到stack中，默认是栈顶，这样一个Task就管理了一组栈，栈里管理多个Activity。当从Activity1中启动Activity2时，Activity1被推到栈底，Activity2变成栈顶，同理，Activity3进栈的过程和Activity2是一样的，如果我们按back按钮，则Activity3被弹出，系统会根据内存情况进行销售或者回收，Activity2则被推到栈顶，以此类推。当一直按back，返回到主页面，则所有的activitys被全部弹出，则task不复存在。</p>
-<p>同时，task有两种状态：Foreground和Background，前景和背景。当处于Background时，所有的activitys是停止的，当处于Foreground时，表示当前用户交互的应用程序。 </p>
-<p> <img src="http://images.cnitblog.com/blog/331079/201502/041005494531884.png" alt="img"> </p>
+<p>同时，task有两种状态：Foreground和Background，前景和背景。当处于Background时，所有的activitys是停止的，当处于Foreground时，表示当前用户交互的应用程序。 </p>
+<p> <img src="http://images.cnitblog.com/blog/331079/201502/041005494531884.png" alt="img"> </p>
 <p>比如两个应用程序A和B，我们刚开始启动了A应用程序，此时Task A是Foreground，用于与用户交互，当我们点击Home Button时，此时Task A变成Background，里面所有的activitys都是停止的，此时如果我们又启动了B应用程序，Task B又会被实例化，Task B变成Foreground，不过Task A仍然是Background，一直等待着被恢复。所以是Android也是一个多任务的系统，不同任务是可以被互相切换的。</p>
 <p>好了关于Task和Stack就先了解这么多，接下来讲讲Activity的生命周期。每个活动在其生命周期中最多可能会有四种状态</p>
 <ul>
@@ -403,7 +315,8 @@
 </ul>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/041007417342252.png" alt="img"></p>
 <p>让我们用代码来体验下Activity的生命周期，首先我们先创建一个类来继承Activity父类，用日志来打印出活动的七个回调方法。定义了两个按钮，一个是启动正常的Activity，一个启动对话框的Activity，布局界面代码就不给出了，然后编写点击事件代码。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        Log.d(TAG, <span class="string">"onCreate"</span>);</span><br><span class="line">        </span><br><span class="line">        requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="keyword">null</span>) &#123;</span><br><span class="line">            String tempData = savedInstanceState.getString(<span class="string">"data_key"</span>);</span><br><span class="line">            Log.d(TAG, tempData);</span><br><span class="line">        &#125;</span><br><span class="line">        Button startNormalActivity = (Button) findViewById(R.id.start_normal_activity);</span><br><span class="line">        Button startDialogActivity = (Button) findViewById(R.id.start_dialog_activity);</span><br><span class="line">        startNormalActivity.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, NormalActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        startDialogActivity.setOnClickListener(<span class="keyword">new</span> OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, DialogActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line">        Log.d(TAG, <span class="string">"onStart"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResume();</span><br><span class="line">        Log.d(TAG, <span class="string">"onResume"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onPause();</span><br><span class="line">        Log.d(TAG, <span class="string">"onPause"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStop();</span><br><span class="line">        Log.d(TAG, <span class="string">"onStop"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        Log.d(TAG, <span class="string">"onDestroy"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onRestart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onRestart();</span><br><span class="line">        Log.d(TAG, <span class="string">"onRestart"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Bundle outState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onSaveInstanceState(outState);</span><br><span class="line">        String tempData = <span class="string">"Something you just typed"</span>;</span><br><span class="line">        outState.putString(<span class="string">"data_key"</span>, tempData);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MainActivity</span> <span class="keyword">extends</span> <span class="title class_">Activity</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TAG</span> <span class="operator">=</span> <span class="string">&quot;MainActivity&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onCreate&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        requestWindowFeature(Window.FEATURE_NO_TITLE);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        <span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">tempData</span> <span class="operator">=</span> savedInstanceState.getString(<span class="string">&quot;data_key&quot;</span>);</span><br><span class="line">            Log.d(TAG, tempData);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">Button</span> <span class="variable">startNormalActivity</span> <span class="operator">=</span> (Button) findViewById(R.id.start_normal_activity);</span><br><span class="line">        <span class="type">Button</span> <span class="variable">startDialogActivity</span> <span class="operator">=</span> (Button) findViewById(R.id.start_dialog_activity);</span><br><span class="line">        startNormalActivity.setOnClickListener(<span class="keyword">new</span> <span class="title class_">OnClickListener</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(MainActivity.<span class="built_in">this</span>, NormalActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        startDialogActivity.setOnClickListener(<span class="keyword">new</span> <span class="title class_">OnClickListener</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onClick</span><span class="params">(View v)</span> &#123;</span><br><span class="line">                <span class="type">Intent</span> <span class="variable">intent</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Intent</span>(MainActivity.<span class="built_in">this</span>, DialogActivity.class);</span><br><span class="line">                startActivity(intent);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onStart</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onStart();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onStart&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onResume</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onResume();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onResume&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPause</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onPause();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onPause&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onStop</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onStop();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onStop&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onDestroy();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onDestroy&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onRestart</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onRestart();</span><br><span class="line">        Log.d(TAG, <span class="string">&quot;onRestart&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onSaveInstanceState</span><span class="params">(Bundle outState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onSaveInstanceState(outState);</span><br><span class="line">        <span class="type">String</span> <span class="variable">tempData</span> <span class="operator">=</span> <span class="string">&quot;Something you just typed&quot;</span>;</span><br><span class="line">        outState.putString(<span class="string">&quot;data_key&quot;</span>, tempData);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>首先启动应用程序，默认进来的就是MainActivity界面，点击运行：观察LogCat中的打印日志</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/041008586879495.png" alt="img"></p>
 <p>可以看到，当MainActivity第一次被运行的时候，会依次执行onCreate()、onStart()和onResume()方法。然后点击正常启动另外一个Activity按钮，观察LogCat日志如下：</p>
@@ -413,195 +326,243 @@
 <p>会发现由于之前MainActivity已经进入了停止状态，所以onRestart()方法会得到执行，之后有会依次执行onStart()和onResume()方法。此时要注意，onCreate()方法不会执行，因为MainActivity并没有重新创建。然后我们点击启动对话框的按钮，观察LogCat日志如下：</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/041010292491564.png" alt="img"><br>发现只有onPause()方法得到执行，onStop()方法并没有执行，这是因为对话框的Activity并没有完全遮挡住MainActivity，此时MainActivity只是进入了暂停状态，并没有进入停止状态。相应的，按下返回键返回MainActivity也应该只有onResume()方法得到执行。</p>
 <p><img src="http://images.cnitblog.com/blog/331079/201502/041011006563257.png" alt="img"><br>最后在MainActivity按下返回键，退出程序，活动当然会被销售，执行onDestroy()方法。<br><img src="http://images.cnitblog.com/blog/331079/201502/041011378595156.png" alt="img"></p>
+<p> </p>
 <p><strong>活动被回收的情况</strong><br>前面说过了，当一个活动进入到停止状态，是有可能被系统回收的，如果我上次执行的临时数据和状态存在，则被回收的话，相当于临时数据被清空了，上次刚刚输入的文字全部都没了，那样的用户体验真是糟糕啊。所以Activity中还提供了一个onSaveInstanceState()回调方法，这个方法会保证一定在活动被回收之前调用，因此我们可以通过这个方法来解决会动被回收时临时数据得不到保存的情况。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSaveInstanceState</span><span class="params">(Bundle outState)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">super</span>.onSaveInstanceState(outState);</span><br><span class="line">      String tempData = <span class="string">"Something you just typed"</span>;</span><br><span class="line">      outState.putString(<span class="string">"data_key"</span>, tempData);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>执行以上代码，数据是保存下来了，那么应该在哪里恢复呢，你可以细心的观察到，在onCreate()方法里其实也有一个Bundle类型的参数，这个参数在一般情况下都是null，但是当活动被系统回收之前有通过onSaveInstanceState()方法来保存数据的话，这个参数就会带有之前所保存的全部数据，我们只需要再通过相应的取值方法来将数据取出即可。   </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (savedInstanceState != <span class="keyword">null</span>) &#123;	</span><br><span class="line">   	String tempData = savedInstanceState.getString(<span class="string">"data_key"</span>);</span><br><span class="line">    Log.d(TAG, tempData);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="活动-Activity-启动模式"><a href="#活动-Activity-启动模式" class="headerlink" title="活动(Activity)启动模式"></a>活动(Activity)启动模式</h3><pre><code>每个活动(Activity)都有一个相应的启动模式，启动模式一共有四种，分别是standard、singleTop、singleTask、singleInstance，可以在AndroidManifest.xml中通过给&lt;activity&gt;标签指定android:launchMode属性来选择启动模式。
-</code></pre><p><strong>standard</strong><br>　standard是活动默认的启动模式，在不进行显示指定的情况下，所有活动都会自动使用这种启动模式。对于返回栈，在standard模式下，每当启动一个新的活动，它就会在返回栈中入栈，并处于栈顶的位置。对于standard模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。</p>
-<p>   <img src="http://images.cnitblog.com/blog/331079/201502/041013585152861.png" alt="img"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onSaveInstanceState</span><span class="params">(Bundle outState)</span> &#123;</span><br><span class="line">  	<span class="built_in">super</span>.onSaveInstanceState(outState);</span><br><span class="line">      <span class="type">String</span> <span class="variable">tempData</span> <span class="operator">=</span> <span class="string">&quot;Something you just typed&quot;</span>;</span><br><span class="line">      outState.putString(<span class="string">&quot;data_key&quot;</span>, tempData);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>执行以上代码，数据是保存下来了，那么应该在哪里恢复呢，你可以细心的观察到，在onCreate()方法里其实也有一个Bundle类型的参数，这个参数在一般情况下都是null，但是当活动被系统回收之前有通过onSaveInstanceState()方法来保存数据的话，这个参数就会带有之前所保存的全部数据，我们只需要再通过相应的取值方法来将数据取出即可。   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (savedInstanceState != <span class="literal">null</span>) &#123;	</span><br><span class="line">   	<span class="type">String</span> <span class="variable">tempData</span> <span class="operator">=</span> savedInstanceState.getString(<span class="string">&quot;data_key&quot;</span>);</span><br><span class="line">    Log.d(TAG, tempData);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="活动-Activity-启动模式"><a href="#活动-Activity-启动模式" class="headerlink" title="活动(Activity)启动模式"></a>活动(Activity)启动模式</h3><p>    每个活动(Activity)都有一个相应的启动模式，启动模式一共有四种，分别是standard、singleTop、singleTask、singleInstance，可以在AndroidManifest.xml中通过给<activity>标签指定android:launchMode属性来选择启动模式。</activity></p>
+<p><strong>standard</strong><br>　standard是活动默认的启动模式，在不进行显示指定的情况下，所有活动都会自动使用这种启动模式。对于返回栈，在standard模式下，每当启动一个新的活动，它就会在返回栈中入栈，并处于栈顶的位置。对于standard模式的活动，系统不会在乎这个活动是否已经在返回栈中存在，每次启动都会创建该活动的一个新的实例。</p>
+<p>   <img src="http://images.cnitblog.com/blog/331079/201502/041013585152861.png" alt="img"></p>
 <p><strong>singleTop</strong></p>
 <p>除了有standard模式之外，还存在一种叫做singleTop的模式，当活动的启动模式指定为singleTop，在启动活动时如果发现返回栈的栈顶已经是该活动，则认为可以直接使用它，不会再创建新的活动实例。<br><img src="http://images.cnitblog.com/blog/331079/201502/041016085932501.png" alt="img"></p>
 <p><strong>singleTask</strong><br>使用singleTop模式很好地解决重复创建栈活动的问题，可是如果该活动并没有处于栈顶的位置，还是可能会创建多个活动实例的。如果想要让某个活动在整个应用程序的上下文中只存在一个实例呢？可以使用singleTask模式来启动。当活动的启动模式指定为singleTask，每次启动该活动时系统首先会在返回栈中检查是否存在该活动的实例，如果发现已经存在则直接使用该实例，并把在这个活动之上的所有活动统统出栈，如果没有发现就会创建一个新的活动实例。<br><img src="http://images.cnitblog.com/blog/331079/201502/041016410625853.png" alt="img"></p>
 <p><strong>singleInstance</strong><br>singleInstance模式不同以上三个模式，指定为singleInstance模式的活动会启用一个新的返回栈来管理这个活动。通常应用以下场景，假设我们的程序中有一个活动是允许其他程序调用的，如果我们想实现其他程序和我们的程序可以共享这个活动的实例，那么该如何实现呢？使用前面三种启动模式肯定是做不到的，因为每个应用程序都会有自己的返回栈，同一个活动在不同的返回栈中入栈时必然是创建了新的实例。而使用了singleInstance模式就可以解决这个问题，在这种模式下会有一个单独的返回栈来管理这个活动，不管是哪个应用程序来访问这个活动，都共用的同一个返回栈，也就解决了共享活动实例的问题。<br><img src="http://images.cnitblog.com/blog/331079/201502/041017398438711.png" alt="img"></p>
 <h3 id="活动-Activity-管理"><a href="#活动-Activity-管理" class="headerlink" title="活动(Activity)管理"></a>活动(Activity)管理</h3><p>一般我们在日常开发中，基本上会有一个专门的集合类对所有活动进行管理，这样的做的好处是可以保证在退出应用时，活动也可以随时的释放。我们需要定义一个专门管理活动的父类，然后让每个自定义的Activity子类来继承父类，代码如下：　</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> allowFullScreen=<span class="keyword">true</span>; <span class="comment">//是否允许全屏</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> allowDestroy=<span class="keyword">true</span>; <span class="comment">//是否允许销毁    </span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">    <span class="keyword">private</span> View view;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAllowFullScreen</span><span class="params">()</span> </span>&#123; <span class="comment">//获取是否全屏</span></span><br><span class="line">        <span class="keyword">return</span> allowFullScreen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAllowFullScreen</span><span class="params">(<span class="keyword">boolean</span> allowFullScreen)</span> </span>&#123; <span class="comment">//设置是否全屏</span></span><br><span class="line">        <span class="keyword">this</span>.allowFullScreen = allowFullScreen;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isAllowDestroy</span><span class="params">()</span> </span>&#123; <span class="comment">//获取是否销毁</span></span><br><span class="line">        <span class="keyword">return</span> allowDestroy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAllowDestroy</span><span class="params">(<span class="keyword">boolean</span> allowDestroy)</span> </span>&#123; <span class="comment">//设置是否销毁</span></span><br><span class="line">        <span class="keyword">this</span>.allowDestroy = allowDestroy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAllowDestroy</span><span class="params">(<span class="keyword">boolean</span> allowDestroy, View view)</span> </span>&#123; <span class="comment">//设置是否销毁(重载) </span></span><br><span class="line">        <span class="keyword">this</span>.allowDestroy = allowDestroy;</span><br><span class="line">        <span class="keyword">this</span>.view = view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        allowFullScreen = <span class="keyword">true</span>;</span><br><span class="line">        AppManager.getAppManager().addActivity(<span class="keyword">this</span>); <span class="comment">//添加Activity到堆栈</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStop();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onRestart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onRestart();    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResume();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onPause();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        AppManager.getAppManager().finishActivity(<span class="keyword">this</span>); <span class="comment">// 结束Activity&amp;从堆栈中移除</span></span><br><span class="line">        <span class="keyword">super</span>.onDestroy();    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyDown</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;    </span><br><span class="line">        <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_BACK) &#123; <span class="comment">//监控返回键，并且包含视图组件</span></span><br><span class="line">            <span class="keyword">if</span> (!allowDestroy) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onKeyDown(keyCode, event);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BaseActivity</span> <span class="keyword">extends</span> <span class="title class_">Activity</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> allowFullScreen=<span class="literal">true</span>; <span class="comment">//是否允许全屏</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> allowDestroy=<span class="literal">true</span>; <span class="comment">//是否允许销毁    </span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@SuppressWarnings(&quot;unused&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> View view;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isAllowFullScreen</span><span class="params">()</span> &#123; <span class="comment">//获取是否全屏</span></span><br><span class="line">        <span class="keyword">return</span> allowFullScreen;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAllowFullScreen</span><span class="params">(<span class="type">boolean</span> allowFullScreen)</span> &#123; <span class="comment">//设置是否全屏</span></span><br><span class="line">        <span class="built_in">this</span>.allowFullScreen = allowFullScreen;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isAllowDestroy</span><span class="params">()</span> &#123; <span class="comment">//获取是否销毁</span></span><br><span class="line">        <span class="keyword">return</span> allowDestroy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAllowDestroy</span><span class="params">(<span class="type">boolean</span> allowDestroy)</span> &#123; <span class="comment">//设置是否销毁</span></span><br><span class="line">        <span class="built_in">this</span>.allowDestroy = allowDestroy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAllowDestroy</span><span class="params">(<span class="type">boolean</span> allowDestroy, View view)</span> &#123; <span class="comment">//设置是否销毁(重载) </span></span><br><span class="line">        <span class="built_in">this</span>.allowDestroy = allowDestroy;</span><br><span class="line">        <span class="built_in">this</span>.view = view;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onCreate</span><span class="params">(Bundle savedInstanceState)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        allowFullScreen = <span class="literal">true</span>;</span><br><span class="line">        AppManager.getAppManager().addActivity(<span class="built_in">this</span>); <span class="comment">//添加Activity到堆栈</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onStop</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onStop();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onStart</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onStart();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onRestart</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onRestart();    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onResume</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onResume();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onPause</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.onPause();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDestroy</span><span class="params">()</span> &#123;</span><br><span class="line">        AppManager.getAppManager().finishActivity(<span class="built_in">this</span>); <span class="comment">// 结束Activity&amp;从堆栈中移除</span></span><br><span class="line">        <span class="built_in">super</span>.onDestroy();    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">onKeyDown</span><span class="params">(<span class="type">int</span> keyCode, KeyEvent event)</span> &#123;    </span><br><span class="line">        <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_BACK) &#123; <span class="comment">//监控返回键，并且包含视图组件</span></span><br><span class="line">            <span class="keyword">if</span> (!allowDestroy) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.onKeyDown(keyCode, event);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-      
     </div>
+
     
-  </div>
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Android/" rel="tag"># Android</a>
+              <a href="/tags/Activity/" rel="tag"># Activity</a>
+              <a href="/tags/%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" rel="tag"># 生命周期</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/07/22/2016-07-22-AndroidReflection/" rel="prev" title="Java中的反射和注解">
+      <i class="fa fa-chevron-left"></i> Java中的反射和注解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/27/2016-07-27-AndroidFragment/" rel="next" title="对于Fragment的一些理解">
+      对于Fragment的一些理解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
   
-    
-    <div class="copyright">
-        <p><span>本文标题:</span><a href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></p>
-        <p><span>文章作者:</span><a href="/" title="回到主页">Allen</a></p>
-        <p><span>发布时间:</span>2016-07-26, 09:54:47</p>
-        <p><span>最后更新:</span>2020-04-17, 19:01:08</p>
-        <p>
-            <span>原始链接:</span><a class="post-url" href="/2016/07/26/2016-07-26-AndroidActivity/" title="浅谈Activity的生命周期和启动模式">http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/</a>
-            <span class="copy-path" data-clipboard-text="原文: http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/　　作者: Allen" title="点击复制文章链接"><i class="fa fa-clipboard"></i></span>
-            <script> var clipboard = new Clipboard('.copy-path'); </script>
-        </p>
-        <p>
-            <span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-        </p>
-    </div>
-
-
-
-    <nav id="article-nav">
-        
-            <div id="article-nav-newer" class="article-nav-title">
-                <a href="/2016/07/27/2016-07-27-AndroidFragment/">
-                    对于Fragment的一些理解
-                </a>
-            </div>
-        
-        
-            <div id="article-nav-older" class="article-nav-title">
-                <a href="/2016/07/22/2016-07-22-AndroidReflection/">
-                    Java中的反射和注解
-                </a>
-            </div>
-        
-    </nav>
-
   
-</article>
+  
 
 
 
-    
-<div class="share">
-    
-        <div class="bdsharebuttonbox">
-            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
-            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
-            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
-            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
-            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
-            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
-        </div>
-        <script>
-            window._bd_share_config={
-                "common":{"bdSnsKey":{},"bdText":"浅谈Activity的生命周期和启动模式　| 斜杠Allen　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-        </script>
-    
+          </div>
+          
 
-    
-</div>
-
-
-
-
-
-
-
-    
-      <div class="duoshuo" id="comments">
-    <div id="comment-box" ></div>
-    <div class="ds-thread" id="ds-thread" data-thread-key="2016/07/26/2016-07-26-AndroidActivity/" data-title="浅谈Activity的生命周期和启动模式" data-url="http://cryallen.com/2016/07/26/2016-07-26-AndroidActivity/"></div>
-    <script>
-        var duoshuoQuery = {short_name:"zuoyejun"};
-        var loadComment = function(){
-            var d = document, s = d.createElement('script');
-            s.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            s.async = true; s.charset = 'UTF-8';
-            (d.head || d.body).appendChild(s);
-        }
-
-        
-    </script>
-    
-    <script> loadComment(); </script>
-
-</div>
-    
-
-
-
-
-    <div class="scroll" id="post-nav-button">
-        
-            <a href="/2016/07/27/2016-07-27-AndroidFragment/" title="上一篇: 对于Fragment的一些理解">
-                <i class="fa fa-angle-left"></i>
-            </a>
-        
-
-        <a title="文章列表"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
-
-        
-            <a href="/2016/07/22/2016-07-22-AndroidReflection/" title="下一篇: Java中的反射和注解">
-                <i class="fa fa-angle-right"></i>
-            </a>
-        
-    </div>
-
-    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2024/12/31/2024-12-31-2024review/">2024，自我提升的过程</a></li><li class="post-list-item"><a class="post-list-link" href="/2024/01/02/2024-01-02-2023review/">2023，陪伴点滴的幸福</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/12/25/2022-12-25-2022review/">2022，为人父母的喜悦</a></li><li class="post-list-item"><a class="post-list-link" href="/2022/01/03/2022-01-03-2021review/">2021，组建家庭的突破</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/10/18/2021-10-18-wanlearning/">WanLearning-Kotlin 实战项目</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/29/2021-09-29-Clearance-Android-02/">「通关Android」我们熟悉的陌生人-进程和线程</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/09/03/2021-09-03-Clearance-Android-01/">「通关Android」那些年我们认识的操作系统</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/08/04/2021-08-04-javacore01/">我所理解的Java平台</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/07/21/2021-07-21-asr/">当下语音识别技术发展</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/03/27/2021-03-27-2021plan/">2021年度规划</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/30/2020-12-30-2020review/">2020，习惯被重塑的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/28/2020-04-28-webp/">对于WebP格式入门解读</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/13/2020-01-13-javajvm/">Java虚拟机的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/01/06/2020-01-06-2019review/">2019，挑战和突破的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/09/07/2019-09-07-UnityFirst/">Unity初认识</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/05/21/2019-05-21-AndroidTTS/">解读 Android TTS 语音合成播报</a></li><li class="post-list-item"><a class="post-list-link" href="/2019/02/16/2019-02-16-Annual2018/">简单回顾2018</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/10/05/2018-10-05-AndroidModularizationCommunication/">我所理解的Android组件化之通信机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/21/2018-07-21-httpsay/">我所理解的HTTP协议</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/02/05/2018-02-05-AndroidComponent/">Android组件化框架设计与实践</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/31/2018-01-31-AndroidAdvance/">浅谈Android进阶之路</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/22/2017-12-22-AndroidAPP/">Android APP 性能优化的一些思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/10/26/2017-10-26-AndroidHybrid/">有关 Hybrid 开发模式实践总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/20/2017-08-20-AndroidUnitTest/">开发人员必备的技能——单元测试</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/07/22/2017-07-22-AndroidPlugin/">有关Android插件化思考</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/06/26/2017-06-26-Cordova/">浅谈Cordova框架的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/02/2017-05-02-AndroidSlideConflict/">Android触摸事件的应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/04/25/2017-04-25-AndroidTouchEvent/">初识Android触摸事件传递机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/30/2017-03-30-AndroidRecyclerViewDecorator/">RecyclerView中装饰者模式应用</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/28/2017-03-28-AndroidArtChapter12/">Android中的Drawable和动画</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/02/2017-03-02-AndroidArtChapter11/">Android的线程和线程池</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/27/2017-02-27-AndroidArtChapter10/">Bitmap的加载和Cache</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/17/2017-02-17-AndroidArtChapter9/">Android的消息机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter8/">Android性能优化</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/13/2017-02-13-AndroidArtChapter7/">Service启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-JavaSpring1/">「Java学习」Spring框架简介</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/09/2017-02-09-AndroidArtChapter6/">Activity启动过程分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/02/04/2017-02-04-AndroidArtChapter5/">理解Window和WindowManager</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/22/2017-01-22-AndroidArtChapter4/">View的工作原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/19/2017-01-19-AndroidArtChapter3/">View的事件体系</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/16/2017-01-16-AndroidArtChapter2/">Android中的IPC机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/01/10/2017-01-10-AndroidArtChapter1/">Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/12/29/2016-12-29-YearEndSummary/">2016，自律又惊喜的一年</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/11/2016-11-11-AndroidAnimation/">Android动画的理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/10/25/2016-10-25-AndroidTouch/">讲讲Android事件拦截机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/20/2016-09-20-AndroidContentProvider/">四大组件之ContentProvider</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/19/2016-08-19-AndroidBroadcast/">Android四大组件之一“广播”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/05/2016-08-05-AndroidService/">Android中后台的劳动者“服务”</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/27/2016-07-27-AndroidFragment/">对于Fragment的一些理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/26/2016-07-26-AndroidActivity/">浅谈Activity的生命周期和启动模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidReflection/">Java中的反射和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidProGuard/">ProGuard代码混淆技术详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidMarshmallow/">对于Android 6.0运行时权限理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidEventBus/">EventBus初理解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-AndroidHandlerLooper/">讲讲Handler+Looper+MessageQueue 关系</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/22/2016-07-22-EFJavaThreadNew/">谈谈关于线程和并发机制</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-DesignMode/">浅谈常见设计模式</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaCommonProgramme/">【EFJava】通用程序设计</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaEnumAnnotation/">【EFJava】关于枚举和注解</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/11/2016-07-11-EFJavaInterface/">【EFJava】关于类和接口</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFMethod/">【EFJava】使用方法的注意点</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/09/2016-07-09-EFGenericity/">【EFJava】关于泛型的一些总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/07/07/2016-07-07-EFJavaObject/">【EFJava】关于如何创建和销毁对象</a></li></ul>
-
-
-
-
-    <script>
-        
-    </script>
-</div>
-      <footer id="footer">
-    <div class="outer">
-        <div id="footer-info">
-            <div class="footer-left">
-                <i class="fa fa-copyright"></i> 
-                2016-2024 Allen
-            </div>
-        </div>
-        
-            <div class="visit">
-                
-                    <span id="busuanzi_container_site_pv" style='display:none'>
-                        <span id="site-visit" >本站到访数: 
-                            <span id="busuanzi_value_site_uv"></span>
-                        </span>
-                    </span>
-                
-                
-                    <span>, </span>
-                
-                
-                    <span id="busuanzi_container_page_pv" style='display:none'>
-                        <span id="page-visit">本页阅读量: 
-                            <span id="busuanzi_value_page_pv"></span>
-                        </span>
-                    </span>
-                
-            </div>
-        
-    </div>
-</footer>
-    </div>
-    
-<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
-
-
-
-
-
-<div class="scroll" id="scroll">
-    <a href="#" title="返回顶部"><i class="fa fa-arrow-up"></i></a>
-    <a href="#comments" onclick="load$hide();" title="查看评论"><i class="fa fa-comments-o"></i></a>
-    <a href="#footer" title="转到底部"><i class="fa fa-arrow-down"></i></a>
-</div>
 <script>
-    // Open in New Window
-    
-        $("a").attr("target", "_blank");
-        $("#scroll a, #toc a").removeAttr("target");
-    
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-</script>
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B4%BB%E5%8A%A8-Activity"><span class="nav-number">2.</span> <span class="nav-text">什么是活动(Activity)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8-Activity-%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">活动(Activity)用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8-Activity-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">4.</span> <span class="nav-text">活动(Activity)生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8-Activity-%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">活动(Activity)启动模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B4%BB%E5%8A%A8-Activity-%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">活动(Activity)管理</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Allen"
+      src="/images/allen.jpg">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">致力于做一个终生学习布道者。</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">63</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/cr330326" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;cr330326" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:cr330326@gmail.com" title="E-Mail → mailto:cr330326@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">528k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">14:39</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
 </body>
 </html>
